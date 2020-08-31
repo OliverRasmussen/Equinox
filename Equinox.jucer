@@ -4,10 +4,10 @@
               pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
               displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="cZd1eQ" name="Equinox">
-    <GROUP id="{B5CBC3DF-27B7-B59A-5CA9-C1F5A43A16E2}" name="Graphic Resources">
-      <FILE id="HjyXUQ" name="testbackgroundsmall.png" compile="0" resource="1"
-            file="../../../../../Desktop/Equinox Graphics/testbackgroundsmall.png"/>
-      <FILE id="OMyRSU" name="Background.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/Background.png"/>
+    <GROUP id="{574F497E-E632-69C7-C5D3-61461608EC44}" name="Resources">
+      <FILE id="vdV5LS" name="Background.png" compile="0" resource="1" file="Resources/Background.png"/>
+      <FILE id="ONtutf" name="testbackgroundsmall.png" compile="0" resource="1"
+            file="Resources/testbackgroundsmall.png"/>
     </GROUP>
     <GROUP id="{150EB89A-D342-9E47-CCC8-826BCDAF510E}" name="Source">
       <GROUP id="{ABEB3741-0D00-49D5-C816-D3636A933F5A}" name="Maximilian">
