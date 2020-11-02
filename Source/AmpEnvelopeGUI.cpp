@@ -21,7 +21,7 @@ AmpEnvelopeGUI::AmpEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) 
     attackSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&attackSlider);
     
-    attackAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "ampAttack" + synth.instanceNumAsStr(), attackSlider);
+    attackAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "ampAttack" + synth.instanceNumAsString(), attackSlider);
     
     // Attack Label
     attackLabel.setText("A", NotificationType::dontSendNotification);
@@ -37,7 +37,7 @@ AmpEnvelopeGUI::AmpEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) 
     decaySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&decaySlider);
     
-    decayAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "ampDecay" + synth.instanceNumAsStr(), decaySlider);
+    decayAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "ampDecay" + synth.instanceNumAsString(), decaySlider);
     
     // Decay Label
     decayLabel.setText("D", NotificationType::dontSendNotification);
@@ -53,7 +53,7 @@ AmpEnvelopeGUI::AmpEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) 
     sustainSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&sustainSlider);
     
-    sustainAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "ampSustain" + synth.instanceNumAsStr(), sustainSlider);
+    sustainAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "ampSustain" + synth.instanceNumAsString(), sustainSlider);
     
     // Sustain Label
     sustainLabel.setText("S", NotificationType::dontSendNotification);
@@ -69,7 +69,7 @@ AmpEnvelopeGUI::AmpEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) 
     releaseSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&releaseSlider);
     
-    releaseAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "ampRelease" + synth.instanceNumAsStr(), releaseSlider);
+    releaseAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "ampRelease" + synth.instanceNumAsString(), releaseSlider);
     
     // Release Label
     releaseLabel.setText("R", NotificationType::dontSendNotification);

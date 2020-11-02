@@ -12,10 +12,16 @@
 
 OscSynthVoice::OscSynthVoice(bool isMonoVoice) : SynthVoice(isMonoVoice)
 {
+    
 }
 
 OscSynthVoice::~OscSynthVoice(){}
 
+void OscSynthVoice::prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec& spec)
+{
+    Oscillator::prepare(sampleRate);
+    SynthVoice::prepareVoice(sampleRate, samplesPerBlock, numChannels, spec);
+}
 
 bool OscSynthVoice::canPlaySound (SynthesiserSound* sound)
 {
@@ -26,9 +32,9 @@ void OscSynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSo
 {
     if (dynamic_cast<const OscSynthSound*> (sound))
     {
-        // Resetting the two oscillators
-        oscillator1.phaseReset(0);
-        oscillator2.phaseReset(0);
+        oscillator1.setPhase(0);
+        oscillator2.setPhase(0);
+        
         setFrequencyByMidiNote(midiNoteNumber);
         SynthVoice::startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
     }
@@ -47,28 +53,28 @@ void OscSynthVoice::setWaveform(float* selectedWaveform)
 
 
 // Returns a oscillated waveform from the passed in oscillator and frequency
-double OscSynthVoice::getWaveform(maxiOsc& oscillator, double frequency)
+double OscSynthVoice::getWaveform(Oscillator& osc, double frequency)
 {
     double waveform;
     switch (currentWaveform)
     {
         case 0:
-            waveform = oscillator.sinewave(frequency);
+            waveform = osc.sine(frequency);
             break;
         case 1:
-            waveform = oscillator.sawn(frequency);
+            waveform = osc.saw(frequency);
             break;
         case 2:
-            waveform = oscillator.square(frequency);
+            waveform = osc.triangle(frequency);
             break;
         case 3:
-            waveform = oscillator.triangle(frequency);
+            waveform = osc.square(frequency);
             break;
         case 4:
-            waveform = oscillator.noise();
+            waveform = osc.noise();
             break;
         default:
-            waveform = oscillator.sinewave(frequency);
+            waveform = osc.sine(frequency);
             break;
     }
     return waveform;

@@ -32,9 +32,9 @@ public:
     void process(AudioBuffer<float>&);
     
 private:
-    
     dsp::LadderFilter<float> ladderFilter;
-    
     float currentCutoffValue;
-    
+    int filterMode = 0;
+    int sampleRate;
+    bool isActive();
 };

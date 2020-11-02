@@ -10,29 +10,6 @@
             file="Resources/testbackgroundsmall.png"/>
     </GROUP>
     <GROUP id="{150EB89A-D342-9E47-CCC8-826BCDAF510E}" name="Source">
-      <GROUP id="{ABEB3741-0D00-49D5-C816-D3636A933F5A}" name="Maximilian">
-        <GROUP id="{0D58724E-1BF3-18EF-661B-C9DB84BD3CEF}" name="libs">
-          <FILE id="ZvBSGA" name="fft.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/fft.cpp"/>
-          <FILE id="sCQ7fp" name="fft.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/fft.h"/>
-          <FILE id="CRXkaR" name="maxiAtoms.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/maxiAtoms.cpp"/>
-          <FILE id="Dt4e47" name="maxiAtoms.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxiAtoms.h"/>
-          <FILE id="ot32E0" name="maxiBark.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/maxiBark.cpp"/>
-          <FILE id="uwAVUh" name="maxiBark.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxiBark.h"/>
-          <FILE id="ygpuze" name="maxiFFT.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/maxiFFT.cpp"/>
-          <FILE id="WJRye1" name="maxiFFT.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxiFFT.h"/>
-          <FILE id="LLsu0b" name="maxiGrains.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/maxiGrains.cpp"/>
-          <FILE id="F1GWeX" name="maxiGrains.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxiGrains.h"/>
-          <FILE id="jXx7YV" name="maxim.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxim.h"/>
-          <FILE id="Y0zk5G" name="maxiMFCC.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/libs/maxiMFCC.cpp"/>
-          <FILE id="U5nPNY" name="maxiMFCC.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/maxiMFCC.h"/>
-          <FILE id="SbsK3t" name="sineTable.h" compile="0" resource="0" file="../../../Libraries/Maximilian/libs/sineTable.h"/>
-        </GROUP>
-        <FILE id="oXpxKY" name="main.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/main.cpp"/>
-        <FILE id="eS8B0A" name="maximilian.cpp" compile="1" resource="0" file="../../../Libraries/Maximilian/maximilian.cpp"/>
-        <FILE id="EYvn1y" name="maximilian.h" compile="0" resource="0" file="../../../Libraries/Maximilian/maximilian.h"/>
-        <FILE id="wkJUW3" name="stb_vorbis.c" compile="1" resource="0" file="../../../Libraries/Maximilian/stb_vorbis.c"/>
-        <FILE id="sTToLt" name="stb_vorbis.h" compile="0" resource="0" file="../../../Libraries/Maximilian/stb_vorbis.h"/>
-      </GROUP>
       <GROUP id="{F15E239B-35CC-96B2-73FA-B07D68D3D6C9}" name="UI">
         <GROUP id="{EE5AA1ED-BF63-16A7-8ADE-00685E74FDA4}" name="Components">
           <GROUP id="{0BF10D9F-260E-F2B3-690F-AA5CB1075F93}" name="SynthesizerComponents">
@@ -89,6 +66,8 @@
                 file="Source/SampleSynthVoice.h"/>
         </GROUP>
         <GROUP id="{B029A025-BD21-774C-D588-C18B2920E956}" name="OscillatorSynth">
+          <FILE id="MOMYQC" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
+          <FILE id="eVUYT6" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
           <FILE id="MmODqe" name="OscSynthVoice.cpp" compile="1" resource="0"
                 file="Source/OscSynthVoice.cpp"/>
           <FILE id="iNrHtF" name="OscSynthVoice.h" compile="0" resource="0" file="Source/OscSynthVoice.h"/>
@@ -133,9 +112,9 @@
     <XCODE_MAC targetFolder="Builds/MacOSX">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" auBinaryLocation="~/Library/Audio/Plug-Ins/Components"
-                       headerPath="/Users/oliver/Documents/Developer/Libraries/Maximilian"
+                       headerPath="/Users/oliver/Documents/Developer/Libraries/Maximilian;"
                        vst3BinaryLocation="~/Library/Audio/Plug-Ins/VST3"/>
-        <CONFIGURATION isDebug="0" name="Release"/>
+        <CONFIGURATION isDebug="0" name="Release" headerPath="/Users/oliver/Documents/Developer/Libraries/Maximilian;"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../../../../../../../Applications/JUCE/modules"/>

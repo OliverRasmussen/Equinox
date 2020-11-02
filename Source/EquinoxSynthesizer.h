@@ -1,10 +1,14 @@
 /*
   ==============================================================================
-
-    EquinoxSynthesizer.h
-    Created: 8 Apr 2020 9:27:00pm
-    Author:  Oliver Rasmussen
-
+       ______ ____   __  __ ____ _   __ ____  _  __
+      / ____// __ \ / / / //  _// | / // __ \| |/ /
+     / __/  / / / // / / / / / /  |/ // / / /|   /
+    / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+   /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+                                                
+   EquinoxSynthesizer.h
+   Created: 8 Apr 2020 9:27:00pm
+   Author:  Oliver Rasmussen
   ==============================================================================
 */
 
@@ -32,10 +36,7 @@ public:
     
     static int getNumInstances();
     
-    std::string instanceNumAsStr() const;
-    
-//    template<typename ParameterType, typename ValueType>
-//    std::unique_ptr<ParameterType> createSynthParameter(std::string& paramId, std::string& paramName, bool parameterIsBool, ValueType defaultValue, ValueType minValue = 0, ValueType maxValue = 0, ValueType intervalValue = 0, ValueType skewFactor = 0, bool useSymmetricSkew = false);
+    std::string instanceNumAsString() const;
     
     void addParameters(std::vector<std::unique_ptr<RangedAudioParameter>>&);
     
@@ -53,7 +54,7 @@ public:
     
     void prepareVoices();
     
-    void update();
+    void updateVoices();
     
     template<typename T>
     void setVoiceParameters(T voice);

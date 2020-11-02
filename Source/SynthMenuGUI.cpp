@@ -16,8 +16,8 @@ SynthMenuGUI::SynthMenuGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : os
     tabMenu.addTab("Oscillator", Colours::transparentBlack, &oscillatorGUI, false);
     tabMenu.addTab("Sampler", Colours::transparentBlack, &samplerGUI, false);
     
-    processor.treeState.addParameterListener("synthMode" + synth.instanceNumAsStr(), this);
-    if (AudioParameterFloat* synthModeParameter = dynamic_cast<AudioParameterFloat*>(processor.treeState.getParameter("synthMode" + synth.instanceNumAsStr())))
+    processor.treeState.addParameterListener("synthMode" + synth.instanceNumAsString(), this);
+    if (AudioParameterFloat* synthModeParameter = dynamic_cast<AudioParameterFloat*>(processor.treeState.getParameter("synthMode" + synth.instanceNumAsString())))
     {
         currentSynthModeState = std::make_unique<AudioParameterFloat*>(synthModeParameter);
     }
@@ -35,7 +35,7 @@ SynthMenuGUI::~SynthMenuGUI()
 void SynthMenuGUI::tabSwitched()
 {
     // Sets currentSynthModeState equal to the currentTabIndex if it isnt already equal
-    if (processor.treeState.getParameterAsValue("synthMode" + synth.instanceNumAsStr()) != tabMenu.getCurrentTabIndex())
+    if (processor.treeState.getParameterAsValue("synthMode" + synth.instanceNumAsString()) != tabMenu.getCurrentTabIndex())
     {
         **currentSynthModeState = tabMenu.getCurrentTabIndex();
     }
@@ -45,7 +45,7 @@ void SynthMenuGUI::tabSwitched()
 // Called if the synthmode parameter changes
 void SynthMenuGUI::parameterChanged(const String &parameterID, float newValue)
 {
-    juce::String synthModeId = "synthMode" + synth.instanceNumAsStr();
+    juce::String synthModeId = "synthMode" + synth.instanceNumAsString();
     if (parameterID == synthModeId)
     {
         // Sets the currentTabIndex equal to the parameters value if it isnt already equal

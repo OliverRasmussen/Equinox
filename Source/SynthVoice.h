@@ -23,7 +23,7 @@ public:
     
     virtual ~SynthVoice() override;
     
-    void prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec&);
+    virtual void prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec&);
     
     void setPanning(float* panValue);
     

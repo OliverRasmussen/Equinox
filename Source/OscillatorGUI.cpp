@@ -22,7 +22,7 @@ OscillatorGUI::OscillatorGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : 
     waveformMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&waveformMenu);
     
-    waveformMenuAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(processor.treeState, "waveform" + synth.instanceNumAsStr(), waveformMenu);
+    waveformMenuAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(processor.treeState, "waveform" + synth.instanceNumAsString(), waveformMenu);
     
     // Waveform Label
     waveformLabel.setText("Oscillator", NotificationType::dontSendNotification);

@@ -87,6 +87,10 @@ void Synth::handleMidiEvent(const MidiMessage& m)
     }
     else
     {
+        if (m.isNoteOff())
+        {
+            notesHeldDown.clear();
+        }
         // Using Synthesisers implementation of handleMidiEvent if theres more than one voice
         Synthesiser::handleMidiEvent(m);
     }

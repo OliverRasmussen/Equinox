@@ -11,7 +11,7 @@
 #pragma once
 #include "SynthVoice.h"
 #include "OscSynthSound.h"
-#include "maximilian.h"
+#include "Oscillator.h"
 
 class OscSynthVoice : public SynthVoice
 {
@@ -20,6 +20,8 @@ public:
     OscSynthVoice(bool isMonoVoice);
     
     ~OscSynthVoice() override;
+    
+    void prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec&) override;
     
     bool canPlaySound (SynthesiserSound*) override;
     
@@ -31,13 +33,11 @@ public:
     
 private:
     
-    double getWaveform(maxiOsc& oscillator, double frequency);
+    double getWaveform(Oscillator& osc, double frequency);
     
     double getOscillator(int channel);
     
     int currentWaveform;
     
-    maxiOsc oscillator1;
-    maxiOsc oscillator2;
-    
+    Oscillator oscillator1, oscillator2;
 };

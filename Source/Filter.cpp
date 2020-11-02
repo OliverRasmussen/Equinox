@@ -12,7 +12,6 @@
 
 Filter::Filter()
 {
-    //instance counter
 }
 
 Filter::~Filter()
@@ -29,11 +28,12 @@ void Filter::prepareToPlay(dsp::ProcessSpec& spec)
 {
     ladderFilter.reset();
     ladderFilter.prepare(spec);
+    sampleRate = spec.sampleRate;
 }
 
 void Filter::setMode(float* mode)
 {
-    int filterMode = static_cast<int>(*mode);
+    filterMode = static_cast<int>(*mode);
     switch (filterMode)
     {
         case 0:
@@ -52,6 +52,11 @@ void Filter::setMode(float* mode)
             ladderFilter.setMode(dsp::LadderFilter<float>::Mode::LPF12);
             break;
     }
+}
+
+bool Filter::isActive()
+{
+    return (filterMode == 0 || filterMode == 2) ? currentCutoffValue < sampleRate / 2 : currentCutoffValue > 0;
 }
 
 void Filter::setFilter(float* cutoff, float* resonance, float* drive)
@@ -77,6 +82,9 @@ float Filter::getCutoffValue() const
 
 void Filter::process(AudioBuffer<float>& bufferToProcess)
 {
-    dsp::AudioBlock<float> block(bufferToProcess);
-    ladderFilter.process(dsp::ProcessContextReplacing<float> (block));
+    if (isActive())
+    {
+        dsp::AudioBlock<float> block(bufferToProcess);
+        ladderFilter.process(dsp::ProcessContextReplacing<float> (block));        
+    }
 }

@@ -32,7 +32,7 @@ int EquinoxSynthesizer::getNumInstances()
     return objCounter;
 }
 
-std::string EquinoxSynthesizer::instanceNumAsStr() const
+std::string EquinoxSynthesizer::instanceNumAsString() const
 {
     return std::to_string(instanceNum);
 }
@@ -51,7 +51,6 @@ void EquinoxSynthesizer::setVoices(int newNumberOfVoices)
     
     oscillatorSynth.clearVoices();
     sampleSynth.clearVoices();
-    
     
     for (int i = 0; i < numVoices; i++)
     {
@@ -217,65 +216,64 @@ void EquinoxSynthesizer::prepareVoices()
 // Adds all the needed parameters for controlling the synth
 void EquinoxSynthesizer::addParameters(std::vector<std::unique_ptr<RangedAudioParameter>> &params)
 {
-    
     // AmpEnvelope parameters
-    params.push_back(std::make_unique<AudioParameterFloat>("ampAttack" + instanceNumAsStr(), "AmpAttack", NormalisableRange<float>(0.0f, 5.0f, 0.1f, 1.0f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("ampAttack" + instanceNumAsString(), "AmpAttack", NormalisableRange<float>(0.0f, 5.0f, 0.1f, 1.0f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("ampDecay" + instanceNumAsStr(), "AmpDecay", NormalisableRange<float>(0.0f, 5.0f, 0.1f, 1.0f), 1.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("ampDecay" + instanceNumAsString(), "AmpDecay", NormalisableRange<float>(0.0f, 5.0f, 0.1f, 1.0f), 1.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("ampSustain" + instanceNumAsStr(), "AmpSustain", NormalisableRange<float>(0.0f, 1.0f, 0.01f, 1.0f), 0.8f));
+    params.push_back(std::make_unique<AudioParameterFloat>("ampSustain" + instanceNumAsString(), "AmpSustain", NormalisableRange<float>(0.0f, 1.0f, 0.01f, 1.0f), 0.8f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("ampRelease" + instanceNumAsStr(), "AmpRelease", NormalisableRange<float>(0.0f, 5.0f, 0.1f, 1.1f), 0.5f));
+    params.push_back(std::make_unique<AudioParameterFloat>("ampRelease" + instanceNumAsString(), "AmpRelease", NormalisableRange<float>(0.0f, 5.0f, 0.1f, 1.1f), 0.5f));
     
     
     // FilterEnvelope parameters
-    params.push_back(std::make_unique<AudioParameterFloat>("filterAttack" + instanceNumAsStr(), "FilterAttack", NormalisableRange<float>(0.0f, 99.0f, 0.1f, 1.0f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("filterAttack" + instanceNumAsString(), "FilterAttack", NormalisableRange<float>(0.0f, 99.0f, 0.1f, 1.0f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("filterDecay" + instanceNumAsStr(), "FilterDecay", NormalisableRange<float>(0.0f, 99.0f, 0.1f, 1.1f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("filterDecay" + instanceNumAsString(), "FilterDecay", NormalisableRange<float>(0.0f, 99.0f, 0.1f, 1.1f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("filterSustain" + instanceNumAsStr(), "FilterSustain", NormalisableRange<float>(0.0f, 99.0f, 0.1f, 1.1f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("filterSustain" + instanceNumAsString(), "FilterSustain", NormalisableRange<float>(0.0f, 99.0f, 0.1f, 1.1f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("filterRelease" + instanceNumAsStr(), "FilterRelease", NormalisableRange<float>(0.0f, 200.0f, 0.1f, 1.0f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("filterRelease" + instanceNumAsString(), "FilterRelease", NormalisableRange<float>(0.0f, 200.0f, 0.1f, 1.0f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("envelopeCutoffLimit" + instanceNumAsStr(), "EnvelopeCutoffLimit", NormalisableRange<float>(200.0f, 22050.0f, 0.1f, 0.5f), 10000.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("envelopeCutoffLimit" + instanceNumAsString(), "EnvelopeCutoffLimit", NormalisableRange<float>(200.0f, 22050.0f, 0.1f, 0.5f), 10000.0f));
     
     // Oscillator parameters
-    params.push_back(std::make_unique<AudioParameterFloat>("waveform" + instanceNumAsStr(), "Waveform", 0.0f, 4.0f, 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("waveform" + instanceNumAsString(), "Waveform", 0.0f, 4.0f, 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("amplitude" + instanceNumAsStr(), "Amplitude", 0.0f, 0.5f, 0.4f));
+    params.push_back(std::make_unique<AudioParameterFloat>("amplitude" + instanceNumAsString(), "Amplitude", 0.0f, 0.5f, 0.4f));
     
     // General synth parameters
-    params.push_back(std::make_unique<AudioParameterFloat>("detune" + instanceNumAsStr(), "Detune", -20.0f, 20.0f, 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("detune" + instanceNumAsString(), "Detune", -20.0f, 20.0f, 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("finePitch" + instanceNumAsStr(), "FinePitch", -100.0f, 100.0f, 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("finePitch" + instanceNumAsString(), "FinePitch", -100.0f, 100.0f, 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("oscPanning" + instanceNumAsStr(), "OscPanning", -1.0f, 1.0f, 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("oscPanning" + instanceNumAsString(), "OscPanning", -1.0f, 1.0f, 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterInt>("pitchTranspose" + instanceNumAsStr(), "PitchTranspose", -24, 24, 0));
+    params.push_back(std::make_unique<AudioParameterInt>("pitchTranspose" + instanceNumAsString(), "PitchTranspose", -24, 24, 0));
     
-    params.push_back(std::make_unique<AudioParameterInt>("analogValue" + instanceNumAsStr(), "AnalogValue", 1, 40, 1));
+    params.push_back(std::make_unique<AudioParameterInt>("analogValue" + instanceNumAsString(), "AnalogValue", 1, 40, 1));
     
     // Filter parameters
-    params.push_back(std::make_unique<AudioParameterFloat>("filterType" + instanceNumAsStr(), "FilterType", 0.0f, 3.0f, 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("filterType" + instanceNumAsString(), "FilterType", 0.0f, 3.0f, 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("cutoff" + instanceNumAsStr(), "Cutoff", NormalisableRange<float>(50.0f, 22050.0f, 0.1f, 0.5f), 22050.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("cutoff" + instanceNumAsString(), "Cutoff", NormalisableRange<float>(50.0f, 22050.0f, 0.1f, 0.5f), 22050.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("resonance" + instanceNumAsStr(), "Resonance", NormalisableRange<float>(0.0f, 0.9f, 0.01f, 1.0f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("resonance" + instanceNumAsString(), "Resonance", NormalisableRange<float>(0.0f, 0.9f, 0.01f, 1.0f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("drive" + instanceNumAsStr(), "Drive", NormalisableRange<float>(1.0f, 15.0f, 0.01f, 1.0f), 1.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("drive" + instanceNumAsString(), "Drive", NormalisableRange<float>(1.0f, 15.0f, 0.01f, 1.0f), 1.0f));
     
     // SynthMode
-    params.push_back(std::make_unique<AudioParameterFloat>("synthMode" + instanceNumAsStr(), "SynthMode", 0.0f, 1.0f, 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("synthMode" + instanceNumAsString(), "SynthMode", 0.0f, 1.0f, 0.0f));
     
     // Mono & Portamento
-    params.push_back(std::make_unique<AudioParameterBool>("monoEnabled" + instanceNumAsStr(), "MonoEnabled", false));
-    params.push_back(std::make_unique<AudioParameterFloat>("portamento" + instanceNumAsStr(), "Portamento", NormalisableRange<float>(0.0f, 40000.0f, 100.0f, 1.0f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterBool>("monoEnabled" + instanceNumAsString(), "MonoEnabled", false));
+    params.push_back(std::make_unique<AudioParameterFloat>("portamento" + instanceNumAsString(), "Portamento", NormalisableRange<float>(0.0f, 40000.0f, 100.0f, 1.0f), 0.0f));
+    
 }
 
 // Updates the synth
-void EquinoxSynthesizer::update()
+void EquinoxSynthesizer::updateVoices()
 {
-    
     for (int i = 0; i < numVoices; i++)
     {
         if (currentSynthMode == synthMode::oscSynthMode)
@@ -285,7 +283,7 @@ void EquinoxSynthesizer::update()
                 setVoiceParameters<OscSynthVoice*>(oscVoice);
                 
                 // sets oscillators waveform
-                oscVoice->setWaveform((float*)treeState.getRawParameterValue("waveform" + instanceNumAsStr()));
+                oscVoice->setWaveform((float*)treeState.getRawParameterValue("waveform" + instanceNumAsString()));
             }
         }
         else
@@ -303,60 +301,60 @@ template<typename T>
 void EquinoxSynthesizer::setVoiceParameters(T voice)
 {
     // sets amplitude
-    voice->setAmplitude((float*)treeState.getRawParameterValue("amplitude" + instanceNumAsStr()));
+    voice->setAmplitude((float*)treeState.getRawParameterValue("amplitude" + instanceNumAsString()));
     
     // sets detune
-    voice->setDetune((float*)treeState.getRawParameterValue("detune" + instanceNumAsStr()));
+    voice->setDetune((float*)treeState.getRawParameterValue("detune" + instanceNumAsString()));
     
     // sets fine pitch
-    voice->setFinePitch((float*)treeState.getRawParameterValue("finePitch" + instanceNumAsStr()));
+    voice->setFinePitch((float*)treeState.getRawParameterValue("finePitch" + instanceNumAsString()));
     
     // sets analog value
-    voice->setAnalogValue((float*)treeState.getRawParameterValue("analogValue" + instanceNumAsStr()));
+    voice->setAnalogValue((float*)treeState.getRawParameterValue("analogValue" + instanceNumAsString()));
     
-    voice->setPitchTranspose((float*)treeState.getRawParameterValue("pitchTranspose" + instanceNumAsStr()));
+    voice->setPitchTranspose((float*)treeState.getRawParameterValue("pitchTranspose" + instanceNumAsString()));
     
-    voice->setPanning((float*)treeState.getRawParameterValue("oscPanning" + instanceNumAsStr()));
+    voice->setPanning((float*)treeState.getRawParameterValue("oscPanning" + instanceNumAsString()));
     
-    voice->setPortamento((float*)treeState.getRawParameterValue("portamento" + instanceNumAsStr()));
+    voice->setPortamento((float*)treeState.getRawParameterValue("portamento" + instanceNumAsString()));
     
     // sets amp Envelope
-    voice->getAmpEnvelope().setEnvelope((float*)treeState.getRawParameterValue("ampAttack" + instanceNumAsStr()),
-                                   (float*)treeState.getRawParameterValue("ampDecay" + instanceNumAsStr()),
-                                   (float*)treeState.getRawParameterValue("ampSustain" + instanceNumAsStr()),
-                                   (float*)treeState.getRawParameterValue("ampRelease" + instanceNumAsStr()));
+    voice->getAmpEnvelope().setEnvelope((float*)treeState.getRawParameterValue("ampAttack" + instanceNumAsString()),
+                                   (float*)treeState.getRawParameterValue("ampDecay" + instanceNumAsString()),
+                                   (float*)treeState.getRawParameterValue("ampSustain" + instanceNumAsString()),
+                                   (float*)treeState.getRawParameterValue("ampRelease" + instanceNumAsString()));
 
     
     // sets filterEnvelope
-    voice->getFilterEnvelope().setEnvelope((float*)treeState.getRawParameterValue("filterAttack" + instanceNumAsStr()),
-                                      (float*)treeState.getRawParameterValue("filterDecay" + instanceNumAsStr()),
-                                      (float*)treeState.getRawParameterValue("filterSustain" + instanceNumAsStr()),
-                                      (float*)treeState.getRawParameterValue("filterRelease" + instanceNumAsStr()));
-    voice->getFilterEnvelope().setCutoffLimit((float*)treeState.getRawParameterValue("envelopeCutoffLimit" + instanceNumAsStr()));
+    voice->getFilterEnvelope().setEnvelope((float*)treeState.getRawParameterValue("filterAttack" + instanceNumAsString()),
+                                      (float*)treeState.getRawParameterValue("filterDecay" + instanceNumAsString()),
+                                      (float*)treeState.getRawParameterValue("filterSustain" + instanceNumAsString()),
+                                      (float*)treeState.getRawParameterValue("filterRelease" + instanceNumAsString()));
+    voice->getFilterEnvelope().setCutoffLimit((float*)treeState.getRawParameterValue("envelopeCutoffLimit" + instanceNumAsString()));
     
     // sets filter
-    voice->getFilter().setFilter((float*)treeState.getRawParameterValue("cutoff" + instanceNumAsStr()),
-    (float*)treeState.getRawParameterValue("resonance" + instanceNumAsStr()),
-    (float*)treeState.getRawParameterValue("drive" + instanceNumAsStr()));
+    voice->getFilter().setFilter((float*)treeState.getRawParameterValue("cutoff" + instanceNumAsString()),
+    (float*)treeState.getRawParameterValue("resonance" + instanceNumAsString()),
+    (float*)treeState.getRawParameterValue("drive" + instanceNumAsString()));
     
     
     if (!voice->isVoiceActive())
     {
         // Sets filter mode
-        voice->getFilter().setMode((float*)treeState.getRawParameterValue("filterType" + instanceNumAsStr()));
+        voice->getFilter().setMode((float*)treeState.getRawParameterValue("filterType" + instanceNumAsString()));
     }
 }
 
 // Renders all the voices
 void EquinoxSynthesizer::renderNextBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    update();
+    updateVoices();
     
     if (currentSynthMode == synthMode::oscSynthMode)
     {
         oscillatorSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }
-    else
+    else if (currentSynthMode == synthMode::sampleSynthMode)
     {
         sampleSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }

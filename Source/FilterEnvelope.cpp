@@ -40,7 +40,7 @@ void FilterEnvelope::noteOn()
     nextCutoffValue = initialCutoffValue;
     cutoffPct = cutoffLimit / 100;
     currentState = attackState;
-    active = true;
+    active = (attack > 0 || decay > 0 || sustain > 0 || release > 0);
 }
        
 void FilterEnvelope::noteOff()

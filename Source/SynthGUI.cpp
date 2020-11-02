@@ -21,7 +21,7 @@ SynthGUI::SynthGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : processor(
     ampSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&ampSlider);
     
-    ampAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "amplitude" + synth.instanceNumAsStr(), ampSlider);
+    ampAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "amplitude" + synth.instanceNumAsString(), ampSlider);
     
     // Amplitude Label
     ampLabel.setText("Amp", NotificationType::dontSendNotification);
@@ -37,7 +37,7 @@ SynthGUI::SynthGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : processor(
     pitchTransposeSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&pitchTransposeSlider);
     
-    pitchTransposeAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "pitchTranspose" + synth.instanceNumAsStr(), pitchTransposeSlider);
+    pitchTransposeAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "pitchTranspose" + synth.instanceNumAsString(), pitchTransposeSlider);
     
     // Pitchtranspose Label
     pitchTransposeLabel.setText("Transpose", NotificationType::dontSendNotification);
@@ -54,7 +54,7 @@ SynthGUI::SynthGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : processor(
     finePitchSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&finePitchSlider);
     
-    finePitchAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "finePitch" + synth.instanceNumAsStr(), finePitchSlider);
+    finePitchAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "finePitch" + synth.instanceNumAsString(), finePitchSlider);
     
     // finePitch Label
     finePitchLabel.setText("Fine Pitch", NotificationType::dontSendNotification);
@@ -70,7 +70,7 @@ SynthGUI::SynthGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : processor(
     analogSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&analogSlider);
     
-    analogAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "analogValue" + synth.instanceNumAsStr(), analogSlider);
+    analogAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "analogValue" + synth.instanceNumAsString(), analogSlider);
     
     // Analog Label
     analogLabel.setText("Analog Factor", NotificationType::dontSendNotification);
@@ -86,7 +86,7 @@ SynthGUI::SynthGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : processor(
     panningSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&panningSlider);
     
-    panningAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "oscPanning" + synth.instanceNumAsStr(), panningSlider);
+    panningAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "oscPanning" + synth.instanceNumAsString(), panningSlider);
     
     // Panning Label
     panningLabel.setText("Pan", NotificationType::dontSendNotification);
@@ -102,7 +102,7 @@ SynthGUI::SynthGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : processor(
     detuneSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&detuneSlider);
     
-    detuneAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "detune" + synth.instanceNumAsStr(), detuneSlider);
+    detuneAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "detune" + synth.instanceNumAsString(), detuneSlider);
     
     // Detune Label
     detuneLabel.setText("Detune", NotificationType::dontSendNotification);
@@ -118,7 +118,7 @@ SynthGUI::SynthGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : processor(
     portamentoSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&portamentoSlider);
     
-    portamentoAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "portamento" + synth.instanceNumAsStr(), portamentoSlider);
+    portamentoAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "portamento" + synth.instanceNumAsString(), portamentoSlider);
     
     // Portamento Label
     portamentoLabel.setText("Portamento", NotificationType::dontSendNotification);
@@ -129,8 +129,8 @@ SynthGUI::SynthGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : processor(
     
     
     // Mono button
-    processor.treeState.addParameterListener("monoEnabled" + synth.instanceNumAsStr(), this);
-    if (AudioParameterBool* monoEnabledParameter = dynamic_cast<AudioParameterBool*>(processor.treeState.getParameter("monoEnabled" + synth.instanceNumAsStr())))
+    processor.treeState.addParameterListener("monoEnabled" + synth.instanceNumAsString(), this);
+    if (AudioParameterBool* monoEnabledParameter = dynamic_cast<AudioParameterBool*>(processor.treeState.getParameter("monoEnabled" + synth.instanceNumAsString())))
     {
         currentVoicingModeState = std::make_unique<AudioParameterBool*>(monoEnabledParameter);
     }
@@ -156,7 +156,7 @@ void SynthGUI::monoSwitch()
     }
     
     // Sets currentVoicingModeState to same value as the button if it isnt equal
-    if (processor.treeState.getParameterAsValue("monoEnabled" + synth.instanceNumAsStr()) != monoButton.getToggleState())
+    if (processor.treeState.getParameterAsValue("monoEnabled" + synth.instanceNumAsString()) != monoButton.getToggleState())
     {
         **currentVoicingModeState = monoButton.getToggleState();
     }
@@ -164,7 +164,7 @@ void SynthGUI::monoSwitch()
 
 void SynthGUI::parameterChanged(const String &parameterID, float newValue)
 {
-    juce::String monoEnabledId = "monoEnabled" + synth.instanceNumAsStr();
+    juce::String monoEnabledId = "monoEnabled" + synth.instanceNumAsString();
     if (parameterID == monoEnabledId)
     {
         if (newValue != monoButton.getToggleState())
