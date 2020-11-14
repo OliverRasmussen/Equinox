@@ -16,8 +16,8 @@ AmpEnvelopeGUI::AmpEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) 
     
     // Attack Slider
     attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    attackSlider.setRange(0.0f, 5.0f);
-    attackSlider.setValue(0.0f);
+    attackSlider.setRange(0.01f, 5.0f);
+    attackSlider.setValue(0.1f);
     attackSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&attackSlider);
     
@@ -32,7 +32,7 @@ AmpEnvelopeGUI::AmpEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) 
     
     // Decay Slider
     decaySlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    decaySlider.setRange(0.1f, 5.0f);
+    decaySlider.setRange(0.01f, 5.0f);
     decaySlider.setValue(0.1f);
     decaySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&decaySlider);

@@ -155,11 +155,6 @@ void EquinoxAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
     synthLayer1.renderNextBlock(buffer, midiMessages);
     synthLayer2.renderNextBlock(buffer, midiMessages);
     synthLayer3.renderNextBlock(buffer, midiMessages);
-    
-    /*
-    synthRenderer(synthlayers, buffer, midiMessages);
-     
-     */
 }
 
 //==============================================================================

@@ -206,10 +206,10 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
     setPitchBend(currentPitchWheelPosition);
     analogFactor = getRandomAnalogFactor();
     currentModifiedFrequency = getFrequency();
-    voiceFilter.reset();
     
     if (!noteHasBeenTriggered)
     {
+        voiceFilter.reset();
         midiKeyVelocity = velocity;
         ampEnvelope.noteOn();
         filterEnvelope.noteOn();
