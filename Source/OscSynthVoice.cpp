@@ -12,7 +12,6 @@
 
 OscSynthVoice::OscSynthVoice(bool isMonoVoice) : SynthVoice(isMonoVoice)
 {
-    
 }
 
 OscSynthVoice::~OscSynthVoice(){}
@@ -32,15 +31,13 @@ void OscSynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSo
 {
     if (dynamic_cast<const OscSynthSound*> (sound))
     {
-        oscillator1.setPhase(0);
-        oscillator2.setPhase(0);
-        
+        if (!isMonoEnabled())
+        {
+            oscillator1.setPhase(0);
+            oscillator2.setPhase(0);            
+        }
         setFrequencyByMidiNote(midiNoteNumber);
         SynthVoice::startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
-    }
-    else
-    {
-        jassertfalse;
     }
 
 }

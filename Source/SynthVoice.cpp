@@ -19,7 +19,6 @@ SynthVoice::SynthVoice(bool isMonoVoice) : filterEnvelope(voiceFilter)
 
 SynthVoice::~SynthVoice()
 {
-    
 }
 
 // Used for preparing the voice and its objects
@@ -38,6 +37,7 @@ void SynthVoice::prepareVoice(double sampleRate, int samplesPerBlock, int numCha
 
 void SynthVoice::setFrequency(double frequency)
 {
+    previousModifiedFrequency = getFrequency();
     this->frequency = frequency;
 }
 
@@ -70,11 +70,9 @@ float SynthVoice::frequencyModifications() const
     {
         return finePitch * pitchTranspose * analogFactor * getNextPortamentoValue();
     }
-    else
-    {
-        return finePitch * pitchTranspose * analogFactor;
-    }
+    return finePitch * pitchTranspose * analogFactor;
 }
+
 
 Filter& SynthVoice::getFilter()
 {
@@ -154,9 +152,10 @@ double SynthVoice::getNextPortamentoValue() const
         {
             portamentoValue = targetValue;
         }
+        return portamentoValue;
     }
     
-    return portamentoValue;
+    return 1;
 }
 
 void SynthVoice::setAmplitude(float* ampValue)
@@ -203,13 +202,15 @@ void SynthVoice::setFinePitch(float* pitchValue)
 
 void SynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-    midiKeyVelocity = velocity;
+    applyPortamento = false;
     setPitchBend(currentPitchWheelPosition);
     analogFactor = getRandomAnalogFactor();
     currentModifiedFrequency = getFrequency();
+    voiceFilter.reset();
     
     if (!noteHasBeenTriggered)
     {
+        midiKeyVelocity = velocity;
         ampEnvelope.noteOn();
         filterEnvelope.noteOn();
         noteHasBeenTriggered = true;
@@ -221,26 +222,23 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
         portamentoStartValueHasBeenSet = false;
         portamentoValue = 0;
     }
-    else
-    {
-        applyPortamento = false;
-    }
 }
 
 void SynthVoice::stopNote (float velocity, bool allowTailOff)
 {
-    ampEnvelope.noteOff();
-    filterEnvelope.noteOff();
-    
-    if (!ampEnvelope.isActive() || velocity == 0)
+    if (!isKeyDown())
     {
-        resetNote();
+        ampEnvelope.noteOff();
+        filterEnvelope.noteOff();
+        if (!ampEnvelope.isActive() || velocity == 0)
+        {
+            resetNote();
+        }        
     }
 }
 
 void SynthVoice::resetNote()
 {
-    previousModifiedFrequency = getFrequency();
     clearCurrentNote();
     noteHasBeenTriggered = false;
 }
@@ -248,7 +246,7 @@ void SynthVoice::resetNote()
 void SynthVoice::pitchWheelMoved (int newPitchWheelValue)
 {
     setPitchBend(newPitchWheelValue);
-    frequency = noteInHertz(currentNoteNumber, getPitchBendCents());
+    setFrequency(noteInHertz(currentNoteNumber, getPitchBendCents()));
 }
 
 void SynthVoice::setPitchBend(int pitchWheelValue)
@@ -270,7 +268,7 @@ float SynthVoice::getPitchBendCents() const
 
 void SynthVoice::setFrequencyByMidiNote(int midiNote)
 {
-    frequency = noteInHertz(midiNote, getPitchBendCents());
+    setFrequency(noteInHertz(midiNote, getPitchBendCents()));
     currentNoteNumber = midiNote;
 }
 
@@ -293,14 +291,17 @@ void SynthVoice::controllerMoved (int controllerNumber, int newControllerValue)
 
 void SynthVoice::addBufferToOutput(AudioBuffer<float> &bufferToAdd, AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
-    //Pocesses buffer through filter
-    getFilter().process(bufferToAdd);
+    getAmpEnvelope().setParameters();
+    getFilterEnvelope().setParameters();
+    
+    //Pocesses the buffer through the filter and replaces it
+    voiceFilter.process(bufferToAdd);
     
     for (int sample = 0; sample < numSamples; ++sample)
     {
         for (int channel = 0; channel < bufferToAdd.getNumChannels(); ++channel)
         {
-            outputBuffer.addSample (channel, startSample, bufferToAdd.getSample(channel, sample) * getAmpEnvelope().getNextSample() * getKeyVelocity() * getAmplitude() * getPanning(channel));
+            outputBuffer.addSample (channel, startSample, bufferToAdd.getSample(channel, sample) * ampEnvelope.getNextSample() * getKeyVelocity() * getAmplitude() * getPanning(channel));
         }
         ++startSample;
     }

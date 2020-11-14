@@ -72,8 +72,6 @@ float SampleSynthVoice::getNextSamplerSample (int channel, const float* const in
 
 void SampleSynthVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
-    getAmpEnvelope().setParameters();
-    getFilterEnvelope().setParameters();
     
     if (auto* playingSound = static_cast<SampleSynthSound*> (getCurrentlyPlayingSound().get()))
     {

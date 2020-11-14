@@ -99,13 +99,16 @@ protected:
     
     bool voiceStoppedPlaying = true;
     
+    double currentModifiedFrequency = 0;
+    
+    double previousModifiedFrequency = 0;    
+    
 private:
+    
+    bool applyPortamento = false;
     
     double frequency;
     
-    double previousModifiedFrequency;
-    
-    double currentModifiedFrequency;
     
     float detune = 0.0f;
     
@@ -140,7 +143,5 @@ private:
     mutable double portamentoValue = 0.0;
     
     mutable bool portamentoStartValueHasBeenSet = false;
-    
-    bool applyPortamento = false;
     
 };

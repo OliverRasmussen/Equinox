@@ -25,6 +25,11 @@ EquinoxSynthesizer::~EquinoxSynthesizer()
 {
     formatReader = nullptr;
     --objCounter;
+    
+    oscVoice = nullptr;
+    sampleVoice = nullptr;
+    delete oscVoice;
+    delete sampleVoice;
 }
 
 int EquinoxSynthesizer::getNumInstances()

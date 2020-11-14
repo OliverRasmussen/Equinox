@@ -14,14 +14,14 @@
 class Filter
 {
 public:
-    
-    Filter();
-    
-    ~Filter();
-    
+
     void prepareToPlay(dsp::ProcessSpec&);
     
+    void reset();
+    
     void setMode(float* mode);
+    
+    bool isActive();
     
     void setFilter(float* cutoff, float* resonance, float* drive);
     
@@ -36,5 +36,4 @@ private:
     float currentCutoffValue;
     int filterMode = 0;
     int sampleRate;
-    bool isActive();
 };

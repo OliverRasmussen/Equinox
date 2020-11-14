@@ -26,8 +26,8 @@ FilterGUI::FilterGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : processo
     
     // Cutoff Slider
     cutoffSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    cutoffSlider.setRange(50.0f, 22000.0f);
-    cutoffSlider.setValue (22000.0f);
+    cutoffSlider.setRange(50.0f, 22050.0f);
+    cutoffSlider.setValue (22050.0f);
     cutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&cutoffSlider);
     

@@ -110,7 +110,6 @@ void FilterEnvelope::calculateNextAttackValue()
 
 void FilterEnvelope::calculateNextDecayValue()
 {
-    
     if (decay == 0)
     {
         nextState();

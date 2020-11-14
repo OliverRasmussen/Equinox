@@ -39,5 +39,7 @@ private:
     
     int currentWaveform;
     
+    int dummy = 0;
+    
     Oscillator oscillator1, oscillator2;
 };
