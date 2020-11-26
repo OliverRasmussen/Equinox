@@ -11,7 +11,7 @@
 #pragma once
 #include "SynthVoice.h"
 #include "OscSynthSound.h"
-#include "Oscillator.h"
+#include "WavetableOscillator.h"
 
 class OscSynthVoice : public SynthVoice
 {
@@ -33,7 +33,7 @@ public:
     
 private:
     
-    double getWaveform(Oscillator& osc, double frequency);
+    double getWaveform(WavetableOscillator& osc, double frequency);
     
     double getOscillator(int channel);
     
@@ -41,5 +41,5 @@ private:
     
     int dummy = 0;
     
-    Oscillator oscillator1, oscillator2;
+    WavetableOscillator oscillator1, oscillator2;
 };

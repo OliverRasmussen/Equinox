@@ -18,7 +18,7 @@ OscSynthVoice::~OscSynthVoice(){}
 
 void OscSynthVoice::prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec& spec)
 {
-    Oscillator::prepare(sampleRate);
+    WavetableOscillator::prepare(sampleRate);
     SynthVoice::prepareVoice(sampleRate, samplesPerBlock, numChannels, spec);
 }
 
@@ -50,7 +50,7 @@ void OscSynthVoice::setWaveform(float* selectedWaveform)
 
 
 // Returns a oscillated waveform from the passed in oscillator and frequency
-double OscSynthVoice::getWaveform(Oscillator& osc, double frequency)
+double OscSynthVoice::getWaveform(WavetableOscillator& osc, double frequency)
 {
     double waveform;
     switch (currentWaveform)

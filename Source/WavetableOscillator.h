@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    Oscillator.h
+    WavetableOscillator.h
     Created: 26 Oct 2020 2:05:16pm
     Author:  Oliver Rasmussen
 
@@ -16,7 +16,7 @@
 
 #define M_2PI 6.283185307179586476925286766559
 
-class Oscillator
+class WavetableOscillator
 {
 public:
     
