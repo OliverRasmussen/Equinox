@@ -66,8 +66,10 @@
                 file="Source/SampleSynthVoice.h"/>
         </GROUP>
         <GROUP id="{B029A025-BD21-774C-D588-C18B2920E956}" name="OscillatorSynth">
-          <FILE id="MOMYQC" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
-          <FILE id="eVUYT6" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
+          <FILE id="MOMYQC" name="WavetableOscillator.cpp" compile="1" resource="0"
+                file="Source/WavetableOscillator.cpp"/>
+          <FILE id="eVUYT6" name="WavetableOscillator.h" compile="0" resource="0"
+                file="Source/WavetableOscillator.h"/>
           <FILE id="MmODqe" name="OscSynthVoice.cpp" compile="1" resource="0"
                 file="Source/OscSynthVoice.cpp"/>
           <FILE id="iNrHtF" name="OscSynthVoice.h" compile="0" resource="0" file="Source/OscSynthVoice.h"/>
