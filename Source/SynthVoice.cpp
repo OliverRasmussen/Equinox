@@ -207,20 +207,21 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
     analogFactor = getRandomAnalogFactor();
     currentModifiedFrequency = getFrequency();
     
-    if (!noteHasBeenTriggered)
-    {
-        voiceFilter.reset();
-        midiKeyVelocity = velocity;
-        ampEnvelope.noteOn();
-        filterEnvelope.noteOn();
-        noteHasBeenTriggered = true;
-    }
-    
-    if (monoMode && !voiceStoppedPlaying && portamentoTime > 0)
+    if (monoMode && noteHasBeenTriggered && portamentoTime > 0)
     {
         applyPortamento = true;
         portamentoStartValueHasBeenSet = false;
         portamentoValue = 0;
+    }
+    
+    if (!noteHasBeenTriggered || inRelease)
+    {
+
+        midiKeyVelocity = velocity;
+        ampEnvelope.noteOn();
+        filterEnvelope.noteOn();
+        noteHasBeenTriggered = true;
+        inRelease = false;
     }
 }
 
@@ -230,10 +231,7 @@ void SynthVoice::stopNote (float velocity, bool allowTailOff)
     {
         ampEnvelope.noteOff();
         filterEnvelope.noteOff();
-        if (!ampEnvelope.isActive() || velocity == 0)
-        {
-            resetNote();
-        }        
+        inRelease = true;
     }
 }
 
@@ -241,6 +239,7 @@ void SynthVoice::resetNote()
 {
     clearCurrentNote();
     noteHasBeenTriggered = false;
+    voiceFilter.reset();
 }
 
 void SynthVoice::pitchWheelMoved (int newPitchWheelValue)

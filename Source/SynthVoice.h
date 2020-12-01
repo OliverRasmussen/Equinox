@@ -97,7 +97,7 @@ protected:
     
     bool noteHasBeenTriggered = false;
     
-    bool voiceStoppedPlaying = true;
+    bool inRelease = false;
     
     double currentModifiedFrequency = 0;
     
@@ -108,7 +108,6 @@ private:
     bool applyPortamento = false;
     
     double frequency;
-    
     
     float detune = 0.0f;
     

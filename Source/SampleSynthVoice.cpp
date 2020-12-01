@@ -75,7 +75,6 @@ void SampleSynthVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int sta
     
     if (auto* playingSound = static_cast<SampleSynthSound*> (getCurrentlyPlayingSound().get()))
     {
-        voiceStoppedPlaying = false;
         jassert (numSamples <= voiceBuffer.getNumSamples());
         AudioBuffer<float> proxyBuffer (voiceBuffer.getArrayOfWritePointers(), voiceBuffer.getNumChannels(), startSample, numSamples);
         proxyBuffer.clear();
@@ -99,64 +98,12 @@ void SampleSynthVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int sta
             }
         }
         
-        
-//        voiceStoppedPlaying = false;
-//        jassert (numSamples <= voiceBuffer.getNumSamples());
-//        AudioBuffer<float> proxyBuffer (voiceBuffer.getArrayOfWritePointers(), voiceBuffer.getNumChannels(), startSample, numSamples);
-//        proxyBuffer.clear();
-//
-//        auto& data = *playingSound->data;
-//        const float* const inL = data.getReadPointer (0);
-//        const float* const inR = data.getNumChannels() > 1 ? data.getReadPointer (1) : nullptr;
-//
-//        float* outL = proxyBuffer.getWritePointer(0, 0);
-//        float* outR = proxyBuffer.getNumChannels() > 1 ? proxyBuffer.getWritePointer (1, 0) : nullptr;
-//
-//        for (int sample = 0; sample < proxyBuffer.getNumSamples(); ++sample)
-//        {
-//
-//
-//            auto pos = (int) sourceSamplePosition;
-//            auto alpha = (float) (sourceSamplePosition - pos);
-//            auto invAlpha = 1.0f - alpha;
-//
-//            // just using a very simple linear interpolation
-//            float l = (inL[pos] * invAlpha + inL[pos + 1] * alpha);
-//            float r = (inR != nullptr) ? (inR[pos] * invAlpha + inR[pos + 1] * alpha)
-//                                       : l;
-//
-//            l *= lgain;
-//            r *= rgain;
-//
-//            if (outR != nullptr)
-//            {
-//                *outL++ += l;
-//                *outR++ += r;
-//            }
-//            else
-//            {
-//                *outL++ += (l + r) * 0.5f;
-//            }
-//
-//            sourceSamplePosition += getFrequency();
-//
-//            if (sourceSamplePosition > playingSound->length)
-//            {
-//                stopNote (0.0f, false);
-//                break;
-//            }
-//        }
-        
         addBufferToOutput(proxyBuffer, outputBuffer, startSample, numSamples);
         
-    }
-    else
-    {
-        voiceStoppedPlaying = true;
     }
     
     if (noteHasBeenTriggered && !getAmpEnvelope().isActive())
     {
-        stopNote(0.0f, false);
+        resetNote();
     }
 }

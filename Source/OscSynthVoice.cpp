@@ -90,7 +90,6 @@ void OscSynthVoice::renderNextBlock (AudioBuffer<float> &outputBuffer, int start
 
     if (isVoiceActive())
     {
-        voiceStoppedPlaying = false;
         jassert (numSamples <= voiceBuffer.getNumSamples());
         AudioBuffer<float> proxyBuffer (voiceBuffer.getArrayOfWritePointers(), voiceBuffer.getNumChannels(), startSample, numSamples);
         proxyBuffer.clear();
@@ -104,13 +103,9 @@ void OscSynthVoice::renderNextBlock (AudioBuffer<float> &outputBuffer, int start
         }
         addBufferToOutput (proxyBuffer, outputBuffer, startSample, numSamples);
     }
-    else
-    {
-        voiceStoppedPlaying = true;
-    }
     
     if (noteHasBeenTriggered && !getAmpEnvelope().isActive())
     {
-        stopNote(0.0f, false);
+        resetNote();
     }
 }
