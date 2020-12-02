@@ -13,7 +13,6 @@
 #include "OscillatorGUI.h"
 #include "SamplerGUI.h"
 #include "PluginProcessor.h"
-#include "EquinoxSynthesizer.h"
 
 //==============================================================================
 /*
@@ -21,7 +20,7 @@
 class SynthMenuGUI    : public Component, private AudioProcessorValueTreeState::Listener
 {
 public:
-    SynthMenuGUI(EquinoxAudioProcessor&, EquinoxSynthesizer&);
+    SynthMenuGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth, std::string synthInstance);
     ~SynthMenuGUI();
 
     void paint (Graphics&) override;
@@ -41,9 +40,8 @@ private:
     
     std::unique_ptr<AudioParameterFloat*> currentSynthModeState;
     
-    EquinoxAudioProcessor& processor;
-    
-    EquinoxSynthesizer& synth;
+    AudioProcessorValueTreeState& treeState;
+    std::string synthInstance;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthMenuGUI)
 };

@@ -10,9 +10,9 @@
 #include "SamplerGUI.h"
 
 //==============================================================================
-SamplerGUI::SamplerGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : SynthGUI(p, s)
+SamplerGUI::SamplerGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth, std::string synthInstance) : SynthGUI(treeState, synth,  synthInstance)
 {
-    loadSampleButton.onClick = [&]() {synth.loadNewSample();};
+    loadSampleButton.onClick = [&]() {browseForSampleFile();};
     addAndMakeVisible(loadSampleButton);
     
     // Sampler Label
@@ -25,6 +25,22 @@ SamplerGUI::SamplerGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : SynthG
 
 SamplerGUI::~SamplerGUI()
 {
+}
+
+void SamplerGUI::browseForSampleFile()
+{
+    FileChooser fileChooser("Load audio sample", File(), "*.wav;*.mp3;*.flac", true, false, nullptr);
+    
+    if (fileChooser.browseForFileToOpen())
+    {
+        File sampleFile = fileChooser.getResult();
+        String sampleName = sampleFile.getFileName();
+        
+        int fileExtensionStartIndex = sampleName.indexOfChar('.');
+        sampleName = sampleName.substring(0, fileExtensionStartIndex);
+        
+        synth.loadSampleFromFile(sampleFile, sampleName);
+    }
 }
 
 void SamplerGUI::paint (Graphics& g)

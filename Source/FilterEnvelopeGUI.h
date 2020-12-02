@@ -11,7 +11,6 @@
 #pragma once
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "EquinoxSynthesizer.h"
 
 //==============================================================================
 /*
@@ -19,7 +18,7 @@
 class FilterEnvelopeGUI    : public Component
 {
 public:
-    FilterEnvelopeGUI(EquinoxAudioProcessor&, EquinoxSynthesizer&);
+    FilterEnvelopeGUI(AudioProcessorValueTreeState& treeState, std::string synthInstance);
     ~FilterEnvelopeGUI();
 
     void paint (Graphics&) override;
@@ -27,8 +26,8 @@ public:
 
 private:
     
-    EquinoxAudioProcessor& processor;
-    EquinoxSynthesizer& synth;
+    AudioProcessorValueTreeState& treeState;
+    std::string synthInstance;
     
     Slider attackSlider, decaySlider, sustainSlider, releaseSlider, cutoffLimitSlider;
     

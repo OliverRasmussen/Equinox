@@ -15,7 +15,6 @@
 #include "AmpEnvelopeGUI.h"
 #include "FilterEnvelopeGUI.h"
 #include "FilterGUI.h"
-#include "EquinoxSynthesizer.h"
 
 //==============================================================================
 /*
@@ -23,7 +22,7 @@
 class SynthesizerUnitGUI    : public Component
 {
 public:
-    SynthesizerUnitGUI(EquinoxAudioProcessor&, EquinoxSynthesizer&);
+    SynthesizerUnitGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth);
     ~SynthesizerUnitGUI();
     
     static int getNumInstances();

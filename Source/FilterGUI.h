@@ -19,7 +19,7 @@
 class FilterGUI    : public Component
 {
 public:
-    FilterGUI(EquinoxAudioProcessor&, EquinoxSynthesizer&);
+    FilterGUI(AudioProcessorValueTreeState& treeState, std::string synthInstance);
     ~FilterGUI();
 
     void paint (Graphics&) override;
@@ -27,8 +27,8 @@ public:
 
 private:
     
-    EquinoxAudioProcessor& processor;
-    EquinoxSynthesizer& synth;
+    AudioProcessorValueTreeState& treeState;
+    std::string synthInstance;
     
     Slider cutoffSlider, resonanceSlider, driveSlider;
     

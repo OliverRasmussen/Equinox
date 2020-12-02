@@ -10,7 +10,7 @@
 #include "FilterEnvelopeGUI.h"
 
 //==============================================================================
-FilterEnvelopeGUI::FilterEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : processor(p), synth(s)
+FilterEnvelopeGUI::FilterEnvelopeGUI(AudioProcessorValueTreeState& treeState, std::string synthInstance) : treeState(treeState), synthInstance(synthInstance)
 {
     setSize(200, 200);
     
@@ -21,7 +21,7 @@ FilterEnvelopeGUI::FilterEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesize
     attackSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&attackSlider);
     
-    attackAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "filterAttack" + synth.instanceNumAsString(), attackSlider);
+    attackAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "filterAttack" + synthInstance, attackSlider);
     
     // Attack Label
     attackLabel.setText("A", NotificationType::dontSendNotification);
@@ -37,7 +37,7 @@ FilterEnvelopeGUI::FilterEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesize
     decaySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&decaySlider);
     
-    decayAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "filterDecay" + synth.instanceNumAsString(), decaySlider);
+    decayAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "filterDecay" + synthInstance, decaySlider);
     
     // Decay Label
     decayLabel.setText("D", NotificationType::dontSendNotification);
@@ -53,7 +53,7 @@ FilterEnvelopeGUI::FilterEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesize
     sustainSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&sustainSlider);
     
-    sustainAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "filterSustain" + synth.instanceNumAsString(), sustainSlider);
+    sustainAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "filterSustain" + synthInstance, sustainSlider);
     
     // Sustain Label
     sustainLabel.setText("S", NotificationType::dontSendNotification);
@@ -69,7 +69,7 @@ FilterEnvelopeGUI::FilterEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesize
     releaseSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&releaseSlider);
     
-    releaseAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "filterRelease" + synth.instanceNumAsString(), releaseSlider);
+    releaseAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "filterRelease" + synthInstance, releaseSlider);
     
     // Release Label
     releaseLabel.setText("R", NotificationType::dontSendNotification);
@@ -85,7 +85,7 @@ FilterEnvelopeGUI::FilterEnvelopeGUI(EquinoxAudioProcessor& p, EquinoxSynthesize
     cutoffLimitSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&cutoffLimitSlider);
     
-    cutoffLimitAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.treeState, "envelopeCutoffLimit" + synth.instanceNumAsString(), cutoffLimitSlider);
+    cutoffLimitAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "envelopeCutoffLimit" + synthInstance, cutoffLimitSlider);
     
     // Attack Label
     cutoffLimitLabel.setText("Cutoff Limit", NotificationType::dontSendNotification);

@@ -18,7 +18,7 @@
 class AmpEnvelopeGUI    : public Component
 {
 public:
-    AmpEnvelopeGUI(EquinoxAudioProcessor&, EquinoxSynthesizer&);
+    AmpEnvelopeGUI(AudioProcessorValueTreeState& treeState, std::string synthInstance);
     ~AmpEnvelopeGUI();
 
     void paint (Graphics&) override;
@@ -26,8 +26,8 @@ public:
 
 private:
     
-    EquinoxAudioProcessor& processor;
-    EquinoxSynthesizer& synth;
+    AudioProcessorValueTreeState& treeState;
+    std::string synthInstance;
     
     Slider attackSlider, decaySlider, sustainSlider, releaseSlider;
     

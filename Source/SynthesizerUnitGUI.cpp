@@ -13,7 +13,7 @@
 
 int SynthesizerUnitGUI::objCounter;
 
-SynthesizerUnitGUI::SynthesizerUnitGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : synthMenuGUI(p, s), ampEnvelopeGUI(p, s), filterEnvelopeGUI(p, s), filterGUI(p, s)
+SynthesizerUnitGUI::SynthesizerUnitGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth) : synthMenuGUI(treeState, synth, synth.instanceNumAsString()), ampEnvelopeGUI(treeState, synth.instanceNumAsString()), filterEnvelopeGUI(treeState, synth.instanceNumAsString()), filterGUI(treeState, synth.instanceNumAsString())
 {
     instanceNum = ++objCounter;
     addAndMakeVisible(&synthMenuGUI);

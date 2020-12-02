@@ -227,11 +227,17 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
 
 void SynthVoice::stopNote (float velocity, bool allowTailOff)
 {
-    if (!isKeyDown())
+    if (monoMode && isKeyDown()) { return; }
+    
+    if(velocity != 0.0f)
     {
         ampEnvelope.noteOff();
         filterEnvelope.noteOff();
         inRelease = true;
+    }
+    else
+    {
+        resetNote();
     }
 }
 

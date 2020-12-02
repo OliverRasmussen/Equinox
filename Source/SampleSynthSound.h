@@ -17,12 +17,7 @@ class SampleSynthSound : public SynthesiserSound
     
 public:
     
-    SampleSynthSound(const String& name,
-                      AudioFormatReader& source,
-                      const BigInteger& midiNotes,
-                      int midiNoteForNormalPitch,
-                      double maxSampleLengthSeconds, int currentSamplerate);
-
+    SampleSynthSound(const String& sampleName, AudioFormatReader& source,int currentSamplerate);
 
     ~SampleSynthSound() override;
     
@@ -44,9 +39,10 @@ private:
     
     double sourceSampleRate;
     
-    BigInteger midiNotes;
+    BigInteger midiNoteRange;
     
-    int length = 0, midiRootNote = 0;
+    int length = 0;
+    int midiRootNote = 60; // center C
     
     CatmullRomInterpolator resamplerL;
     CatmullRomInterpolator resamplerR;

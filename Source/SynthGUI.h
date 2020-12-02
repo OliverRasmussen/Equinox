@@ -11,15 +11,14 @@
 #pragma once
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "EquinoxSynthesizer.h"
 
 //==============================================================================
 /*
 */
-class SynthGUI    : public Component, private AudioProcessorValueTreeState::Listener
+class SynthGUI    : public Component
 {
 public:
-    SynthGUI(EquinoxAudioProcessor&, EquinoxSynthesizer&);
+    SynthGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth, std::string synthInstance);
     ~SynthGUI();
 
     void paint (Graphics&) override;
@@ -27,14 +26,11 @@ public:
     
 protected:
     
-    EquinoxAudioProcessor& processor;
+    AudioProcessorValueTreeState& treeState;
     EquinoxSynthesizer& synth;
+    std::string synthInstance;
     
 private:
-    
-    void monoSwitch();
-    
-    void parameterChanged(const String &parameterID, float newValue) override;
     
     Slider ampSlider, analogSlider, finePitchSlider, pitchTransposeSlider, panningSlider, detuneSlider, portamentoSlider;
     
@@ -42,9 +38,9 @@ private:
     
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> ampAttachment, analogAttachment, finePitchAttachment, pitchTransposeAttachment, panningAttachment, detuneAttachment, portamentoAttachment;
     
-    TextButton monoButton { "Mono" };
+    std::unique_ptr<AudioProcessorValueTreeState::ButtonAttachment> monoAttachment;
     
-    std::unique_ptr<AudioParameterBool*> currentVoicingModeState;
+    TextButton monoButton { "Mono" };
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthGUI)
 };

@@ -38,12 +38,8 @@ void SampleSynthVoice::startNote(int midiNoteNumber, float velocity, Synthesiser
         
         sampleLength = sampleSound->length;
 
-        getAmpEnvelope().setSampleRate(sampleSound->sourceSampleRate);
+        //getAmpEnvelope().setSampleRate(sampleSound->sourceSampleRate);
         SynthVoice::startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
-    }
-    else
-    {
-        jassertfalse;
     }
 }
 
@@ -72,23 +68,27 @@ float SampleSynthVoice::getNextSamplerSample (int channel, const float* const in
 
 void SampleSynthVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
-    
-    if (auto* playingSound = static_cast<SampleSynthSound*> (getCurrentlyPlayingSound().get()))
+    getAmpEnvelope().setParameters();
+    getFilterEnvelope().setParameters();
+
+    if (sourceSamplePositionLeft < sampleLength && sourceSamplePositionRight < sampleLength)
     {
-        jassert (numSamples <= voiceBuffer.getNumSamples());
-        AudioBuffer<float> proxyBuffer (voiceBuffer.getArrayOfWritePointers(), voiceBuffer.getNumChannels(), startSample, numSamples);
-        proxyBuffer.clear();
-
-        auto& sampleData = *playingSound->data;
-        const float* const inL = sampleData.getReadPointer (0);
-        const float* const inR = sampleData.getNumChannels() > 1 ? sampleData.getReadPointer (1) : nullptr;
-
-        for (int sample = 0; sample < proxyBuffer.getNumSamples(); ++sample)
+        if (auto* playingSound = static_cast<SampleSynthSound*> (getCurrentlyPlayingSound().get()))
         {
+            jassert (numSamples <= voiceBuffer.getNumSamples());
+            AudioBuffer<float> proxyBuffer (voiceBuffer.getArrayOfWritePointers(), voiceBuffer.getNumChannels(), startSample, numSamples);
+            proxyBuffer.clear();
 
-            for (int channel = 0; channel < sampleData.getNumChannels(); ++channel)
+            auto& sampleData = *playingSound->data;
+            const float* const inL = sampleData.getReadPointer (0);
+            const float* const inR = sampleData.getNumChannels() > 1 ? sampleData.getReadPointer (1) : nullptr;
+
+            for (int sample = 0; sample < proxyBuffer.getNumSamples(); ++sample)
             {
-                proxyBuffer.addSample (channel, sample, getNextSamplerSample(channel, inL, inR));
+                for (int channel = 0; channel < sampleData.getNumChannels(); ++channel)
+                {
+                    proxyBuffer.addSample (channel, sample, getNextSamplerSample(channel, inL, inR));
+                }
                 
                 if (sourceSamplePositionLeft > sampleLength || sourceSamplePositionRight > sampleLength)
                 {
@@ -96,10 +96,9 @@ void SampleSynthVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int sta
                     break;
                 }
             }
+            
+            addBufferToOutput(proxyBuffer, outputBuffer, startSample, numSamples);
         }
-        
-        addBufferToOutput(proxyBuffer, outputBuffer, startSample, numSamples);
-        
     }
     
     if (noteHasBeenTriggered && !getAmpEnvelope().isActive())

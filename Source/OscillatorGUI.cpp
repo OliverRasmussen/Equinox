@@ -10,7 +10,7 @@
 #include "OscillatorGUI.h"
 
 //==============================================================================
-OscillatorGUI::OscillatorGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : SynthGUI(p, s)
+OscillatorGUI::OscillatorGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth, std::string synthInstance) : SynthGUI(treeState, synth,  synthInstance)
 {
     
     // Waveform menu
@@ -22,7 +22,7 @@ OscillatorGUI::OscillatorGUI(EquinoxAudioProcessor& p, EquinoxSynthesizer& s) : 
     waveformMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&waveformMenu);
     
-    waveformMenuAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(processor.treeState, "waveform" + synth.instanceNumAsString(), waveformMenu);
+    waveformMenuAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "waveform" + synthInstance, waveformMenu);
     
     // Waveform Label
     waveformLabel.setText("Oscillator", NotificationType::dontSendNotification);

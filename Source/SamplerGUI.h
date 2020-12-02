@@ -17,7 +17,7 @@
 class SamplerGUI    : public SynthGUI
 {
 public:
-    SamplerGUI(EquinoxAudioProcessor&, EquinoxSynthesizer&);
+    SamplerGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth, std::string synthInstance);
     ~SamplerGUI();
 
     void paint (Graphics&) override;
@@ -28,6 +28,8 @@ private:
     TextButton loadSampleButton { "Load Sample" };
     
     Label samplerLabel;
+    
+    void browseForSampleFile();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SamplerGUI)
 };

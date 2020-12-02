@@ -10,22 +10,13 @@
 
 #include "SampleSynthSound.h"
 
-SampleSynthSound::SampleSynthSound (const String& soundName,
-                                    AudioFormatReader& source,
-                                    const BigInteger& notes,
-                                    int midiNoteForNormalPitch,
-                                    double maxSampleLengthSeconds, int currentSamplerate)
-    : name (soundName),
-      sourceSampleRate (source.sampleRate),
-      midiNotes (notes),
-      midiRootNote (midiNoteForNormalPitch)
+SampleSynthSound::SampleSynthSound (const String& sampleName, AudioFormatReader& source, int currentSamplerate) : name (sampleName), sourceSampleRate  (source.sampleRate)
 {
+    
+    midiNoteRange.setRange(0, 128, true);
     
     if (sourceSampleRate > 0 && source.lengthInSamples > 0)
     {
-//        length = jmin ((int) source.lengthInSamples,
-//                       (int) (maxSampleLengthSeconds * sourceSampleRate));
-        
         length = (int)source.lengthInSamples;
 
         data.reset (new AudioBuffer<float> (jmin (2, (int) source.numChannels), length + 4));
@@ -49,7 +40,7 @@ SampleSynthSound::SampleSynthSound (const String& soundName,
             data->makeCopyOf(tempResampleBuffer);
 
             length = data->getNumSamples();
-            sourceSampleRate = 44100;
+            sourceSampleRate = currentSamplerate;
         }
     }
 }
@@ -61,7 +52,7 @@ SampleSynthSound::~SampleSynthSound()
 
 bool SampleSynthSound::appliesToNote (int midiNoteNumber)
 {
-    return midiNotes[midiNoteNumber];
+    return midiNoteRange[midiNoteNumber];
 }
 
 bool SampleSynthSound::appliesToChannel (int /*midiChannel*/)

@@ -35,9 +35,8 @@ private:
     
     double sourceSamplePositionLeft = 0;
     double sourceSamplePositionRight = 0;
-    double sourceSamplePosition = 0; //Should be deprecated
     int sampleLength = 0;
     
-    float gain = 10, lgain = 10, rgain = 10; // l + r should be deprecated
+    float gain = 10;
 
 };

@@ -18,13 +18,13 @@
 #include "OscSynthVoice.h"
 #include "SampleSynthVoice.h"
 
+#define MAX_VOICES 16
+
 class EquinoxSynthesizer
 {
 public:
     
     enum synthMode {oscSynthMode, sampleSynthMode};
-    
-    enum voicingMode {polyphonicMode, monophonicMode};
     
     Synth oscillatorSynth;
     
@@ -40,9 +40,9 @@ public:
     
     void addParameters(std::vector<std::unique_ptr<RangedAudioParameter>>&);
     
-    void setVoices(int newNumberOfVoices = 16);
+    void setVoices();
     
-    void loadNewSample();
+    void loadSampleFromFile(File sampleFile, String sampleName);
     
     void setSynthMode(int newSynthMode);
     
@@ -54,7 +54,7 @@ public:
     
     void prepareVoices();
     
-    void updateVoices();
+    void updateSynth();
     
     template<typename T>
     void setVoiceParameters(T voice);
@@ -63,17 +63,23 @@ public:
 
 private:
     
+    bool isSynthActive() const;
+    
+    bool isMonophonic = false;
+    
+    bool notesPlaying = false;
+    
     double sampleRate;
+    
     int samplesPerBlock;
+    
     int numChannels;
+    
     dsp::ProcessSpec spec;
     
     synthMode currentSynthMode;
     
-    voicingMode currentVoicingMode;
-    
     AudioFormatManager formatManager;
-    AudioFormatReader* formatReader {nullptr};
     
     static int objCounter;
     
