@@ -10,7 +10,7 @@
 #include "SamplerGUI.h"
 
 //==============================================================================
-SamplerGUI::SamplerGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth, std::string synthInstance) : SynthGUI(treeState, synth,  synthInstance)
+SamplerGUI::SamplerGUI(EquinoxSynthesizer& synth, std::string synthInstance) : SynthGUI(synth, synthInstance)
 {
     loadSampleButton.onClick = [&]() {browseForSampleFile();};
     addAndMakeVisible(loadSampleButton);
@@ -34,12 +34,9 @@ void SamplerGUI::browseForSampleFile()
     if (fileChooser.browseForFileToOpen())
     {
         File sampleFile = fileChooser.getResult();
-        String sampleName = sampleFile.getFileName();
         
-        int fileExtensionStartIndex = sampleName.indexOfChar('.');
-        sampleName = sampleName.substring(0, fileExtensionStartIndex);
-        
-        synth.loadSampleFromFile(sampleFile, sampleName);
+        StateManager::GetInstance().addAudioSample(sampleFile, "audiosample" + synthInstance);
+        //synth.loadSampleFromFile(sampleFile, sampleName);
     }
 }
 

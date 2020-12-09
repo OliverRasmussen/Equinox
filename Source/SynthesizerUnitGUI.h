@@ -22,7 +22,7 @@
 class SynthesizerUnitGUI    : public Component
 {
 public:
-    SynthesizerUnitGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth);
+    SynthesizerUnitGUI(EquinoxSynthesizer&);
     ~SynthesizerUnitGUI();
     
     static int getNumInstances();

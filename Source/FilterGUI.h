@@ -19,15 +19,13 @@
 class FilterGUI    : public Component
 {
 public:
-    FilterGUI(AudioProcessorValueTreeState& treeState, std::string synthInstance);
+    FilterGUI(std::string);
     ~FilterGUI();
 
     void paint (Graphics&) override;
     void resized() override;
 
 private:
-    
-    AudioProcessorValueTreeState& treeState;
     std::string synthInstance;
     
     Slider cutoffSlider, resonanceSlider, driveSlider;

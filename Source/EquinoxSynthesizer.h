@@ -17,10 +17,11 @@
 #include "Synth.h"
 #include "OscSynthVoice.h"
 #include "SampleSynthVoice.h"
+#include "StateManager.h"
 
 #define MAX_VOICES 16
 
-class EquinoxSynthesizer
+class EquinoxSynthesizer : public juce::ValueTree::Listener
 {
 public:
     
@@ -30,34 +31,40 @@ public:
     
     Synth sampleSynth;
     
-    EquinoxSynthesizer(AudioProcessorValueTreeState&);
+    EquinoxSynthesizer();
     
     ~EquinoxSynthesizer();
+    
+    void initialize();
     
     static int getNumInstances();
     
     std::string instanceNumAsString() const;
     
+    void valueTreeChildAdded (ValueTree &parentTree, ValueTree &childWhichHasBeenAdded) override;
+    
+    void valueTreePropertyChanged(ValueTree&, const Identifier&) override;
+    
     void addParameters(std::vector<std::unique_ptr<RangedAudioParameter>>&);
     
     void setVoices();
     
-    void loadSampleFromFile(File sampleFile, String sampleName);
+    void loadAudioSample(AudioSample&);
     
-    void setSynthMode(int newSynthMode);
+    void setSynthMode(int);
     
-    void switchVoicingMode(bool enableMono);
+    void switchVoicingMode(bool);
     
     void clearAllCurrentNotes();
     
-    void prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels);
+    void prepareToPlay(double, int, int);
     
     void prepareVoices();
     
     void updateSynth();
     
     template<typename T>
-    void setVoiceParameters(T voice);
+    void setVoiceParameters(T);
     
     void renderNextBlock(AudioBuffer<float>&, MidiBuffer&);
 
@@ -66,8 +73,6 @@ private:
     bool isSynthActive() const;
     
     bool isMonophonic = false;
-    
-    bool notesPlaying = false;
     
     double sampleRate;
     
@@ -86,12 +91,4 @@ private:
     int instanceNum;
     
     int numVoices = 16;
-    
-    OscSynthVoice* oscVoice;
-    
-    SampleSynthVoice* sampleVoice;
-    
-    AudioProcessorValueTreeState& treeState;
-    
-    
 };

@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "EquinoxSynthesizer.h"
+#include "StateManager.h"
 
 //==============================================================================
 /**
@@ -61,11 +62,7 @@ public:
 private:
     
     AudioProcessorValueTreeState::ParameterLayout CreateParameterLayout();
-    
-public:
 
-    AudioProcessorValueTreeState treeState;
-    
 private:
     
     double lastSampleRate;

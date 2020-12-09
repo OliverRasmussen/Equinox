@@ -13,7 +13,7 @@
 
 //==============================================================================
 EquinoxAudioProcessorEditor::EquinoxAudioProcessorEditor (EquinoxAudioProcessor& p)
-    : AudioProcessorEditor (&p), synthUnitGUI1(p.treeState, p.synthLayer1), synthUnitGUI2(p.treeState, p.synthLayer2), synthUnitGUI3(p.treeState, p.synthLayer3)
+    : AudioProcessorEditor (&p), synthUnitGUI1(p.synthLayer1), synthUnitGUI2(p.synthLayer2), synthUnitGUI3(p.synthLayer3)
 {
     
     synthInstanceNum = SynthesizerUnitGUI::getNumInstances();

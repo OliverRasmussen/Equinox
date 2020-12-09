@@ -18,15 +18,13 @@
 class AmpEnvelopeGUI    : public Component
 {
 public:
-    AmpEnvelopeGUI(AudioProcessorValueTreeState& treeState, std::string synthInstance);
+    AmpEnvelopeGUI(std::string);
     ~AmpEnvelopeGUI();
 
     void paint (Graphics&) override;
     void resized() override;
 
 private:
-    
-    AudioProcessorValueTreeState& treeState;
     std::string synthInstance;
     
     Slider attackSlider, decaySlider, sustainSlider, releaseSlider;

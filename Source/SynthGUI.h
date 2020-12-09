@@ -18,15 +18,13 @@
 class SynthGUI    : public Component
 {
 public:
-    SynthGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth, std::string synthInstance);
+    SynthGUI(EquinoxSynthesizer&, std::string);
     ~SynthGUI();
 
     void paint (Graphics&) override;
     void resized() override;
     
 protected:
-    
-    AudioProcessorValueTreeState& treeState;
     EquinoxSynthesizer& synth;
     std::string synthInstance;
     

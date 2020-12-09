@@ -21,15 +21,19 @@ EquinoxAudioProcessor::EquinoxAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       ),
-synthLayer1(treeState), synthLayer2(treeState), synthLayer3(treeState), treeState (*this, nullptr, "PARAMETERS", CreateParameterLayout())
+                       )
 #endif
 {
+    StateManager::GetInstance(new AudioProcessorValueTreeState(*this, nullptr, "parameterstate", CreateParameterLayout()), new AudioSampleValueTreeState("audiosamplestate"));
     
+    synthLayer1.initialize();
+    synthLayer2.initialize();
+    synthLayer3.initialize();
 }
 
 EquinoxAudioProcessor::~EquinoxAudioProcessor()
 {
+    StateManager::ResetInstance();
 }
 
 //==============================================================================
@@ -171,21 +175,12 @@ AudioProcessorEditor* EquinoxAudioProcessor::createEditor()
 //==============================================================================
 void EquinoxAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    auto state = treeState.copyState();
-    std::unique_ptr<juce::XmlElement> xml (state.createXml());
-    copyXmlToBinary(*xml, destData);
+    StateManager::GetInstance().saveStateToBinary(destData);
 }
 
 void EquinoxAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
-    if (xmlState.get() != nullptr)
-    {
-        if (xmlState->hasTagName (treeState.state.getType()))
-        {
-            treeState.replaceState (juce::ValueTree::fromXml (*xmlState));
-        }
-    }
+    StateManager::GetInstance().loadStateFromBinary(data, sizeInBytes);
 }
 
 //==============================================================================

@@ -10,7 +10,7 @@
 #include "FilterGUI.h"
 
 //==============================================================================
-FilterGUI::FilterGUI(AudioProcessorValueTreeState& treeState, std::string synthInstance) : treeState(treeState), synthInstance(synthInstance)
+FilterGUI::FilterGUI(std::string synthInstance) : synthInstance(synthInstance)
 {
     setSize (200, 200);
     
@@ -22,7 +22,7 @@ FilterGUI::FilterGUI(AudioProcessorValueTreeState& treeState, std::string synthI
     filterMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&filterMenu);
     
-    filterTypeAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "filterType" + synthInstance, filterMenu);
+    filterTypeAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(StateManager::GetInstance().getAPVTS(), "filterType" + synthInstance, filterMenu);
     
     // Cutoff Slider
     cutoffSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
@@ -31,7 +31,7 @@ FilterGUI::FilterGUI(AudioProcessorValueTreeState& treeState, std::string synthI
     cutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&cutoffSlider);
     
-    cutoffAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "cutoff" + synthInstance, cutoffSlider);
+    cutoffAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "cutoff" + synthInstance, cutoffSlider);
     
     // cutoff Label
     cutoffLabel.setText("Cutoff", NotificationType::dontSendNotification);
@@ -47,7 +47,7 @@ FilterGUI::FilterGUI(AudioProcessorValueTreeState& treeState, std::string synthI
     resonanceSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&resonanceSlider);
     
-    resonanceAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "resonance" + synthInstance, resonanceSlider);
+    resonanceAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "resonance" + synthInstance, resonanceSlider);
     
     // resonance Label
     resonanceLabel.setText("Reso", NotificationType::dontSendNotification);
@@ -64,7 +64,7 @@ FilterGUI::FilterGUI(AudioProcessorValueTreeState& treeState, std::string synthI
     driveSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&driveSlider);
     
-    driveAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "drive" + synthInstance, driveSlider);
+    driveAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "drive" + synthInstance, driveSlider);
     
     // drive Label
     driveLabel.setText("Drive", NotificationType::dontSendNotification);

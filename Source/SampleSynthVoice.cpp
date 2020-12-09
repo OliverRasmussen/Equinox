@@ -20,6 +20,12 @@ SampleSynthVoice::~SampleSynthVoice()
     
 }
 
+void SampleSynthVoice::prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec& spec)
+{
+    
+    SynthVoice::prepareVoice(sampleRate, samplesPerBlock, numChannels, spec);
+}
+
 bool SampleSynthVoice::canPlaySound(SynthesiserSound* sound)
 {
     return dynamic_cast<const SampleSynthSound*> (sound) != nullptr;
@@ -30,7 +36,7 @@ void SampleSynthVoice::startNote(int midiNoteNumber, float velocity, Synthesiser
     if (auto* sampleSound = dynamic_cast<const SampleSynthSound*> (sound))
     {
         setFrequency(std::pow (2.0f, (midiNoteNumber - sampleSound->midiRootNote) / 12.0f)
-                     * sampleSound->sourceSampleRate / getSampleRate());
+                     * sampleSound->sourceSamplerate / getSampleRate());
         
         sourceSamplePositionLeft = 0.0;
         sourceSamplePositionRight = 0.0;

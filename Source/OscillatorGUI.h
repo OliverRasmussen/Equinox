@@ -17,7 +17,7 @@
 class OscillatorGUI    : public SynthGUI
 {
 public:
-    OscillatorGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth, std::string synthInstance);
+    OscillatorGUI(EquinoxSynthesizer&, std::string);
     ~OscillatorGUI();
 
     void paint (Graphics&) override;

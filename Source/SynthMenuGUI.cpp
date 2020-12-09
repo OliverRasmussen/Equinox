@@ -10,14 +10,14 @@
 #include "SynthMenuGUI.h"
 
 //==============================================================================
-SynthMenuGUI::SynthMenuGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth, std::string synthInstance) : oscillatorGUI(treeState, synth, synthInstance), samplerGUI(treeState, synth, synthInstance), tabMenu(TabbedButtonBar::Orientation::TabsAtTop), treeState(treeState), synthInstance(synthInstance)
+SynthMenuGUI::SynthMenuGUI(EquinoxSynthesizer& synth, std::string synthInstance) : oscillatorGUI(synth, synthInstance), samplerGUI(synth, synthInstance), tabMenu(TabbedButtonBar::Orientation::TabsAtTop), synthInstance(synthInstance)
 {
     setSize (200, 200);
     tabMenu.addTab("Oscillator", Colours::transparentBlack, &oscillatorGUI, false);
     tabMenu.addTab("Sampler", Colours::transparentBlack, &samplerGUI, false);
     
-    treeState.addParameterListener("synthMode" + synthInstance, this);
-    currentSynthModeState = std::make_unique<AudioParameterFloat*>(dynamic_cast<AudioParameterFloat*>(treeState.getParameter("synthMode" + synthInstance)));
+    StateManager::GetInstance().getAPVTS().addParameterListener("synthMode" + synthInstance, this);
+    currentSynthModeState = std::make_unique<AudioParameterFloat*>(dynamic_cast<AudioParameterFloat*>(StateManager::GetInstance().getAPVTS().getParameter("synthMode" + synthInstance)));
     
     tabMenu.setCurrentTabIndex(**currentSynthModeState);
 
@@ -34,7 +34,7 @@ SynthMenuGUI::~SynthMenuGUI()
 void SynthMenuGUI::tabSwitched()
 {
     // Sets currentSynthModeState equal to the currentTabIndex if it isnt already equal
-    if (treeState.getParameterAsValue("synthMode" + synthInstance) != tabMenu.getCurrentTabIndex())
+    if (StateManager::GetInstance().getAPVTS().getParameterAsValue("synthMode" + synthInstance) != tabMenu.getCurrentTabIndex())
     {
         **currentSynthModeState = tabMenu.getCurrentTabIndex();
     }

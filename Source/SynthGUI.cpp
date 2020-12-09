@@ -10,7 +10,7 @@
 #include "SynthGUI.h"
 
 //==============================================================================
-SynthGUI::SynthGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& synth, std::string synthInstance) : treeState(treeState), synth(synth), synthInstance(synthInstance)
+SynthGUI::SynthGUI(EquinoxSynthesizer& synth, std::string synthInstance) : synth(synth), synthInstance(synthInstance)
 {
     setSize(200, 200);
     
@@ -21,7 +21,7 @@ SynthGUI::SynthGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& 
     ampSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&ampSlider);
     
-    ampAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "amplitude" + synthInstance, ampSlider);
+    ampAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "amplitude" + synthInstance, ampSlider);
     
     // Amplitude Label
     ampLabel.setText("Amp", NotificationType::dontSendNotification);
@@ -37,7 +37,7 @@ SynthGUI::SynthGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& 
     pitchTransposeSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&pitchTransposeSlider);
     
-    pitchTransposeAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "pitchTranspose" + synthInstance, pitchTransposeSlider);
+    pitchTransposeAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "pitchTranspose" + synthInstance, pitchTransposeSlider);
     
     // Pitchtranspose Label
     pitchTransposeLabel.setText("Transpose", NotificationType::dontSendNotification);
@@ -54,7 +54,7 @@ SynthGUI::SynthGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& 
     finePitchSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&finePitchSlider);
     
-    finePitchAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "finePitch" + synthInstance, finePitchSlider);
+    finePitchAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "finePitch" + synthInstance, finePitchSlider);
     
     // finePitch Label
     finePitchLabel.setText("Fine Pitch", NotificationType::dontSendNotification);
@@ -70,7 +70,7 @@ SynthGUI::SynthGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& 
     analogSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&analogSlider);
     
-    analogAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "analogValue" + synthInstance, analogSlider);
+    analogAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "analogValue" + synthInstance, analogSlider);
     
     // Analog Label
     analogLabel.setText("Analog Factor", NotificationType::dontSendNotification);
@@ -86,7 +86,7 @@ SynthGUI::SynthGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& 
     panningSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&panningSlider);
     
-    panningAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "oscPanning" + synthInstance, panningSlider);
+    panningAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "oscPanning" + synthInstance, panningSlider);
     
     // Panning Label
     panningLabel.setText("Pan", NotificationType::dontSendNotification);
@@ -102,7 +102,7 @@ SynthGUI::SynthGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& 
     detuneSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&detuneSlider);
     
-    detuneAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "detune" + synthInstance, detuneSlider);
+    detuneAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "detune" + synthInstance, detuneSlider);
     
     // Detune Label
     detuneLabel.setText("Detune", NotificationType::dontSendNotification);
@@ -118,7 +118,7 @@ SynthGUI::SynthGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& 
     portamentoSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&portamentoSlider);
     
-    portamentoAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(treeState, "portamento" + synthInstance, portamentoSlider);
+    portamentoAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "portamento" + synthInstance, portamentoSlider);
     
     // Portamento Label
     portamentoLabel.setText("Portamento", NotificationType::dontSendNotification);
@@ -131,7 +131,7 @@ SynthGUI::SynthGUI(AudioProcessorValueTreeState& treeState, EquinoxSynthesizer& 
     // Mono button
     monoButton.setClickingTogglesState(true);
     
-    monoAttachment = std::make_unique<AudioProcessorValueTreeState::ButtonAttachment>(treeState, "monoEnabled" + synthInstance, monoButton);
+    monoAttachment = std::make_unique<AudioProcessorValueTreeState::ButtonAttachment>(StateManager::GetInstance().getAPVTS(), "monoEnabled" + synthInstance, monoButton);
     addAndMakeVisible(monoButton);
 
 }

@@ -18,15 +18,13 @@
 class FilterEnvelopeGUI    : public Component
 {
 public:
-    FilterEnvelopeGUI(AudioProcessorValueTreeState& treeState, std::string synthInstance);
+    FilterEnvelopeGUI(std::string);
     ~FilterEnvelopeGUI();
 
     void paint (Graphics&) override;
     void resized() override;
 
 private:
-    
-    AudioProcessorValueTreeState& treeState;
     std::string synthInstance;
     
     Slider attackSlider, decaySlider, sustainSlider, releaseSlider, cutoffLimitSlider;

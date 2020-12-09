@@ -12,23 +12,27 @@
 
 int EquinoxSynthesizer::objCounter;
 
-EquinoxSynthesizer::EquinoxSynthesizer(AudioProcessorValueTreeState& _treeState) : treeState(_treeState)
+EquinoxSynthesizer::EquinoxSynthesizer()
+{
+    instanceNum = ++objCounter;
+}
+
+void EquinoxSynthesizer::initialize()
 {
     currentSynthMode = synthMode::oscSynthMode;
-    instanceNum = ++objCounter;
     formatManager.registerBasicFormats();
     setVoices();
+    StateManager::GetInstance().getState().addListener(this);
 }
 
 EquinoxSynthesizer::~EquinoxSynthesizer()
 {
     --objCounter;
     
-    oscVoice = nullptr;
-    sampleVoice = nullptr;
-    delete oscVoice;
-    delete sampleVoice;
+    oscillatorSynth.clearVoices();
+    sampleSynth.clearVoices();
 }
+
 
 int EquinoxSynthesizer::getNumInstances()
 {
@@ -38,6 +42,32 @@ int EquinoxSynthesizer::getNumInstances()
 std::string EquinoxSynthesizer::instanceNumAsString() const
 {
     return std::to_string(instanceNum);
+}
+
+void EquinoxSynthesizer::valueTreeChildAdded (ValueTree &parentTree, ValueTree &childWhichHasBeenAdded)
+{
+    String audioSampleStateId = "audiosamplestate";
+    String audioSampleId = "audiosample" + instanceNumAsString();
+    
+    // Checking wether the added child is an audiosample or the audiosamplestate.
+    if (childWhichHasBeenAdded.hasType(audioSampleStateId) || childWhichHasBeenAdded.hasType(audioSampleId))
+    {
+        ValueTree audioSampleState = StateManager::GetInstance().getState().getChildWithName(audioSampleStateId);
+        if (audioSampleState.isValid())
+        {
+            // Checking if the audioSampleState contains an audio sample,
+            // and loads it if it does
+            ValueTree audioSample = audioSampleState.getChildWithName(audioSampleId);
+            if (audioSample.isValid())
+            {
+                loadAudioSample(*StateManager::GetInstance().getAudioSample(audioSampleId));
+            }
+        }
+    }
+}
+
+void EquinoxSynthesizer::valueTreePropertyChanged(ValueTree& valueTree, const Identifier& property)
+{
 }
 
 // Initializes and add voices to the synth
@@ -64,14 +94,10 @@ void EquinoxSynthesizer::setVoices()
     }
 }
 
-// Loads a file into a sample synth sound
-void EquinoxSynthesizer::loadSampleFromFile(File sampleFile, String sampleName)
+void EquinoxSynthesizer::loadAudioSample(AudioSample& audioSample)
 {
-    if (auto formatReader = std::unique_ptr<AudioFormatReader>(formatManager.createReaderFor(sampleFile)))
-    {
-        sampleSynth.clearSounds();
-        sampleSynth.addSound(new SampleSynthSound(sampleName, *formatReader, sampleRate));
-    }
+    sampleSynth.clearSounds();
+    sampleSynth.addSound(new SampleSynthSound(audioSample.sampleName, audioSample.sampleSource, audioSample.samplerate, sampleRate));
 }
 
 // sets the current synth mode
@@ -89,12 +115,12 @@ void EquinoxSynthesizer::clearAllCurrentNotes()
 {
     for (int i = 0; i < numVoices; i++)
     {
-        if ((oscVoice = dynamic_cast<OscSynthVoice*>(oscillatorSynth.getVoice(i))))
+        if (auto oscVoice = dynamic_cast<OscSynthVoice*>(oscillatorSynth.getVoice(i)))
         {
             oscVoice->clearCurrentNote();
         }
         
-        if ((sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i))))
+        if (auto sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i)))
         {
             sampleVoice->clearCurrentNote();
         }
@@ -124,12 +150,12 @@ void EquinoxSynthesizer::prepareVoices()
 {
     for (int i = 0; i < numVoices; i++)
     {
-        if ((oscVoice = dynamic_cast<OscSynthVoice*>(oscillatorSynth.getVoice(i))))
+        if (auto oscVoice = dynamic_cast<OscSynthVoice*>(oscillatorSynth.getVoice(i)))
         {
             oscVoice->prepareVoice(sampleRate, samplesPerBlock, numChannels, spec);
         }
         
-        if ((sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i))))
+        if (auto sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i)))
         {
             sampleVoice->prepareVoice(sampleRate, samplesPerBlock, numChannels, spec);
         }
@@ -196,24 +222,24 @@ void EquinoxSynthesizer::addParameters(std::vector<std::unique_ptr<RangedAudioPa
 
 bool EquinoxSynthesizer::isSynthActive() const
 {
-    return *treeState.getRawParameterValue("amplitude" + instanceNumAsString()) > 0.0f;
+    return *StateManager::GetInstance().getAudioParameterValue("amplitude" + instanceNumAsString()) > 0.0f;
 }
 
 // Updates the synth
 void EquinoxSynthesizer::updateSynth()
 {
     // Check if mono has been turned on or off
-    if (isMonophonic != *treeState.getRawParameterValue("monoEnabled" + instanceNumAsString()))
+    if (isMonophonic != *StateManager::GetInstance().getAudioParameterValue("monoEnabled" + instanceNumAsString()))
     {
-        isMonophonic = *treeState.getRawParameterValue("monoEnabled" + instanceNumAsString());
+        isMonophonic = *StateManager::GetInstance().getAudioParameterValue("monoEnabled" + instanceNumAsString());
         setVoices();
         prepareVoices();
     }
     
     // Check if currentSynthmode has changed
-    if (currentSynthMode != (int)*treeState.getRawParameterValue("synthMode" + instanceNumAsString()))
+    if (currentSynthMode != (int)*StateManager::GetInstance().getAudioParameterValue("synthMode" + instanceNumAsString()))
     {
-        currentSynthMode = static_cast<synthMode>((int)*treeState.getRawParameterValue("synthMode" + instanceNumAsString()));
+        currentSynthMode = static_cast<synthMode>((int)*StateManager::GetInstance().getAudioParameterValue("synthMode" + instanceNumAsString()));
     }
     
 }
@@ -223,47 +249,46 @@ template<typename T>
 void EquinoxSynthesizer::setVoiceParameters(T voice)
 {
     // sets amplitude
-    voice->setAmplitude((float*)treeState.getRawParameterValue("amplitude" + instanceNumAsString()));
+    voice->setAmplitude((float*)StateManager::GetInstance().getAudioParameterValue("amplitude" + instanceNumAsString()));
     
     // sets detune
-    voice->setDetune((float*)treeState.getRawParameterValue("detune" + instanceNumAsString()));
+    voice->setDetune((float*)StateManager::GetInstance().getAudioParameterValue("detune" + instanceNumAsString()));
     
     // sets fine pitch
-    voice->setFinePitch((float*)treeState.getRawParameterValue("finePitch" + instanceNumAsString()));
+    voice->setFinePitch((float*)StateManager::GetInstance().getAudioParameterValue("finePitch" + instanceNumAsString()));
     
     // sets analog value
-    voice->setAnalogValue((float*)treeState.getRawParameterValue("analogValue" + instanceNumAsString()));
+    voice->setAnalogValue((float*)StateManager::GetInstance().getAudioParameterValue("analogValue" + instanceNumAsString()));
     
-    voice->setPitchTranspose((float*)treeState.getRawParameterValue("pitchTranspose" + instanceNumAsString()));
+    voice->setPitchTranspose((float*)StateManager::GetInstance().getAudioParameterValue("pitchTranspose" + instanceNumAsString()));
     
-    voice->setPanning((float*)treeState.getRawParameterValue("oscPanning" + instanceNumAsString()));
+    voice->setPanning((float*)StateManager::GetInstance().getAudioParameterValue("oscPanning" + instanceNumAsString()));
     
-    voice->setPortamento((float*)treeState.getRawParameterValue("portamento" + instanceNumAsString()));
+    voice->setPortamento((float*)StateManager::GetInstance().getAudioParameterValue("portamento" + instanceNumAsString()));
     
     // sets amp Envelope
-    voice->getAmpEnvelope().setEnvelope((float*)treeState.getRawParameterValue("ampAttack" + instanceNumAsString()),
-                                   (float*)treeState.getRawParameterValue("ampDecay" + instanceNumAsString()),
-                                   (float*)treeState.getRawParameterValue("ampSustain" + instanceNumAsString()),
-                                   (float*)treeState.getRawParameterValue("ampRelease" + instanceNumAsString()));
+    voice->getAmpEnvelope().setEnvelope((float*)StateManager::GetInstance().getAudioParameterValue("ampAttack" + instanceNumAsString()),
+                                   (float*)StateManager::GetInstance().getAudioParameterValue("ampDecay" + instanceNumAsString()),
+                                   (float*)StateManager::GetInstance().getAudioParameterValue("ampSustain" + instanceNumAsString()),
+                                   (float*)StateManager::GetInstance().getAudioParameterValue("ampRelease" + instanceNumAsString()));
 
     
     // sets filterEnvelope
-    voice->getFilterEnvelope().setEnvelope((float*)treeState.getRawParameterValue("filterAttack" + instanceNumAsString()),
-                                      (float*)treeState.getRawParameterValue("filterDecay" + instanceNumAsString()),
-                                      (float*)treeState.getRawParameterValue("filterSustain" + instanceNumAsString()),
-                                      (float*)treeState.getRawParameterValue("filterRelease" + instanceNumAsString()));
-    voice->getFilterEnvelope().setCutoffLimit((float*)treeState.getRawParameterValue("envelopeCutoffLimit" + instanceNumAsString()));
+    voice->getFilterEnvelope().setEnvelope((float*)StateManager::GetInstance().getAudioParameterValue("filterAttack" + instanceNumAsString()),
+                                      (float*)StateManager::GetInstance().getAudioParameterValue("filterDecay" + instanceNumAsString()),
+                                      (float*)StateManager::GetInstance().getAudioParameterValue("filterSustain" + instanceNumAsString()),
+                                      (float*)StateManager::GetInstance().getAudioParameterValue("filterRelease" + instanceNumAsString()));
+    voice->getFilterEnvelope().setCutoffLimit((float*)StateManager::GetInstance().getAudioParameterValue("envelopeCutoffLimit" + instanceNumAsString()));
     
     // sets filter
-    voice->getFilter().setFilter((float*)treeState.getRawParameterValue("cutoff" + instanceNumAsString()),
-    (float*)treeState.getRawParameterValue("resonance" + instanceNumAsString()),
-    (float*)treeState.getRawParameterValue("drive" + instanceNumAsString()));
-    
+    voice->getFilter().setFilter((float*)StateManager::GetInstance().getAudioParameterValue("cutoff" + instanceNumAsString()),
+    (float*)StateManager::GetInstance().getAudioParameterValue("resonance" + instanceNumAsString()),
+    (float*)StateManager::GetInstance().getAudioParameterValue("drive" + instanceNumAsString()));
     
     if (!voice->isVoiceActive())
     {
         // Sets filter mode
-        voice->getFilter().setMode((float*)treeState.getRawParameterValue("filterType" + instanceNumAsString()));
+        voice->getFilter().setMode((float*)StateManager::GetInstance().getAudioParameterValue("filterType" + instanceNumAsString()));
     }
 }
 
@@ -272,44 +297,31 @@ void EquinoxSynthesizer::renderNextBlock(AudioBuffer<float>& buffer, MidiBuffer&
 {
     updateSynth();
     
-    //Only render voices if synth is active
-    if (isSynthActive())
+    if (currentSynthMode == synthMode::oscSynthMode)
     {
-        if (currentSynthMode == synthMode::oscSynthMode)
+        // Updating the oscSynthVoices parameters before rendering
+        for (int i = 0; i < numVoices; i++)
         {
-            // Updating the oscSynthVoice parameters before rendering
-            for (int i = 0; i < numVoices; i++)
+            if (auto oscVoice = dynamic_cast<OscSynthVoice*>(oscillatorSynth.getVoice(i)))
             {
-                if ((oscVoice = dynamic_cast<OscSynthVoice*>(oscillatorSynth.getVoice(i))))
-                {
-                    setVoiceParameters<OscSynthVoice*>(oscVoice);
-                    
-                    // sets oscillators waveform
-                    oscVoice->setWaveform((float*)treeState.getRawParameterValue("waveform" + instanceNumAsString()));
-                }
+                setVoiceParameters<OscSynthVoice*>(oscVoice);
+                
+                // sets oscillators waveform
+                oscVoice->setWaveform((float*)StateManager::GetInstance().getAudioParameterValue("waveform" + instanceNumAsString()));
             }
-            oscillatorSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
         }
-        else if (currentSynthMode == synthMode::sampleSynthMode)
-        {
-            // Updating the oscSynthVoice parameters before rendering
-            for (int i = 0; i < numVoices; i++)
-            {
-                if ((sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i))))
-                {
-                    setVoiceParameters<SampleSynthVoice*>(sampleVoice);
-                }
-            }
-            sampleSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-        }
-        
-        notesPlaying = true;
-        return;
+        oscillatorSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }
-    
-    if (notesPlaying)
+    else if (currentSynthMode == synthMode::sampleSynthMode)
     {
-        clearAllCurrentNotes();
-        notesPlaying = false;
+        // Updating the sampleSynthVoices parameters before rendering
+        for (int i = 0; i < numVoices; i++)
+        {
+            if (auto sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i)))
+            {
+                setVoiceParameters<SampleSynthVoice*>(sampleVoice);
+            }
+        }
+        sampleSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }
 }

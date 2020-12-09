@@ -21,6 +21,8 @@ public:
     
     ~SampleSynthVoice() override;
     
+    void prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec& spec) override;
+    
     bool canPlaySound (SynthesiserSound*) override;
     
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override;

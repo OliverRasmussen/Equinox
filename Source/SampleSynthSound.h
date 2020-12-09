@@ -17,7 +17,7 @@ class SampleSynthSound : public SynthesiserSound
     
 public:
     
-    SampleSynthSound(const String& sampleName, AudioFormatReader& source,int currentSamplerate);
+    SampleSynthSound(const String& sampleName, AudioBuffer<float>& source, int sourceSamplerate, int currentSamplerate);
 
     ~SampleSynthSound() override;
     
@@ -37,7 +37,7 @@ private:
     
     std::unique_ptr<AudioBuffer<float>> data;
     
-    double sourceSampleRate;
+    double sourceSamplerate;
     
     BigInteger midiNoteRange;
     
@@ -46,6 +46,8 @@ private:
     
     CatmullRomInterpolator resamplerL;
     CatmullRomInterpolator resamplerR;
+    
+    void resampleSourceSamplerate(int currentSamplerate);
     
 };
 
