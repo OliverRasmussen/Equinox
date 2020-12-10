@@ -101,6 +101,16 @@
         <FILE id="DO5pKM" name="MasterEffectChain.h" compile="0" resource="0"
               file="Source/MasterEffectChain.h"/>
       </GROUP>
+      <GROUP id="{47E3156D-846D-D967-FBC0-51FC25CA553E}" name="Utilities">
+        <FILE id="TPtnly" name="AudioSample.h" compile="0" resource="0" file="Source/AudioSample.h"/>
+        <FILE id="dAZtTL" name="AudioSampleValueTreeState.cpp" compile="1"
+              resource="0" file="Source/AudioSampleValueTreeState.cpp"/>
+        <FILE id="gxEVSc" name="AudioSampleValueTreeState.h" compile="0" resource="0"
+              file="Source/AudioSampleValueTreeState.h"/>
+        <FILE id="vb41a7" name="StateManager.cpp" compile="1" resource="0"
+              file="Source/StateManager.cpp"/>
+        <FILE id="M4TuJH" name="StateManager.h" compile="0" resource="0" file="Source/StateManager.h"/>
+      </GROUP>
       <FILE id="Q3FCH3" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="Mz9bNp" name="PluginProcessor.h" compile="0" resource="0"
