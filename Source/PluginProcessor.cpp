@@ -21,7 +21,7 @@ EquinoxAudioProcessor::EquinoxAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       ), synthLayer1(stateManager), synthLayer2(stateManager), synthLayer3(stateManager), stateManager(new AudioProcessorValueTreeState(*this, nullptr, "parameterstate", CreateParameterLayout()), new AudioSampleValueTreeState("audiosamplestate"))
+                       ), synthLayer1(stateManager, 1), synthLayer2(stateManager, 2), synthLayer3(stateManager, 3), stateManager(new AudioProcessorValueTreeState(*this, nullptr, "parameterstate", CreateParameterLayout()), new AudioSampleValueTreeState("audiosamplestate"))
 #endif
 {
     synthLayer1.initialize();

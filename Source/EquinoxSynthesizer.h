@@ -31,13 +31,11 @@ public:
     
     Synth sampleSynth;
     
-    EquinoxSynthesizer(StateManager&);
+    EquinoxSynthesizer(StateManager&, int);
     
     void initialize();
     
     ~EquinoxSynthesizer();
-    
-    static int getNumInstances();
     
     std::string instanceNumAsString() const;
     
@@ -87,8 +85,6 @@ private:
     synthMode currentSynthMode;
     
     AudioFormatManager formatManager;
-    
-    static int objCounter;
     
     int instanceNum;
     

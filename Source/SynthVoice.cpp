@@ -216,7 +216,7 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
     
     if (!noteHasBeenTriggered || inRelease)
     {
-
+        voiceFilter.reset();
         midiKeyVelocity = velocity;
         ampEnvelope.noteOn();
         filterEnvelope.noteOn();
@@ -245,7 +245,6 @@ void SynthVoice::resetNote()
 {
     clearCurrentNote();
     noteHasBeenTriggered = false;
-    voiceFilter.reset();
 }
 
 void SynthVoice::pitchWheelMoved (int newPitchWheelValue)

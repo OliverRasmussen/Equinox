@@ -10,33 +10,22 @@
 
 #include "EquinoxSynthesizer.h"
 
-int EquinoxSynthesizer::objCounter;
-
-EquinoxSynthesizer::EquinoxSynthesizer(StateManager& state) : stateManager(state)
+EquinoxSynthesizer::EquinoxSynthesizer(StateManager& state, int synthNum) : stateManager(state)
 {
-    instanceNum = ++objCounter;
+    instanceNum = synthNum;
     formatManager.registerBasicFormats();
 }
 
 void EquinoxSynthesizer::initialize()
 {
     stateManager.getState().addListener(this);
-    currentSynthMode = synthMode::oscSynthMode;
     setVoices();
 }
 
 EquinoxSynthesizer::~EquinoxSynthesizer()
 {
-    --objCounter;
-    
     oscillatorSynth.clearVoices();
     sampleSynth.clearVoices();
-}
-
-
-int EquinoxSynthesizer::getNumInstances()
-{
-    return objCounter;
 }
 
 std::string EquinoxSynthesizer::instanceNumAsString() const
@@ -64,10 +53,16 @@ void EquinoxSynthesizer::valueTreeChildAdded (ValueTree &parentTree, ValueTree &
             }
         }
     }
+    updateSynth();
 }
 
 void EquinoxSynthesizer::valueTreePropertyChanged(ValueTree& valueTree, const Identifier& property)
 {
+    // Checking if the valuetree is a parameter
+    if (valueTree.getType().toString() == "PARAM")
+    {
+        updateSynth();
+    }
 }
 
 // Initializes and add voices to the synth
@@ -142,10 +137,11 @@ void EquinoxSynthesizer::prepareToPlay(double sampleRate, int samplesPerBlock, i
     sampleSynth.setCurrentPlaybackSampleRate(sampleRate);
     
     prepareVoices();
+    updateSynth();
     
 }
 
-// Prepares all the voices
+// Prepares all the voices for playback
 void EquinoxSynthesizer::prepareVoices()
 {
     for (int i = 0; i < numVoices; i++)
@@ -242,6 +238,32 @@ void EquinoxSynthesizer::updateSynth()
         currentSynthMode = static_cast<synthMode>((int)*stateManager.getAudioParameterValue("synthMode" + instanceNumAsString()));
     }
     
+    if (currentSynthMode == synthMode::oscSynthMode)
+    {
+        // Updating the oscSynthVoices parameters before rendering
+        for (int i = 0; i < numVoices; i++)
+        {
+            if (auto oscVoice = dynamic_cast<OscSynthVoice*>(oscillatorSynth.getVoice(i)))
+            {
+                setVoiceParameters<OscSynthVoice*>(oscVoice);
+                
+                // sets oscillators waveform
+                oscVoice->setWaveform((float*)stateManager.getAudioParameterValue("waveform" + instanceNumAsString()));
+            }
+        }
+    }
+    else if (currentSynthMode == synthMode::sampleSynthMode)
+    {
+        // Updating the sampleSynthVoices parameters before rendering
+        for (int i = 0; i < numVoices; i++)
+        {
+            if (auto sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i)))
+            {
+                setVoiceParameters<SampleSynthVoice*>(sampleVoice);
+            }
+        }
+    }
+    
 }
 
 // Sets the parameters for both types of voices
@@ -295,33 +317,13 @@ void EquinoxSynthesizer::setVoiceParameters(T voice)
 // Updates the synth and renders all the voices
 void EquinoxSynthesizer::renderNextBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    updateSynth();
     
     if (currentSynthMode == synthMode::oscSynthMode)
     {
-        // Updating the oscSynthVoices parameters before rendering
-        for (int i = 0; i < numVoices; i++)
-        {
-            if (auto oscVoice = dynamic_cast<OscSynthVoice*>(oscillatorSynth.getVoice(i)))
-            {
-                setVoiceParameters<OscSynthVoice*>(oscVoice);
-                
-                // sets oscillators waveform
-                oscVoice->setWaveform((float*)stateManager.getAudioParameterValue("waveform" + instanceNumAsString()));
-            }
-        }
         oscillatorSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }
     else if (currentSynthMode == synthMode::sampleSynthMode)
     {
-        // Updating the sampleSynthVoices parameters before rendering
-        for (int i = 0; i < numVoices; i++)
-        {
-            if (auto sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i)))
-            {
-                setVoiceParameters<SampleSynthVoice*>(sampleVoice);
-            }
-        }
         sampleSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }
 }

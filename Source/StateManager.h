@@ -47,8 +47,6 @@ private:
     
     ValueTree currentState;
     
-    AudioFormatManager formatManager;
-    
     std::unique_ptr<AudioProcessorValueTreeState> parameterState = nullptr;
     
     std::unique_ptr<AudioSampleValueTreeState> audioSampleState = nullptr;
