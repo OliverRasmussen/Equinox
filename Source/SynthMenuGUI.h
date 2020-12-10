@@ -20,7 +20,7 @@
 class SynthMenuGUI    : public Component, private AudioProcessorValueTreeState::Listener
 {
 public:
-    SynthMenuGUI(EquinoxSynthesizer&, std::string);
+    SynthMenuGUI(StateManager& stateManager, std::string);
     ~SynthMenuGUI();
 
     void paint (Graphics&) override;
@@ -40,6 +40,7 @@ private:
     
     std::unique_ptr<AudioParameterFloat*> currentSynthModeState;
 
+    StateManager& stateManager;
     std::string synthInstance;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthMenuGUI)

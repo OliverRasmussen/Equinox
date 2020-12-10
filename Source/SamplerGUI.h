@@ -17,7 +17,7 @@
 class SamplerGUI    : public SynthGUI
 {
 public:
-    SamplerGUI(EquinoxSynthesizer&, std::string);
+    SamplerGUI(StateManager& stateManager, std::string);
     ~SamplerGUI();
 
     void paint (Graphics&) override;

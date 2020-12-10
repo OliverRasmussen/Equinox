@@ -18,14 +18,14 @@
 class SynthGUI    : public Component
 {
 public:
-    SynthGUI(EquinoxSynthesizer&, std::string);
+    SynthGUI(StateManager& stateManager, std::string);
     ~SynthGUI();
 
     void paint (Graphics&) override;
     void resized() override;
     
 protected:
-    EquinoxSynthesizer& synth;
+    StateManager& stateManager;
     std::string synthInstance;
     
 private:

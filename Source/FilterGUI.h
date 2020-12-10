@@ -19,7 +19,7 @@
 class FilterGUI    : public Component
 {
 public:
-    FilterGUI(std::string);
+    FilterGUI(StateManager& stateManager, std::string);
     ~FilterGUI();
 
     void paint (Graphics&) override;

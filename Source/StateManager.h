@@ -17,15 +17,9 @@ class StateManager
     
 public:
     
-    // StateManager should not be cloneable
-    StateManager(StateManager &other) = delete;
+    StateManager(AudioProcessorValueTreeState*, AudioSampleValueTreeState*);
     
-    // StateManager should not be assignable
-    void operator=(const StateManager &) = delete;
-    
-    static StateManager& GetInstance(AudioProcessorValueTreeState* = nullptr, AudioSampleValueTreeState* asvts = nullptr);
-    
-    static void ResetInstance();
+    ~StateManager();
     
     ValueTree& getState();
     
@@ -45,13 +39,7 @@ public:
     
     bool loadStateFromFile(File& file);
     
-    
-    
 private:
-    
-    StateManager(AudioProcessorValueTreeState*, AudioSampleValueTreeState*);
-    
-    ~StateManager();
     
     std::unique_ptr<XmlElement> getStateAsXml();
     
@@ -64,9 +52,5 @@ private:
     std::unique_ptr<AudioProcessorValueTreeState> parameterState = nullptr;
     
     std::unique_ptr<AudioSampleValueTreeState> audioSampleState = nullptr;
-    
-    static std::mutex mutex;
-    
-    static StateManager* instance;
     
 };

@@ -13,7 +13,7 @@
 
 int SynthesizerUnitGUI::objCounter;
 
-SynthesizerUnitGUI::SynthesizerUnitGUI(EquinoxSynthesizer& synth) : synthMenuGUI(synth, synth.instanceNumAsString()), ampEnvelopeGUI(synth.instanceNumAsString()), filterEnvelopeGUI( synth.instanceNumAsString()), filterGUI(synth.instanceNumAsString())
+SynthesizerUnitGUI::SynthesizerUnitGUI(StateManager& stateManager, std::string instanceNum) : synthMenuGUI(stateManager, instanceNum), ampEnvelopeGUI(stateManager, instanceNum), filterEnvelopeGUI(stateManager, instanceNum), filterGUI(stateManager, instanceNum)
 
 {
     instanceNum = ++objCounter;

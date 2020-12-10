@@ -18,7 +18,7 @@
 class AmpEnvelopeGUI    : public Component
 {
 public:
-    AmpEnvelopeGUI(std::string);
+    AmpEnvelopeGUI(StateManager& stateManager, std::string);
     ~AmpEnvelopeGUI();
 
     void paint (Graphics&) override;

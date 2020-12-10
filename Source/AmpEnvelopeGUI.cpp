@@ -10,7 +10,7 @@
 #include "AmpEnvelopeGUI.h"
 
 //==============================================================================
-AmpEnvelopeGUI::AmpEnvelopeGUI(std::string synthInstance) : synthInstance(synthInstance)
+AmpEnvelopeGUI::AmpEnvelopeGUI(StateManager& stateManager, std::string synthInstance) : synthInstance(synthInstance)
 {
     setSize(200, 200);
     
@@ -21,7 +21,7 @@ AmpEnvelopeGUI::AmpEnvelopeGUI(std::string synthInstance) : synthInstance(synthI
     attackSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&attackSlider);
     
-    attackAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "ampAttack" + synthInstance, attackSlider);
+    attackAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "ampAttack" + synthInstance, attackSlider);
     
     // Attack Label
     attackLabel.setText("A", NotificationType::dontSendNotification);
@@ -37,7 +37,7 @@ AmpEnvelopeGUI::AmpEnvelopeGUI(std::string synthInstance) : synthInstance(synthI
     decaySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&decaySlider);
     
-    decayAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "ampDecay" + synthInstance, decaySlider);
+    decayAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "ampDecay" + synthInstance, decaySlider);
     
     // Decay Label
     decayLabel.setText("D", NotificationType::dontSendNotification);
@@ -53,7 +53,7 @@ AmpEnvelopeGUI::AmpEnvelopeGUI(std::string synthInstance) : synthInstance(synthI
     sustainSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&sustainSlider);
     
-    sustainAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "ampSustain" + synthInstance, sustainSlider);
+    sustainAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "ampSustain" + synthInstance, sustainSlider);
     
     // Sustain Label
     sustainLabel.setText("S", NotificationType::dontSendNotification);
@@ -69,7 +69,7 @@ AmpEnvelopeGUI::AmpEnvelopeGUI(std::string synthInstance) : synthInstance(synthI
     releaseSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&releaseSlider);
     
-    releaseAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(StateManager::GetInstance().getAPVTS(), "ampRelease" + synthInstance, releaseSlider);
+    releaseAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "ampRelease" + synthInstance, releaseSlider);
     
     // Release Label
     releaseLabel.setText("R", NotificationType::dontSendNotification);

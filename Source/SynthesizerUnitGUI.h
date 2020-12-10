@@ -22,7 +22,7 @@
 class SynthesizerUnitGUI    : public Component
 {
 public:
-    SynthesizerUnitGUI(EquinoxSynthesizer&);
+    SynthesizerUnitGUI(StateManager&, std::string);
     ~SynthesizerUnitGUI();
     
     static int getNumInstances();

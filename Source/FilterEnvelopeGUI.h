@@ -18,7 +18,7 @@
 class FilterEnvelopeGUI    : public Component
 {
 public:
-    FilterEnvelopeGUI(std::string);
+    FilterEnvelopeGUI(StateManager& stateManager, std::string);
     ~FilterEnvelopeGUI();
 
     void paint (Graphics&) override;

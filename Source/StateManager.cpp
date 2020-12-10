@@ -9,8 +9,6 @@
 */
 
 #include "StateManager.h"
-std::mutex StateManager::mutex;
-StateManager* StateManager::instance = nullptr;
 
 StateManager::StateManager(AudioProcessorValueTreeState* apvts, AudioSampleValueTreeState* asvts)
 {
@@ -119,27 +117,4 @@ bool StateManager::loadStateFromFile(File& file)
     XmlDocument xmlDocument(file);
     return setStateFromXml(xmlDocument.getDocumentElement());
     
-}
-
-StateManager& StateManager::GetInstance(AudioProcessorValueTreeState* apvts, AudioSampleValueTreeState* asvts)
-{
-    if (instance == nullptr)
-    {
-        std::lock_guard<std::mutex> lock(mutex);
-        
-        if (instance == nullptr)
-        {
-            if (apvts != nullptr)
-            {
-                instance = new StateManager(apvts, asvts);
-            }
-        }
-    }
-    return *instance;
-}
-
-void StateManager::ResetInstance()
-{
-    delete instance;
-    instance = nullptr;
 }

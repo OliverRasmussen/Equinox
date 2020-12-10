@@ -10,7 +10,7 @@
 #include "SamplerGUI.h"
 
 //==============================================================================
-SamplerGUI::SamplerGUI(EquinoxSynthesizer& synth, std::string synthInstance) : SynthGUI(synth, synthInstance)
+SamplerGUI::SamplerGUI(StateManager& stateManager, std::string synthInstance) : SynthGUI(stateManager, synthInstance)
 {
     loadSampleButton.onClick = [&]() {browseForSampleFile();};
     addAndMakeVisible(loadSampleButton);
@@ -35,7 +35,7 @@ void SamplerGUI::browseForSampleFile()
     {
         File sampleFile = fileChooser.getResult();
         
-        StateManager::GetInstance().addAudioSample(sampleFile, "audiosample" + synthInstance);
+        stateManager.addAudioSample(sampleFile, "audiosample" + synthInstance);
         //synth.loadSampleFromFile(sampleFile, sampleName);
     }
 }

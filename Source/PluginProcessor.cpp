@@ -21,11 +21,9 @@ EquinoxAudioProcessor::EquinoxAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), synthLayer1(stateManager), synthLayer2(stateManager), synthLayer3(stateManager), stateManager(new AudioProcessorValueTreeState(*this, nullptr, "parameterstate", CreateParameterLayout()), new AudioSampleValueTreeState("audiosamplestate"))
 #endif
 {
-    StateManager::GetInstance(new AudioProcessorValueTreeState(*this, nullptr, "parameterstate", CreateParameterLayout()), new AudioSampleValueTreeState("audiosamplestate"));
-    
     synthLayer1.initialize();
     synthLayer2.initialize();
     synthLayer3.initialize();
@@ -33,7 +31,6 @@ EquinoxAudioProcessor::EquinoxAudioProcessor()
 
 EquinoxAudioProcessor::~EquinoxAudioProcessor()
 {
-    StateManager::ResetInstance();
 }
 
 //==============================================================================
@@ -175,12 +172,12 @@ AudioProcessorEditor* EquinoxAudioProcessor::createEditor()
 //==============================================================================
 void EquinoxAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    StateManager::GetInstance().saveStateToBinary(destData);
+    stateManager.saveStateToBinary(destData);
 }
 
 void EquinoxAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    StateManager::GetInstance().loadStateFromBinary(data, sizeInBytes);
+    stateManager.loadStateFromBinary(data, sizeInBytes);
 }
 
 //==============================================================================

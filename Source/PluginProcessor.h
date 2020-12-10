@@ -59,10 +59,12 @@ public:
     
     EquinoxSynthesizer synthLayer1, synthLayer2, synthLayer3;
     
+    StateManager stateManager;
+    
 private:
     
     AudioProcessorValueTreeState::ParameterLayout CreateParameterLayout();
-
+    
 private:
     
     double lastSampleRate;

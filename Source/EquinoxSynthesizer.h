@@ -31,11 +31,11 @@ public:
     
     Synth sampleSynth;
     
-    EquinoxSynthesizer();
-    
-    ~EquinoxSynthesizer();
+    EquinoxSynthesizer(StateManager&);
     
     void initialize();
+    
+    ~EquinoxSynthesizer();
     
     static int getNumInstances();
     
@@ -69,6 +69,8 @@ public:
     void renderNextBlock(AudioBuffer<float>&, MidiBuffer&);
 
 private:
+    
+    StateManager& stateManager;
     
     bool isSynthActive() const;
     
