@@ -21,5 +21,20 @@ struct AudioSample
     int lengthInSamples;
     AudioBuffer<float> sampleSource;
     
-    AudioSample(String sampleName, String sampleFormat, int samplerate, int bitsPerSample, int numberOfChannels, int lengthInSamples, AudioBuffer<float> sampleSource) : sampleName(sampleName), sampleFormat(sampleFormat), samplerate(samplerate), bitsPerSample(bitsPerSample), numberOfChannels(numberOfChannels), lengthInSamples(lengthInSamples), sampleSource(sampleSource) {}
+    AudioSample(String sampleName,
+                String sampleFormat,
+                int samplerate,
+                int bitsPerSample,
+                int numberOfChannels,
+                int lengthInSamples,
+                AudioBuffer<float> sampleSource)
+                : sampleName(sampleName),
+                  sampleFormat(sampleFormat),
+                  samplerate(samplerate),
+                  bitsPerSample(bitsPerSample),
+                  numberOfChannels(numberOfChannels),
+                  lengthInSamples(lengthInSamples),
+                  sampleSource(sampleSource)
+    {
+    }
 };

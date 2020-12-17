@@ -59,18 +59,8 @@ std::unique_ptr<AudioSample> StateManager::getAudioSample(String sampleId)
 
 std::unique_ptr<XmlElement> StateManager::getStateAsXml()
 {
-    // Creates xml element that represents the currentState
-    std::unique_ptr<XmlElement> currentStateXml (new XmlElement("currentstate"));
-
-    // Creates xml element from audioprocessorvaluetreestate and
-    // serializes it, before adding it as a child element to the currentStateXml
-    currentStateXml->addChildElement(new XmlElement(*parameterState->state.createXml()));
-
-    // Creates xml element for the audiosamplevaluetreestate and
-    // serializes it, before adding it as a child element to the currentStateXml
-    currentStateXml->addChildElement(new XmlElement(*audioSampleState->state.createXml()));
-    
-    return currentStateXml;
+    // Creates and returns a xml element that represents the currentState
+    return std::unique_ptr<XmlElement>(new XmlElement(*currentState.createXml()));
 }
 
 bool StateManager::setStateFromXml(std::unique_ptr<XmlElement> stateXml)

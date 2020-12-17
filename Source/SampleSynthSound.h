@@ -11,13 +11,14 @@
 #pragma once
 #include <JuceHeader.h>
 #include "SampleSynthVoice.h"
+#include "AudioSample.h"
 
 class SampleSynthSound : public SynthesiserSound
 {
     
 public:
     
-    SampleSynthSound(const String& sampleName, AudioBuffer<float>& source, int sourceSamplerate, int currentSamplerate);
+    SampleSynthSound(AudioSample sample, int currentSamplerate);
 
     ~SampleSynthSound() override;
     

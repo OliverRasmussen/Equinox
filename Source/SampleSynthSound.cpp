@@ -10,14 +10,17 @@
 
 #include "SampleSynthSound.h"
 
-SampleSynthSound::SampleSynthSound (const String& sampleName, AudioBuffer<float>& source, int sourceSamplerate, int currentSamplerate) : name(sampleName), sourceSamplerate(sourceSamplerate)
+SampleSynthSound::SampleSynthSound (AudioSample sample, int currentSamplerate)
 {
+    name = sample.sampleName;
+    sourceSamplerate = sample.samplerate;
     midiNoteRange.setRange(0, 128, true);
-    if (sourceSamplerate > 0 && source.getNumSamples() > 0)
+    
+    if (sourceSamplerate > 0 && sample.lengthInSamples > 0)
     {
-        length = source.getNumSamples();
+        length = sample.lengthInSamples;
         
-        data.reset (new AudioBuffer<float>(source));
+        data.reset (new AudioBuffer<float>(sample.sampleSource));
         
         if (sourceSamplerate != currentSamplerate)
         {

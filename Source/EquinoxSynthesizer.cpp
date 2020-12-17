@@ -92,7 +92,7 @@ void EquinoxSynthesizer::setVoices()
 void EquinoxSynthesizer::loadAudioSample(AudioSample& audioSample)
 {
     sampleSynth.clearSounds();
-    sampleSynth.addSound(new SampleSynthSound(audioSample.sampleName, audioSample.sampleSource, audioSample.samplerate, sampleRate));
+    sampleSynth.addSound(new SampleSynthSound(audioSample, sampleRate));
 }
 
 // sets the current synth mode
