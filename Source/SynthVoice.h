@@ -59,8 +59,6 @@ protected:
     
     float getKeyVelocity() const;
     
-    float getAmplitude() const;
-    
     float getDetune() const;
     
     float getPanning(int currentChannel) const;
@@ -101,7 +99,9 @@ protected:
     
     double currentModifiedFrequency = 0;
     
-    double previousModifiedFrequency = 0;    
+    double previousModifiedFrequency = 0;
+    
+    float currentVoiceAmplitude = 0;
     
 private:
     
@@ -111,7 +111,7 @@ private:
     
     float detune = 0.0f;
     
-    float amplitude = 1.0f;
+    float masterAmplitude = 1.0f;
     
     float midiKeyVelocity;
     

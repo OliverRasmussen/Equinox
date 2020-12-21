@@ -85,9 +85,6 @@ double OscSynthVoice::getOscillator(int channel)
 
 void OscSynthVoice::renderNextBlock (AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
-    getAmpEnvelope().setParameters();
-    getFilterEnvelope().setParameters();
-
     if (isVoiceActive())
     {
         jassert (numSamples <= voiceBuffer.getNumSamples());
@@ -102,10 +99,5 @@ void OscSynthVoice::renderNextBlock (AudioBuffer<float> &outputBuffer, int start
             }
         }
         addBufferToOutput (proxyBuffer, outputBuffer, startSample, numSamples);
-    }
-    
-    if (noteHasBeenTriggered && !getAmpEnvelope().isActive())
-    {
-        resetNote();
     }
 }

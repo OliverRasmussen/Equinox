@@ -5,13 +5,26 @@
               displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="cZd1eQ" name="Equinox">
     <GROUP id="{574F497E-E632-69C7-C5D3-61461608EC44}" name="Resources">
-      <FILE id="vdV5LS" name="Background.png" compile="0" resource="1" file="Resources/Background.png"/>
-      <FILE id="ONtutf" name="testbackgroundsmall.png" compile="0" resource="1"
-            file="Resources/testbackgroundsmall.png"/>
+      <GROUP id="{4AC49238-A9F8-E7CF-4ABF-FC28980732F6}" name="Graphics">
+        <GROUP id="{77E1D3FE-F2E9-2F7E-F7AD-30891D68F35C}" name="Menu">
+          <FILE id="OfWoJB" name="MenuScreen.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Menu Screen/MenuScreen.png"/>
+          <FILE id="mRuyhZ" name="MenuScreenReflection.png" compile="0" resource="1"
+                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Menu Screen/MenuScreenReflection.png"/>
+        </GROUP>
+        <FILE id="oHfxDk" name="Background.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Background.png"/>
+      </GROUP>
+      <GROUP id="{63884875-FC65-7454-CA4D-599AB4F38559}" name="Fonts">
+        <FILE id="gtYEsp" name="8-bit fortress.ttf" compile="0" resource="1"
+              file="../../../../../Downloads/8-bit-fortress/8-bit fortress.ttf"/>
+      </GROUP>
     </GROUP>
     <GROUP id="{150EB89A-D342-9E47-CCC8-826BCDAF510E}" name="Source">
       <GROUP id="{F15E239B-35CC-96B2-73FA-B07D68D3D6C9}" name="UI">
         <GROUP id="{EE5AA1ED-BF63-16A7-8ADE-00685E74FDA4}" name="Components">
+          <GROUP id="{5AF15652-38B6-5135-52AA-24BDD7E9CA17}" name="Menu">
+            <FILE id="ucHPMb" name="MainMenu.cpp" compile="1" resource="0" file="Source/MainMenu.cpp"/>
+            <FILE id="FamUw6" name="MainMenu.h" compile="0" resource="0" file="Source/MainMenu.h"/>
+          </GROUP>
           <GROUP id="{0BF10D9F-260E-F2B3-690F-AA5CB1075F93}" name="SynthesizerComponents">
             <FILE id="VCJetG" name="FilterEnvelopeGUI.cpp" compile="1" resource="0"
                   file="Source/FilterEnvelopeGUI.cpp"/>
@@ -102,6 +115,10 @@
               file="Source/MasterEffectChain.h"/>
       </GROUP>
       <GROUP id="{47E3156D-846D-D967-FBC0-51FC25CA553E}" name="Utilities">
+        <FILE id="P3RPf5" name="PresetInfo.h" compile="0" resource="0" file="Source/PresetInfo.h"/>
+        <FILE id="Kjxz21" name="PresetManager.cpp" compile="1" resource="0"
+              file="Source/PresetManager.cpp"/>
+        <FILE id="QsfOEa" name="PresetManager.h" compile="0" resource="0" file="Source/PresetManager.h"/>
         <FILE id="TPtnly" name="AudioSample.h" compile="0" resource="0" file="Source/AudioSample.h"/>
         <FILE id="dAZtTL" name="AudioSampleValueTreeState.cpp" compile="1"
               resource="0" file="Source/AudioSampleValueTreeState.cpp"/>

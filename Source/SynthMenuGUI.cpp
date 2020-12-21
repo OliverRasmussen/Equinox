@@ -16,8 +16,8 @@ SynthMenuGUI::SynthMenuGUI(StateManager& stateManager, std::string synthInstance
     tabMenu.addTab("Oscillator", Colours::transparentBlack, &oscillatorGUI, false);
     tabMenu.addTab("Sampler", Colours::transparentBlack, &samplerGUI, false);
     
-    stateManager.getAPVTS().addParameterListener("synthMode" + synthInstance, this);
-    currentSynthModeState = std::make_unique<AudioParameterFloat*>(dynamic_cast<AudioParameterFloat*>(stateManager.getAPVTS().getParameter("synthMode" + synthInstance)));
+    stateManager.getParameters().addParameterListener("synthMode" + synthInstance, this);
+    currentSynthModeState = std::make_unique<AudioParameterFloat*>(dynamic_cast<AudioParameterFloat*>(stateManager.getParameters().getParameter("synthMode" + synthInstance)));
     
     tabMenu.setCurrentTabIndex(**currentSynthModeState);
 
@@ -34,7 +34,7 @@ SynthMenuGUI::~SynthMenuGUI()
 void SynthMenuGUI::tabSwitched()
 {
     // Sets currentSynthModeState equal to the currentTabIndex if it isnt already equal
-    if (stateManager.getAPVTS().getParameterAsValue("synthMode" + synthInstance) != tabMenu.getCurrentTabIndex())
+    if (stateManager.getParameters().getParameterAsValue("synthMode" + synthInstance) != tabMenu.getCurrentTabIndex())
     {
         **currentSynthModeState = tabMenu.getCurrentTabIndex();
     }
@@ -62,5 +62,4 @@ void SynthMenuGUI::paint (Graphics& g)
 void SynthMenuGUI::resized()
 {
     tabMenu.setBounds(0, 0, 200, 200);
-
 }

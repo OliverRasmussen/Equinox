@@ -53,11 +53,6 @@ float SynthVoice::getKeyVelocity() const
     return midiKeyVelocity;
 }
 
-float SynthVoice::getAmplitude() const
-{
-    return amplitude;
-}
-
 float SynthVoice::getDetune() const
 {
     return detune;
@@ -160,11 +155,11 @@ double SynthVoice::getNextPortamentoValue() const
 
 void SynthVoice::setAmplitude(float* ampValue)
 {
-    amplitude = *ampValue;
+    masterAmplitude = *ampValue;
     
-    if (amplitude > 1)
+    if (masterAmplitude > 1)
     {
-        amplitude = 1;
+        masterAmplitude = 1;
     }
 }
 
@@ -229,13 +224,11 @@ void SynthVoice::stopNote (float velocity, bool allowTailOff)
 {
     if (monoMode && isKeyDown()) { return; }
     
-    if(velocity != 0.0f)
-    {
-        ampEnvelope.noteOff();
-        filterEnvelope.noteOff();
-        inRelease = true;
-    }
-    else
+    ampEnvelope.noteOff();
+    filterEnvelope.noteOff();
+    inRelease = true;
+    
+    if (currentVoiceAmplitude == 0)
     {
         resetNote();
     }
@@ -243,8 +236,8 @@ void SynthVoice::stopNote (float velocity, bool allowTailOff)
 
 void SynthVoice::resetNote()
 {
-    clearCurrentNote();
     noteHasBeenTriggered = false;
+    clearCurrentNote();
 }
 
 void SynthVoice::pitchWheelMoved (int newPitchWheelValue)
@@ -303,10 +296,17 @@ void SynthVoice::addBufferToOutput(AudioBuffer<float> &bufferToAdd, AudioBuffer<
     
     for (int sample = 0; sample < numSamples; ++sample)
     {
+        currentVoiceAmplitude = ampEnvelope.getNextSample() * getKeyVelocity();
+        
         for (int channel = 0; channel < bufferToAdd.getNumChannels(); ++channel)
         {
-            outputBuffer.addSample (channel, startSample, bufferToAdd.getSample(channel, sample) * ampEnvelope.getNextSample() * getKeyVelocity() * getAmplitude() * getPanning(channel));
+            outputBuffer.addSample (channel, startSample, bufferToAdd.getSample(channel, sample) * currentVoiceAmplitude * masterAmplitude * getPanning(channel));
         }
         ++startSample;
+    }
+    
+    if (currentVoiceAmplitude == 0)
+    {
+        resetNote();
     }
 }

@@ -74,9 +74,7 @@ float SampleSynthVoice::getNextSamplerSample (int channel, const float* const in
 
 void SampleSynthVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
-    getAmpEnvelope().setParameters();
-    getFilterEnvelope().setParameters();
-
+    
     if (sourceSamplePositionLeft < sampleLength && sourceSamplePositionRight < sampleLength)
     {
         if (auto* playingSound = static_cast<SampleSynthSound*> (getCurrentlyPlayingSound().get()))
@@ -98,17 +96,11 @@ void SampleSynthVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int sta
                 
                 if (sourceSamplePositionLeft > sampleLength || sourceSamplePositionRight > sampleLength)
                 {
-                    stopNote (0.0f, false);
+                    resetNote();
                     break;
                 }
             }
-            
             addBufferToOutput(proxyBuffer, outputBuffer, startSample, numSamples);
         }
-    }
-    
-    if (noteHasBeenTriggered && !getAmpEnvelope().isActive())
-    {
-        resetNote();
     }
 }

@@ -22,7 +22,7 @@ FilterGUI::FilterGUI(StateManager& stateManager, std::string synthInstance) : sy
     filterMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&filterMenu);
     
-    filterTypeAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(stateManager.getAPVTS(), "filterType" + synthInstance, filterMenu);
+    filterTypeAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(stateManager.getParameters(), "filterType" + synthInstance, filterMenu);
     
     // Cutoff Slider
     cutoffSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
@@ -31,7 +31,7 @@ FilterGUI::FilterGUI(StateManager& stateManager, std::string synthInstance) : sy
     cutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&cutoffSlider);
     
-    cutoffAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "cutoff" + synthInstance, cutoffSlider);
+    cutoffAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "cutoff" + synthInstance, cutoffSlider);
     
     // cutoff Label
     cutoffLabel.setText("Cutoff", NotificationType::dontSendNotification);
@@ -47,7 +47,7 @@ FilterGUI::FilterGUI(StateManager& stateManager, std::string synthInstance) : sy
     resonanceSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&resonanceSlider);
     
-    resonanceAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "resonance" + synthInstance, resonanceSlider);
+    resonanceAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "resonance" + synthInstance, resonanceSlider);
     
     // resonance Label
     resonanceLabel.setText("Reso", NotificationType::dontSendNotification);
@@ -64,7 +64,7 @@ FilterGUI::FilterGUI(StateManager& stateManager, std::string synthInstance) : sy
     driveSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&driveSlider);
     
-    driveAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "drive" + synthInstance, driveSlider);
+    driveAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "drive" + synthInstance, driveSlider);
     
     // drive Label
     driveLabel.setText("Drive", NotificationType::dontSendNotification);

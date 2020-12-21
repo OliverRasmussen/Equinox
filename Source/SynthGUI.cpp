@@ -21,7 +21,7 @@ SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stat
     ampSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&ampSlider);
     
-    ampAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "amplitude" + synthInstance, ampSlider);
+    ampAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "amplitude" + synthInstance, ampSlider);
     
     // Amplitude Label
     ampLabel.setText("Amp", NotificationType::dontSendNotification);
@@ -37,7 +37,7 @@ SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stat
     pitchTransposeSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&pitchTransposeSlider);
     
-    pitchTransposeAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "pitchTranspose" + synthInstance, pitchTransposeSlider);
+    pitchTransposeAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "pitchTranspose" + synthInstance, pitchTransposeSlider);
     
     // Pitchtranspose Label
     pitchTransposeLabel.setText("Transpose", NotificationType::dontSendNotification);
@@ -54,7 +54,7 @@ SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stat
     finePitchSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&finePitchSlider);
     
-    finePitchAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "finePitch" + synthInstance, finePitchSlider);
+    finePitchAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "finePitch" + synthInstance, finePitchSlider);
     
     // finePitch Label
     finePitchLabel.setText("Fine Pitch", NotificationType::dontSendNotification);
@@ -70,7 +70,7 @@ SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stat
     analogSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&analogSlider);
     
-    analogAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "analogValue" + synthInstance, analogSlider);
+    analogAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "analogValue" + synthInstance, analogSlider);
     
     // Analog Label
     analogLabel.setText("Analog Factor", NotificationType::dontSendNotification);
@@ -86,7 +86,7 @@ SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stat
     panningSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&panningSlider);
     
-    panningAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "oscPanning" + synthInstance, panningSlider);
+    panningAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "oscPanning" + synthInstance, panningSlider);
     
     // Panning Label
     panningLabel.setText("Pan", NotificationType::dontSendNotification);
@@ -102,7 +102,7 @@ SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stat
     detuneSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&detuneSlider);
     
-    detuneAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "detune" + synthInstance, detuneSlider);
+    detuneAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "detune" + synthInstance, detuneSlider);
     
     // Detune Label
     detuneLabel.setText("Detune", NotificationType::dontSendNotification);
@@ -118,7 +118,7 @@ SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stat
     portamentoSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(&portamentoSlider);
     
-    portamentoAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "portamento" + synthInstance, portamentoSlider);
+    portamentoAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "portamento" + synthInstance, portamentoSlider);
     
     // Portamento Label
     portamentoLabel.setText("Portamento", NotificationType::dontSendNotification);
@@ -131,7 +131,7 @@ SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stat
     // Mono button
     monoButton.setClickingTogglesState(true);
     
-    monoAttachment = std::make_unique<AudioProcessorValueTreeState::ButtonAttachment>(stateManager.getAPVTS(), "monoEnabled" + synthInstance, monoButton);
+    monoAttachment = std::make_unique<AudioProcessorValueTreeState::ButtonAttachment>(stateManager.getParameters(), "monoEnabled" + synthInstance, monoButton);
     addAndMakeVisible(monoButton);
 
 }

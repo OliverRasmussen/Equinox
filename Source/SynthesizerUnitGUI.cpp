@@ -35,7 +35,6 @@ int SynthesizerUnitGUI::getNumInstances()
 
 void SynthesizerUnitGUI::paint (Graphics& g)
 {
-   //g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
 }
 
 void SynthesizerUnitGUI::resized()

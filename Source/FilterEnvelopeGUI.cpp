@@ -21,7 +21,7 @@ FilterEnvelopeGUI::FilterEnvelopeGUI(StateManager& stateManager, std::string syn
     attackSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&attackSlider);
     
-    attackAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "filterAttack" + synthInstance, attackSlider);
+    attackAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "filterAttack" + synthInstance, attackSlider);
     
     // Attack Label
     attackLabel.setText("A", NotificationType::dontSendNotification);
@@ -37,7 +37,7 @@ FilterEnvelopeGUI::FilterEnvelopeGUI(StateManager& stateManager, std::string syn
     decaySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&decaySlider);
     
-    decayAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "filterDecay" + synthInstance, decaySlider);
+    decayAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "filterDecay" + synthInstance, decaySlider);
     
     // Decay Label
     decayLabel.setText("D", NotificationType::dontSendNotification);
@@ -53,7 +53,7 @@ FilterEnvelopeGUI::FilterEnvelopeGUI(StateManager& stateManager, std::string syn
     sustainSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&sustainSlider);
     
-    sustainAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "filterSustain" + synthInstance, sustainSlider);
+    sustainAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "filterSustain" + synthInstance, sustainSlider);
     
     // Sustain Label
     sustainLabel.setText("S", NotificationType::dontSendNotification);
@@ -69,7 +69,7 @@ FilterEnvelopeGUI::FilterEnvelopeGUI(StateManager& stateManager, std::string syn
     releaseSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&releaseSlider);
     
-    releaseAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "filterRelease" + synthInstance, releaseSlider);
+    releaseAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "filterRelease" + synthInstance, releaseSlider);
     
     // Release Label
     releaseLabel.setText("R", NotificationType::dontSendNotification);
@@ -85,7 +85,7 @@ FilterEnvelopeGUI::FilterEnvelopeGUI(StateManager& stateManager, std::string syn
     cutoffLimitSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&cutoffLimitSlider);
     
-    cutoffLimitAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getAPVTS(), "envelopeCutoffLimit" + synthInstance, cutoffLimitSlider);
+    cutoffLimitAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "envelopeCutoffLimit" + synthInstance, cutoffLimitSlider);
     
     // Attack Label
     cutoffLimitLabel.setText("Cutoff Limit", NotificationType::dontSendNotification);

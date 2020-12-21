@@ -11,6 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "AudioSampleValueTreeState.h"
+#include "PresetInfo.h"
 
 class StateManager
 {
@@ -23,13 +24,18 @@ public:
     
     ValueTree& getState();
     
-    AudioProcessorValueTreeState& getAPVTS();
+    AudioProcessorValueTreeState& getParameters();
     
     std::atomic<float>* getAudioParameterValue(StringRef paramId) const;
     
     void addAudioSample(File audioFile, String synthInstanceNum);
     
     std::unique_ptr<AudioSample> getAudioSample(String sampleId);
+    
+    void setPresetInfo(int index, String presetName);
+    
+    //std::unique_ptr<std::tuple<int, String>> getPresetInfo();
+    std::unique_ptr<PresetInfo> getPresetInfo();
     
     void saveStateToBinary(MemoryBlock& destinationData);
     
@@ -39,6 +45,8 @@ public:
     
     bool loadStateFromFile(File& file);
     
+    void resetStateToDefault();
+    
 private:
     
     std::unique_ptr<XmlElement> getStateAsXml();
@@ -46,6 +54,8 @@ private:
     bool setStateFromXml(std::unique_ptr<XmlElement> stateXml);
     
     ValueTree currentState;
+    
+    ValueTree initialState;
     
     std::unique_ptr<AudioProcessorValueTreeState> parameterState = nullptr;
     

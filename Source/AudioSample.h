@@ -10,7 +10,7 @@
 
 #pragma once
 #include <JuceHeader.h>
-// Format used for storing an audio sample with attributes
+// Struct used for storing an audio sample with attributes
 struct AudioSample
 {
     String sampleName;

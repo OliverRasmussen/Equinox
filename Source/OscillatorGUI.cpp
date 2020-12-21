@@ -22,7 +22,7 @@ OscillatorGUI::OscillatorGUI(StateManager& stateManager, std::string synthInstan
     waveformMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&waveformMenu);
     
-    waveformMenuAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(stateManager.getAPVTS(), "waveform" + synthInstance, waveformMenu);
+    waveformMenuAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(stateManager.getParameters(), "waveform" + synthInstance, waveformMenu);
     
     // Waveform Label
     waveformLabel.setText("Oscillator", NotificationType::dontSendNotification);

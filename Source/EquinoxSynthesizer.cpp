@@ -307,17 +307,13 @@ void EquinoxSynthesizer::setVoiceParameters(T voice)
     (float*)stateManager.getAudioParameterValue("resonance" + instanceNumAsString()),
     (float*)stateManager.getAudioParameterValue("drive" + instanceNumAsString()));
     
-    if (!voice->isVoiceActive())
-    {
-        // Sets filter mode
-        voice->getFilter().setMode((float*)stateManager.getAudioParameterValue("filterType" + instanceNumAsString()));
-    }
+    // Sets filter mode
+    voice->getFilter().setMode((float*)stateManager.getAudioParameterValue("filterType" + instanceNumAsString()));
 }
 
 // Updates the synth and renders all the voices
 void EquinoxSynthesizer::renderNextBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    
     if (currentSynthMode == synthMode::oscSynthMode)
     {
         oscillatorSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
