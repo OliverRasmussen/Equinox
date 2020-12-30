@@ -12,9 +12,6 @@
 //==============================================================================
 FilterGUI::FilterGUI(StateManager& stateManager, std::string synthInstance) : synthInstance(synthInstance)
 {
-    setSize (200, 200);
-    
-    // Filter Menu
     filterMenu.addItem("LPF12", 1);
     filterMenu.addItem("HPF12", 2);
     filterMenu.addItem("LPF24", 3);
@@ -24,55 +21,12 @@ FilterGUI::FilterGUI(StateManager& stateManager, std::string synthInstance) : sy
     
     filterTypeAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(stateManager.getParameters(), "filterType" + synthInstance, filterMenu);
     
-    // Cutoff Slider
-    cutoffSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    cutoffSlider.setRange(50.0f, 22050.0f);
-    cutoffSlider.setValue (22050.0f);
-    cutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    addAndMakeVisible(&cutoffSlider);
+    addSliderWithLabel(std::make_shared<EquinoxSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 50.0f, 22050.0f, 22050.0f, 70, 70, "cutoff" + synthInstance, "Cutoff", stateManager));
     
-    cutoffAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "cutoff" + synthInstance, cutoffSlider);
+    addSliderWithLabel(std::make_shared<EquinoxSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 1.0f, 15.0f, 1.0f, 50, 50, "drive" + synthInstance, "Drive", stateManager));
     
-    // cutoff Label
-    cutoffLabel.setText("Cutoff", NotificationType::dontSendNotification);
-    cutoffLabel.setSize(46, 18);
-    cutoffLabel.setMinimumHorizontalScale(0.1f);
-    cutoffLabel.setJustificationType(Justification::centred);
-    addAndMakeVisible(&cutoffLabel);
+    addSliderWithLabel(std::make_shared<EquinoxSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 0.9f, 0.0f, 70, 70, "resonance" + synthInstance, "Resonance", stateManager));
     
-    // Resonance Slider
-    resonanceSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    resonanceSlider.setRange(0.0f, 0.9f);
-    resonanceSlider.setValue (0.0f);
-    resonanceSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    addAndMakeVisible(&resonanceSlider);
-    
-    resonanceAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "resonance" + synthInstance, resonanceSlider);
-    
-    // resonance Label
-    resonanceLabel.setText("Reso", NotificationType::dontSendNotification);
-    resonanceLabel.setSize(46, 18);
-    resonanceLabel.setMinimumHorizontalScale(0.1f);
-    resonanceLabel.setJustificationType(Justification::centred);
-    addAndMakeVisible(&resonanceLabel);
-
-    
-    // Drive Slider
-    driveSlider.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    driveSlider.setRange(1.0f, 15.0f);
-    driveSlider.setValue (1.0f);
-    driveSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    addAndMakeVisible(&driveSlider);
-    
-    driveAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(stateManager.getParameters(), "drive" + synthInstance, driveSlider);
-    
-    // drive Label
-    driveLabel.setText("Drive", NotificationType::dontSendNotification);
-    driveLabel.setSize(46, 18);
-    driveLabel.setMinimumHorizontalScale(0.1f);
-    driveLabel.setJustificationType(Justification::centred);
-    addAndMakeVisible(&driveLabel);
-
 }
 
 FilterGUI::~FilterGUI()
@@ -81,30 +35,17 @@ FilterGUI::~FilterGUI()
 
 void FilterGUI::paint (Graphics& g)
 {
-    Rectangle<int> titleArea (0, 10, getWidth(), 20);
-    
-
-    g.setColour(Colours::white);
-    g.drawText("Filter", titleArea, Justification::centredTop);
-    
-    Rectangle<float> area (25, 25, 150, 150);
-    
-    g.setColour(Colours::antiquewhite);
-    g.drawRoundedRectangle(area, 20.0f, 2.0f);
+    drawTitle(g, Colours::white, "Filter",0, 15, getWidth(), 20);
+    drawRectangle(g, Colours::darkgrey, 5, 30, getWidth() - 5, 145, 20.0f, 2.0f);
 }
 
 void FilterGUI::resized()
 {
-    Rectangle<int> area = getLocalBounds().reduced(40);
+    filterMenu.setSize(100, 20);
+    filterMenu.setBounds((getWidth() * 0.5f) - (filterMenu.getWidth() * 0.5f), 40, filterMenu.getWidth(), filterMenu.getHeight());
     
-    filterMenu.setBounds(area.removeFromTop(20));
+    setHorizontalSliderLayout(100, 110, 25, 25);
     
-    cutoffSlider.setBounds(25, 110, 70, 70);
-    cutoffLabel.setBounds(36, 98, 40, 30);
-    
-    resonanceSlider.setBounds(105, 110, 70, 70);
-    resonanceLabel.setBounds(116, 98, 40, 30);
-    
-    driveSlider.setBounds(75, 78, 50, 50);
-    driveLabel.setBounds(77, 66, 40, 30);
+    EquinoxSlider& driveSlider = *getSlider("drive" + synthInstance);
+    driveSlider.setPosition(driveSlider.getX(), -30);
 }

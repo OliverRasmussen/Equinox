@@ -133,7 +133,6 @@ SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stat
     
     monoAttachment = std::make_unique<AudioProcessorValueTreeState::ButtonAttachment>(stateManager.getParameters(), "monoEnabled" + synthInstance, monoButton);
     addAndMakeVisible(monoButton);
-
 }
 
 SynthGUI::~SynthGUI()
@@ -168,5 +167,5 @@ void SynthGUI::resized()
     pitchTransposeLabel.setBounds(102, 93, 40, 30);
     
     detuneSlider.setBounds(155, 105, 40, 40);
-    detuneLabel.setBounds(155, 87, 40, 30);
+    detuneLabel.setBounds(152, 95, 40, 30);
 }

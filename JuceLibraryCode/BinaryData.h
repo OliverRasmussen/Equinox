@@ -15,7 +15,7 @@ namespace BinaryData
     const int            MenuScreenReflection_pngSize = 15137;
 
     extern const char*   Background_png;
-    const int            Background_pngSize = 1505573;
+    const int            Background_pngSize = 1620659;
 
     extern const char*   _8bit_fortress_ttf;
     const int            _8bit_fortress_ttfSize = 11208;

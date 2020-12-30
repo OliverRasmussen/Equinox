@@ -14,7 +14,7 @@
 //==============================================================================
 MainMenu::MainMenu(StateManager& state) : backArrow("back", 0.5, Colours::black), forwardArrow("forward", 0.0, Colours::black), presetManager(state)
 {
-    // Loading the 
+    // Loading the presetManagers directory
     presetManager.loadDirectory(File::getSpecialLocation(File::userDocumentsDirectory).getFullPathName() + "/Equinox/Presets/");
     
     presetName = Value(*presetManager.getCurrentPresetName());

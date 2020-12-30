@@ -21,6 +21,7 @@ void AmpEnvelope::setEnvelope(float *attack, float *decay, float *sustain, float
     envelopeParameters.decay = *decay;
     envelopeParameters.sustain = *sustain;
     envelopeParameters.release = *release;
+    envelope.setParameters(envelopeParameters);
 }
        
 float AmpEnvelope::getNextSample()
@@ -46,9 +47,4 @@ void AmpEnvelope::noteOff()
 bool AmpEnvelope::isActive() const
 {
     return envelope.isActive();
-}
-
-void AmpEnvelope::setParameters()
-{
-    envelope.setParameters(envelopeParameters);
 }

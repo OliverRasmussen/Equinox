@@ -1,23 +1,27 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     SynthMenuGUI.h
-    Created: 13 May 2020 6:53:02pm
     Author:  Oliver Rasmussen
 
   ==============================================================================
 */
 
 #pragma once
+#include "EquinoxComponent.h"
 #include "TabMenu.h"
 #include "OscillatorGUI.h"
 #include "SamplerGUI.h"
-#include "PluginProcessor.h"
 
 //==============================================================================
 /*
 */
-class SynthMenuGUI    : public Component, private AudioProcessorValueTreeState::Listener
+class SynthMenuGUI    : public EquinoxComponent, private AudioProcessorValueTreeState::Listener
 {
 public:
     SynthMenuGUI(StateManager& stateManager, std::string);

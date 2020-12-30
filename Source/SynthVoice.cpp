@@ -288,7 +288,6 @@ void SynthVoice::controllerMoved (int controllerNumber, int newControllerValue)
 
 void SynthVoice::addBufferToOutput(AudioBuffer<float> &bufferToAdd, AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
-    getAmpEnvelope().setParameters();
     getFilterEnvelope().setParameters();
     
     //Pocesses the buffer through the filter and replaces it

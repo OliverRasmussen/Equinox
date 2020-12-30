@@ -10,7 +10,7 @@
 
 #include "PresetManager.h"
 
-PresetManager::PresetManager(StateManager& state) : directoryScanThread("directoryScanner"), state(state)
+PresetManager::PresetManager(StateManager& state) : directoryScanThread("directoryScanner"), fileFilter("*.equinox", "", "Presets"), state(state)
 {
 }
 
@@ -21,7 +21,7 @@ PresetManager::~PresetManager()
 void PresetManager::loadDirectory(String directoryPath)
 {
     directoryScanThread.startThread();
-    directoryList = std::make_unique<DirectoryContentsList>(nullptr, directoryScanThread);
+    directoryList = std::make_unique<DirectoryContentsList>(&fileFilter, directoryScanThread);
     directoryList->addChangeListener(this);
     
     this->directoryPath = directoryPath;
@@ -33,6 +33,8 @@ void PresetManager::loadDirectory(String directoryPath)
     
     // Sets the directoryList to scan the default directory
     directoryList->setDirectory(defaultDirectory, true, true);
+    
+    scanningForFiles = true;
 }
     
 void PresetManager::savePreset()
@@ -47,6 +49,7 @@ void PresetManager::savePreset()
             state.saveStateToFile(preset);
             setCurrentPreset(preset);
             directoryList->refresh();
+            scanningForFiles = true;
         }
     }
 }
@@ -155,7 +158,7 @@ bool PresetManager::directoryContainsFiles()
     return directoryList->getNumFiles() > 0;
 }
 
-void PresetManager::onDirectoryLoaded()
+void PresetManager::initializeFromLastUsedPreset()
 {
     if (state.getPresetInfo() == nullptr)
     {
@@ -163,12 +166,11 @@ void PresetManager::onDirectoryLoaded()
         File preset = directoryList->getFile(0);
         setCurrentPreset(preset);
         state.loadStateFromFile(currentPresetFile);
-        state.setPresetInfo(0, preset.getFileNameWithoutExtension());
     }
     else if (state.getPresetInfo()->index == -1)
     {
         // preset was not saved as a file when closed - only setting the current preset name to match
-        currentPresetName = state.getPresetInfo()->index;
+        currentPresetName = state.getPresetInfo()->name;
     }
     else if (directoryList->getFile(state.getPresetInfo()->index).getFileNameWithoutExtension() == state.getPresetInfo()->name)
     {
@@ -180,17 +182,19 @@ void PresetManager::onDirectoryLoaded()
         // preset file could not be found - loading initialized preset
         initializePreset();
     }
-    directoryLoaded = true;
 }
 
 void PresetManager::changeListenerCallback (ChangeBroadcaster* source)
 {
-    if (!directoryList->isStillLoading())
+    // Checks if the directory has been scanning for files
+    if (scanningForFiles && !directoryList->isStillLoading())
     {
         if (!directoryLoaded)
         {
-            onDirectoryLoaded();
+            initializeFromLastUsedPreset();
         }
         state.setPresetInfo(getPresetIndexFromFile(currentPresetFile), currentPresetName.toString());
+        scanningForFiles = false;
+        directoryLoaded = true;
     }
 }

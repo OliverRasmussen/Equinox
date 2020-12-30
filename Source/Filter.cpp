@@ -75,7 +75,7 @@ void Filter::process(AudioBuffer<float>& bufferToProcess)
 {
     if (isActive())
     {
-        dsp::AudioBlock<float> block(bufferToProcess);
+        dsp::AudioBlock<float> block (bufferToProcess);
         ladderFilter.process(dsp::ProcessContextReplacing<float> (block));
     }
 }

@@ -11,7 +11,7 @@
           <FILE id="mRuyhZ" name="MenuScreenReflection.png" compile="0" resource="1"
                 file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Menu Screen/MenuScreenReflection.png"/>
         </GROUP>
-        <FILE id="oHfxDk" name="Background.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Background.png"/>
+        <FILE id="pkyw7Q" name="Background.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Background.png"/>
       </GROUP>
       <GROUP id="{63884875-FC65-7454-CA4D-599AB4F38559}" name="Fonts">
         <FILE id="gtYEsp" name="8-bit fortress.ttf" compile="0" resource="1"
@@ -21,38 +21,59 @@
     <GROUP id="{150EB89A-D342-9E47-CCC8-826BCDAF510E}" name="Source">
       <GROUP id="{F15E239B-35CC-96B2-73FA-B07D68D3D6C9}" name="UI">
         <GROUP id="{EE5AA1ED-BF63-16A7-8ADE-00685E74FDA4}" name="Components">
-          <GROUP id="{5AF15652-38B6-5135-52AA-24BDD7E9CA17}" name="Menu">
-            <FILE id="ucHPMb" name="MainMenu.cpp" compile="1" resource="0" file="Source/MainMenu.cpp"/>
-            <FILE id="FamUw6" name="MainMenu.h" compile="0" resource="0" file="Source/MainMenu.h"/>
-          </GROUP>
-          <GROUP id="{0BF10D9F-260E-F2B3-690F-AA5CB1075F93}" name="SynthesizerComponents">
-            <FILE id="VCJetG" name="FilterEnvelopeGUI.cpp" compile="1" resource="0"
-                  file="Source/FilterEnvelopeGUI.cpp"/>
-            <FILE id="ZOWs98" name="FilterEnvelopeGUI.h" compile="0" resource="0"
-                  file="Source/FilterEnvelopeGUI.h"/>
-            <FILE id="kyvMMu" name="FilterGUI.cpp" compile="1" resource="0" file="Source/FilterGUI.cpp"/>
-            <FILE id="avH2js" name="FilterGUI.h" compile="0" resource="0" file="Source/FilterGUI.h"/>
-            <FILE id="SRO248" name="AmpEnvelopeGUI.cpp" compile="1" resource="0"
-                  file="Source/AmpEnvelopeGUI.cpp"/>
-            <FILE id="cDoP7p" name="AmpEnvelopeGUI.h" compile="0" resource="0"
-                  file="Source/AmpEnvelopeGUI.h"/>
-            <FILE id="v5qRji" name="TabMenu.h" compile="0" resource="0" file="Source/TabMenu.h"/>
-            <FILE id="MxjCJo" name="SynthMenuGUI.cpp" compile="1" resource="0"
-                  file="Source/SynthMenuGUI.cpp"/>
-            <FILE id="TA0yUg" name="SynthMenuGUI.h" compile="0" resource="0" file="Source/SynthMenuGUI.h"/>
-            <FILE id="lfrUPm" name="SynthGUI.cpp" compile="1" resource="0" file="Source/SynthGUI.cpp"/>
-            <FILE id="HGeHkq" name="SynthGUI.h" compile="0" resource="0" file="Source/SynthGUI.h"/>
-            <FILE id="bzuQi2" name="OscillatorGUI.cpp" compile="1" resource="0"
-                  file="Source/OscillatorGUI.cpp"/>
-            <FILE id="nEQVmU" name="OscillatorGUI.h" compile="0" resource="0" file="Source/OscillatorGUI.h"/>
-            <FILE id="Cx6oCI" name="SamplerGUI.cpp" compile="1" resource="0" file="Source/SamplerGUI.cpp"/>
-            <FILE id="xYQYM0" name="SamplerGUI.h" compile="0" resource="0" file="Source/SamplerGUI.h"/>
-          </GROUP>
+          <FILE id="TRbCAA" name="EquinoxComponent.cpp" compile="1" resource="0"
+                file="Source/EquinoxComponent.cpp"/>
+          <FILE id="trFyQH" name="EquinoxComponent.h" compile="0" resource="0"
+                file="Source/EquinoxComponent.h"/>
+          <FILE id="R2U2Pb" name="EquinoxSlider.cpp" compile="1" resource="0"
+                file="Source/EquinoxSlider.cpp"/>
+          <FILE id="uicmhJ" name="EquinoxSlider.h" compile="0" resource="0" file="Source/EquinoxSlider.h"/>
         </GROUP>
-        <FILE id="flnhu1" name="SynthesizerUnitGUI.cpp" compile="1" resource="0"
-              file="Source/SynthesizerUnitGUI.cpp"/>
-        <FILE id="GGyVVz" name="SynthesizerUnitGUI.h" compile="0" resource="0"
-              file="Source/SynthesizerUnitGUI.h"/>
+        <GROUP id="{0BF10D9F-260E-F2B3-690F-AA5CB1075F93}" name="SynthesizerUI">
+          <FILE id="flnhu1" name="SynthesizerUnitGUI.cpp" compile="1" resource="0"
+                file="Source/SynthesizerUnitGUI.cpp"/>
+          <FILE id="GGyVVz" name="SynthesizerUnitGUI.h" compile="0" resource="0"
+                file="Source/SynthesizerUnitGUI.h"/>
+          <FILE id="VCJetG" name="FilterEnvelopeGUI.cpp" compile="1" resource="0"
+                file="Source/FilterEnvelopeGUI.cpp"/>
+          <FILE id="ZOWs98" name="FilterEnvelopeGUI.h" compile="0" resource="0"
+                file="Source/FilterEnvelopeGUI.h"/>
+          <FILE id="kyvMMu" name="FilterGUI.cpp" compile="1" resource="0" file="Source/FilterGUI.cpp"/>
+          <FILE id="avH2js" name="FilterGUI.h" compile="0" resource="0" file="Source/FilterGUI.h"/>
+          <FILE id="SRO248" name="AmpEnvelopeGUI.cpp" compile="1" resource="0"
+                file="Source/AmpEnvelopeGUI.cpp"/>
+          <FILE id="cDoP7p" name="AmpEnvelopeGUI.h" compile="0" resource="0"
+                file="Source/AmpEnvelopeGUI.h"/>
+          <FILE id="v5qRji" name="TabMenu.h" compile="0" resource="0" file="Source/TabMenu.h"/>
+          <FILE id="MxjCJo" name="SynthMenuGUI.cpp" compile="1" resource="0"
+                file="Source/SynthMenuGUI.cpp"/>
+          <FILE id="TA0yUg" name="SynthMenuGUI.h" compile="0" resource="0" file="Source/SynthMenuGUI.h"/>
+          <FILE id="lfrUPm" name="SynthGUI.cpp" compile="1" resource="0" file="Source/SynthGUI.cpp"/>
+          <FILE id="HGeHkq" name="SynthGUI.h" compile="0" resource="0" file="Source/SynthGUI.h"/>
+          <FILE id="bzuQi2" name="OscillatorGUI.cpp" compile="1" resource="0"
+                file="Source/OscillatorGUI.cpp"/>
+          <FILE id="nEQVmU" name="OscillatorGUI.h" compile="0" resource="0" file="Source/OscillatorGUI.h"/>
+          <FILE id="Cx6oCI" name="SamplerGUI.cpp" compile="1" resource="0" file="Source/SamplerGUI.cpp"/>
+          <FILE id="xYQYM0" name="SamplerGUI.h" compile="0" resource="0" file="Source/SamplerGUI.h"/>
+        </GROUP>
+        <GROUP id="{E4126F4F-1A39-B74F-E89F-24345EF9FB1D}" name="EffectUI">
+          <FILE id="ZDPXos" name="MasterEffectsGUI.cpp" compile="1" resource="0"
+                file="Source/MasterEffectsGUI.cpp"/>
+          <FILE id="PR6pXx" name="MasterEffectsGUI.h" compile="0" resource="0"
+                file="Source/MasterEffectsGUI.h"/>
+          <FILE id="Ulw6p3" name="ChorusGUI.cpp" compile="1" resource="0" file="Source/ChorusGUI.cpp"/>
+          <FILE id="pcqYNV" name="ChorusGUI.h" compile="0" resource="0" file="Source/ChorusGUI.h"/>
+          <FILE id="tXBVi2" name="PhaserGUI.cpp" compile="1" resource="0" file="Source/PhaserGUI.cpp"/>
+          <FILE id="TrYMzR" name="PhaserGUI.h" compile="0" resource="0" file="Source/PhaserGUI.h"/>
+          <FILE id="XS9Nll" name="ReverbGUI.cpp" compile="1" resource="0" file="Source/ReverbGUI.cpp"/>
+          <FILE id="tlhiPN" name="ReverbGUI.h" compile="0" resource="0" file="Source/ReverbGUI.h"/>
+          <FILE id="kz5AfD" name="DelayGUI.cpp" compile="1" resource="0" file="Source/DelayGUI.cpp"/>
+          <FILE id="N0UWFR" name="DelayGUI.h" compile="0" resource="0" file="Source/DelayGUI.h"/>
+        </GROUP>
+        <GROUP id="{5AF15652-38B6-5135-52AA-24BDD7E9CA17}" name="MenuUI">
+          <FILE id="ucHPMb" name="MainMenu.cpp" compile="1" resource="0" file="Source/MainMenu.cpp"/>
+          <FILE id="FamUw6" name="MainMenu.h" compile="0" resource="0" file="Source/MainMenu.h"/>
+        </GROUP>
       </GROUP>
       <GROUP id="{9DEE65D0-3502-2B5F-AB50-5FAC50E8895F}" name="Synthesizer">
         <GROUP id="{A21DEEF8-BB55-6C5A-2F32-C1DCA31C5DD0}" name="AudioProcessing">
@@ -100,15 +121,14 @@
         <FILE id="mziPyL" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       </GROUP>
       <GROUP id="{E445EF4D-0364-0405-03A4-E0CB92FFBAAF}" name="Effects">
-        <FILE id="GDgz38" name="BitReduction.cpp" compile="1" resource="0"
-              file="Source/BitReduction.cpp"/>
-        <FILE id="MpuQC5" name="BitReduction.h" compile="0" resource="0" file="Source/BitReduction.h"/>
-        <FILE id="LG3lH8" name="Chorus.cpp" compile="1" resource="0" file="Source/Chorus.cpp"/>
-        <FILE id="KXHLFM" name="Chorus.h" compile="0" resource="0" file="Source/Chorus.h"/>
-        <FILE id="GgoOLR" name="Delay.cpp" compile="1" resource="0" file="Source/Delay.cpp"/>
-        <FILE id="YLiiMC" name="Delay.h" compile="0" resource="0" file="Source/Delay.h"/>
-        <FILE id="ZDIEf6" name="Reverb.cpp" compile="1" resource="0" file="Source/Reverb.cpp"/>
-        <FILE id="xy8Vnq" name="Reverb.h" compile="0" resource="0" file="Source/Reverb.h"/>
+        <FILE id="kPS2iF" name="ChorusFX.cpp" compile="1" resource="0" file="Source/ChorusFX.cpp"/>
+        <FILE id="tPIggK" name="ChorusFX.h" compile="0" resource="0" file="Source/ChorusFX.h"/>
+        <FILE id="LedBh4" name="PhaserFX.cpp" compile="1" resource="0" file="Source/PhaserFX.cpp"/>
+        <FILE id="gbBGrw" name="PhaserFX.h" compile="0" resource="0" file="Source/PhaserFX.h"/>
+        <FILE id="l5vHeL" name="ReverbFX.cpp" compile="1" resource="0" file="Source/ReverbFX.cpp"/>
+        <FILE id="NWiwR9" name="ReverbFX.h" compile="0" resource="0" file="Source/ReverbFX.h"/>
+        <FILE id="PdIPf4" name="DelayFX.cpp" compile="1" resource="0" file="Source/DelayFX.cpp"/>
+        <FILE id="Op9lCh" name="DelayFX.h" compile="0" resource="0" file="Source/DelayFX.h"/>
         <FILE id="x53oiE" name="MasterEffectChain.cpp" compile="1" resource="0"
               file="Source/MasterEffectChain.cpp"/>
         <FILE id="DO5pKM" name="MasterEffectChain.h" compile="0" resource="0"

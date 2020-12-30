@@ -12,7 +12,6 @@
 //==============================================================================
 SynthMenuGUI::SynthMenuGUI(StateManager& stateManager, std::string synthInstance) : oscillatorGUI(stateManager, synthInstance), samplerGUI(stateManager, synthInstance), tabMenu(TabbedButtonBar::Orientation::TabsAtTop), stateManager(stateManager), synthInstance(synthInstance)
 {
-    setSize (200, 200);
     tabMenu.addTab("Oscillator", Colours::transparentBlack, &oscillatorGUI, false);
     tabMenu.addTab("Sampler", Colours::transparentBlack, &samplerGUI, false);
     
@@ -61,5 +60,5 @@ void SynthMenuGUI::paint (Graphics& g)
 
 void SynthMenuGUI::resized()
 {
-    tabMenu.setBounds(0, 0, 200, 200);
+    tabMenu.setBounds(0, 0, getLocalBounds().getWidth(), getLocalBounds().getHeight() - 23);
 }

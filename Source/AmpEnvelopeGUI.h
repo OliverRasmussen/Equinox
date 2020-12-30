@@ -1,21 +1,25 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     AmpEnvelopeGUI.h
-    Created: 7 Apr 2020 1:28:35am
     Author:  Oliver Rasmussen
 
   ==============================================================================
 */
 
 #pragma once
-#include <JuceHeader.h>
+#include "EquinoxComponent.h"
 #include "PluginProcessor.h"
 
 //==============================================================================
 /*
 */
-class AmpEnvelopeGUI    : public Component
+class AmpEnvelopeGUI    : public EquinoxComponent
 {
 public:
     AmpEnvelopeGUI(StateManager& stateManager, std::string);
@@ -25,13 +29,5 @@ public:
     void resized() override;
 
 private:
-    std::string synthInstance;
-    
-    Slider attackSlider, decaySlider, sustainSlider, releaseSlider;
-    
-    Label attackLabel, decayLabel, sustainLabel, releaseLabel;
-        
-    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> attackAttachment, decayAttachment, sustainAttachment, releaseAttachment;
-    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AmpEnvelopeGUI)
 };

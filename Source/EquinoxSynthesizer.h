@@ -7,8 +7,8 @@
    /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
                                                 
    EquinoxSynthesizer.h
-   Created: 8 Apr 2020 9:27:00pm
    Author:  Oliver Rasmussen
+ 
   ==============================================================================
 */
 
@@ -21,7 +21,7 @@
 
 #define MAX_VOICES 16
 
-class EquinoxSynthesizer : public juce::ValueTree::Listener
+class EquinoxSynthesizer : public ValueTree::Listener
 {
 public:
     
@@ -38,10 +38,6 @@ public:
     ~EquinoxSynthesizer();
     
     std::string instanceNumAsString() const;
-    
-    void valueTreeChildAdded (ValueTree &parentTree, ValueTree &childWhichHasBeenAdded) override;
-    
-    void valueTreePropertyChanged(ValueTree&, const Identifier&) override;
     
     void addParameters(std::vector<std::unique_ptr<RangedAudioParameter>>&);
     
@@ -67,6 +63,10 @@ public:
     void renderNextBlock(AudioBuffer<float>&, MidiBuffer&);
 
 private:
+    
+    void valueTreeChildAdded (ValueTree&, ValueTree&) override;
+    
+    void valueTreePropertyChanged(ValueTree&, const Identifier&) override;
     
     StateManager& stateManager;
     

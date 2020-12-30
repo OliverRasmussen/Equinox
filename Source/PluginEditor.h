@@ -14,6 +14,7 @@
 #include "PluginProcessor.h"
 #include "SynthesizerUnitGUI.h"
 #include "MainMenu.h"
+#include "MasterEffectsGUI.h"
 
 //==============================================================================
 /**
@@ -30,12 +31,12 @@ public:
     
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
     int synthInstanceNum;
     SynthesizerUnitGUI synthUnitGUI1, synthUnitGUI2, synthUnitGUI3;
     
     MainMenu mainMenu;
+    
+    MasterEffectsGUI masterEffects;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EquinoxAudioProcessorEditor)
 };

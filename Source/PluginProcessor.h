@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "EquinoxSynthesizer.h"
+#include "MasterEffectChain.h"
 #include "StateManager.h"
 
 //==============================================================================
@@ -59,13 +60,14 @@ public:
     
     EquinoxSynthesizer synthLayer1, synthLayer2, synthLayer3;
     
+    MasterEffectChain masterEffectChain;
+    
     StateManager stateManager;
     
 private:
+    AudioPlayHead::CurrentPositionInfo currentPositionInfo;
     
     AudioProcessorValueTreeState::ParameterLayout CreateParameterLayout();
-    
-private:
     
     double lastSampleRate;
     //==============================================================================

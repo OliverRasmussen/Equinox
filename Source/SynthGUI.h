@@ -1,21 +1,24 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     SynthGUI.h
-    Created: 13 May 2020 9:21:08pm
     Author:  Oliver Rasmussen
 
   ==============================================================================
 */
 
 #pragma once
-#include <JuceHeader.h>
-#include "PluginProcessor.h"
+#include "EquinoxComponent.h"
 
 //==============================================================================
 /*
 */
-class SynthGUI    : public Component
+class SynthGUI    : public EquinoxComponent
 {
 public:
     SynthGUI(StateManager& stateManager, std::string);

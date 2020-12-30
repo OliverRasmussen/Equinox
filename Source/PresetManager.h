@@ -1,8 +1,12 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     PresetManager.h
-    Created: 21 Dec 2020 12:07:57pm
     Author:  Oliver Rasmussen
 
   ==============================================================================
@@ -46,12 +50,14 @@ private:
     
     bool directoryContainsFiles();
     
-    void onDirectoryLoaded();
+    void initializeFromLastUsedPreset();
     
     void changeListenerCallback (ChangeBroadcaster* source);
     
     std::unique_ptr<DirectoryContentsList> directoryList;
     TimeSliceThread directoryScanThread;
+    
+    WildcardFileFilter fileFilter;
     
     File defaultDirectory;
     String directoryPath;
@@ -62,4 +68,6 @@ private:
     StateManager& state;
     
     bool directoryLoaded = false;
+    
+    bool scanningForFiles = false;
 };

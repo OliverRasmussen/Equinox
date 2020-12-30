@@ -168,7 +168,7 @@ void EquinoxSynthesizer::addParameters(std::vector<std::unique_ptr<RangedAudioPa
     
     params.push_back(std::make_unique<AudioParameterFloat>("ampSustain" + instanceNumAsString(), "AmpSustain", NormalisableRange<float>(0.0f, 1.0f, 0.01f, 1.0f), 0.8f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("ampRelease" + instanceNumAsString(), "AmpRelease", NormalisableRange<float>(0.1f, 5.0f, 0.1f, 1.1f), 0.5f));
+    params.push_back(std::make_unique<AudioParameterFloat>("ampRelease" + instanceNumAsString(), "AmpRelease", NormalisableRange<float>(0.1f, 5.0f, 0.1f, 1.1f), 0.1f));
     
     
     // FilterEnvelope parameters
@@ -182,10 +182,13 @@ void EquinoxSynthesizer::addParameters(std::vector<std::unique_ptr<RangedAudioPa
     
     params.push_back(std::make_unique<AudioParameterFloat>("envelopeCutoffLimit" + instanceNumAsString(), "EnvelopeCutoffLimit", NormalisableRange<float>(200.0f, 22050.0f, 0.1f, 0.5f), 10000.0f));
     
-    // Oscillator parameters
+    // Waveform parameter
     params.push_back(std::make_unique<AudioParameterFloat>("waveform" + instanceNumAsString(), "Waveform", 0.0f, 4.0f, 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("amplitude" + instanceNumAsString(), "Amplitude", 0.0f, 0.5f, 0.4f));
+    // Amplitude parameter - setting the initial amplitude value to 0 if this EquinoxSynthesizer instance is not the first one
+    float initialAmplitude = instanceNum == 1 ? 0.4f : 0.0f;
+    params.push_back(std::make_unique<AudioParameterFloat>("amplitude" + instanceNumAsString(), "Amplitude", 0.0f, 0.5f, initialAmplitude));
+    
     
     // General synth parameters
     params.push_back(std::make_unique<AudioParameterFloat>("detune" + instanceNumAsString(), "Detune", -20.0f, 20.0f, 0.0f));
@@ -288,6 +291,14 @@ void EquinoxSynthesizer::setVoiceParameters(T voice)
     
     voice->setPortamento((float*)stateManager.getAudioParameterValue("portamento" + instanceNumAsString()));
     
+    // sets filter
+    voice->getFilter().setFilter((float*)stateManager.getAudioParameterValue("cutoff" + instanceNumAsString()),
+    (float*)stateManager.getAudioParameterValue("resonance" + instanceNumAsString()),
+    (float*)stateManager.getAudioParameterValue("drive" + instanceNumAsString()));
+    
+    // Sets filter mode
+    voice->getFilter().setMode((float*)stateManager.getAudioParameterValue("filterType" + instanceNumAsString()));
+    
     // sets amp Envelope
     voice->getAmpEnvelope().setEnvelope((float*)stateManager.getAudioParameterValue("ampAttack" + instanceNumAsString()),
                                    (float*)stateManager.getAudioParameterValue("ampDecay" + instanceNumAsString()),
@@ -301,14 +312,6 @@ void EquinoxSynthesizer::setVoiceParameters(T voice)
                                       (float*)stateManager.getAudioParameterValue("filterSustain" + instanceNumAsString()),
                                       (float*)stateManager.getAudioParameterValue("filterRelease" + instanceNumAsString()));
     voice->getFilterEnvelope().setCutoffLimit((float*)stateManager.getAudioParameterValue("envelopeCutoffLimit" + instanceNumAsString()));
-    
-    // sets filter
-    voice->getFilter().setFilter((float*)stateManager.getAudioParameterValue("cutoff" + instanceNumAsString()),
-    (float*)stateManager.getAudioParameterValue("resonance" + instanceNumAsString()),
-    (float*)stateManager.getAudioParameterValue("drive" + instanceNumAsString()));
-    
-    // Sets filter mode
-    voice->getFilter().setMode((float*)stateManager.getAudioParameterValue("filterType" + instanceNumAsString()));
 }
 
 // Updates the synth and renders all the voices

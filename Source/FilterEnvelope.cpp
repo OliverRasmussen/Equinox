@@ -25,6 +25,7 @@ void FilterEnvelope::setEnvelope(float *attack, float *decay, float *sustain, fl
     this->decay = *decay;
     this->sustain = *sustain;
     this->release = *release;
+    initialCutoffValue = filter.getCutoffValue();
 }
 
 void FilterEnvelope::setCutoffLimit(float *cutoffLimit)
@@ -36,7 +37,7 @@ void FilterEnvelope::noteOn()
 {
     sustainHasBeenSet = false;
     lastReachedValue = 0;
-    initialCutoffValue = filter.getCutoffValue();
+    //initialCutoffValue = filter.getCutoffValue();
     nextCutoffValue = initialCutoffValue;
     cutoffPct = cutoffLimit / 100;
     currentState = attackState;

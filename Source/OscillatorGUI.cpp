@@ -12,7 +12,6 @@
 //==============================================================================
 OscillatorGUI::OscillatorGUI(StateManager& stateManager, std::string synthInstance) : SynthGUI(stateManager, synthInstance)
 {
-    
     // Waveform menu
     waveformMenu.addItem("Sine", 1);
     waveformMenu.addItem("Saw", 2);

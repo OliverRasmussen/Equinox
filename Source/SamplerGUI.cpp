@@ -36,7 +36,6 @@ void SamplerGUI::browseForSampleFile()
         File sampleFile = fileChooser.getResult();
         
         stateManager.addAudioSample(sampleFile, "audiosample" + synthInstance);
-        //synth.loadSampleFromFile(sampleFile, sampleName);
     }
 }
 

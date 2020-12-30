@@ -1,8 +1,12 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     FilterGUI.h
-    Created: 7 Apr 2020 2:23:45pm
     Author:  Oliver Rasmussen
 
   ==============================================================================
@@ -10,13 +14,13 @@
 
 #pragma once
 
-#include <JuceHeader.h>
+#include "EquinoxComponent.h"
 #include "PluginProcessor.h"
 
 //==============================================================================
 /*
 */
-class FilterGUI    : public Component
+class FilterGUI    : public EquinoxComponent
 {
 public:
     FilterGUI(StateManager& stateManager, std::string);
@@ -26,17 +30,9 @@ public:
     void resized() override;
 
 private:
-    std::string synthInstance;
-    
-    Slider cutoffSlider, resonanceSlider, driveSlider;
-    
-    Label cutoffLabel, resonanceLabel, driveLabel;
-    
+    String synthInstance;
     ComboBox filterMenu;
-    
     std::unique_ptr <AudioProcessorValueTreeState::ComboBoxAttachment> filterTypeAttachment;
-    
-    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> cutoffAttachment, resonanceAttachment, driveAttachment;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FilterGUI)
 };

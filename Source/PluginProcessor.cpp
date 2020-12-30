@@ -21,12 +21,18 @@ EquinoxAudioProcessor::EquinoxAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       ), synthLayer1(stateManager, 1), synthLayer2(stateManager, 2), synthLayer3(stateManager, 3), stateManager(new AudioProcessorValueTreeState(*this, nullptr, "parameterstate", CreateParameterLayout()), new AudioSampleValueTreeState("audiosamplestate"))
+                       ), synthLayer1(stateManager, 1),
+                          synthLayer2(stateManager, 2),
+                          synthLayer3(stateManager, 3),
+                          masterEffectChain(stateManager),
+                          stateManager(new AudioProcessorValueTreeState(*this, nullptr, "parameterstate", CreateParameterLayout()),
+                          new AudioSampleValueTreeState("audiosamplestate"))
 #endif
 {
     synthLayer1.initialize();
     synthLayer2.initialize();
     synthLayer3.initialize();
+    masterEffectChain.initialize();
 }
 
 EquinoxAudioProcessor::~EquinoxAudioProcessor()
@@ -108,6 +114,9 @@ void EquinoxAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     synthLayer2.prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
     synthLayer3.prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
     
+    masterEffectChain.reset();
+    masterEffectChain.prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
+    
 }
 
 void EquinoxAudioProcessor::releaseResources()
@@ -152,10 +161,17 @@ void EquinoxAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
         buffer.clear (i, 0, buffer.getNumSamples());
 
 
-
+    // Rendering the synthesizers
     synthLayer1.renderNextBlock(buffer, midiMessages);
     synthLayer2.renderNextBlock(buffer, midiMessages);
     synthLayer3.renderNextBlock(buffer, midiMessages);
+    
+    
+    // Getting the currentPositionInfo
+    getPlayHead()->getCurrentPosition(currentPositionInfo);
+    
+    // Processing the buffer through the effect chain
+    masterEffectChain.process(buffer, currentPositionInfo.bpm);
 }
 
 //==============================================================================
@@ -194,6 +210,8 @@ AudioProcessorValueTreeState::ParameterLayout EquinoxAudioProcessor::CreateParam
     synthLayer1.addParameters(parameters);
     synthLayer2.addParameters(parameters);
     synthLayer3.addParameters(parameters);
+    
+    masterEffectChain.addParameters(parameters);
     
     
     return { parameters.begin(), parameters.end()};
