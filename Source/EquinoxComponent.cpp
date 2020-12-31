@@ -24,15 +24,15 @@ EquinoxComponent::~EquinoxComponent()
 {
 }
 
-void EquinoxComponent::addSliderWithLabel(std::shared_ptr<EquinoxSlider> slider)
+void EquinoxComponent::addLabelSlider(std::shared_ptr<LabelSlider> slider)
 {
     addAndMakeVisible(*slider);
-    sliders.push_back(slider);
+    labelSliders.push_back(slider);
 }
 
-std::shared_ptr<EquinoxSlider> EquinoxComponent::getSlider(String parameterID)
+std::shared_ptr<LabelSlider> EquinoxComponent::getSlider(String parameterID)
 {
-    for (auto& slider : sliders)
+    for (auto& slider : labelSliders)
     {
         if (slider->getID() == parameterID)
         {
@@ -59,7 +59,7 @@ void EquinoxComponent::drawRectangle(Graphics& g, Colour rectangleColour, float 
 void EquinoxComponent::setHorizontalSliderLayout(int labelYPos, int sliderYPos, unsigned int leftPadding, unsigned int rightPadding)
 {
     Rectangle<int> localBounds = getLocalBounds();
-    const int horizontalSpace = (localBounds.getWidth() - rightPadding - leftPadding) / sliders.size();
+    const int horizontalSpace = (localBounds.getWidth() - rightPadding - leftPadding) / labelSliders.size();
     const int verticalSpace = localBounds.getHeight();
     
     const int labelWidth = horizontalSpace;
@@ -67,17 +67,15 @@ void EquinoxComponent::setHorizontalSliderLayout(int labelYPos, int sliderYPos, 
     
     int xOffsetMultiplier = 0;
     
-    for (auto& slider : sliders)
+    for (auto& labelSlider : labelSliders)
     {
+        labelSlider->setBounds(leftPadding + (horizontalSpace * xOffsetMultiplier), 0, horizontalSpace, verticalSpace);
         
-        slider->setBounds(leftPadding + (horizontalSpace * xOffsetMultiplier), 0, horizontalSpace, verticalSpace);
+        labelSlider->setSliderComponentBounds(labelSlider->getSliderComponentBounds().getX(), sliderYPos);
         
-        int sliderWidth = slider->getSliderComponent().getWidth();
-        int sliderHeight = slider->getSliderComponent().getHeight();
+        labelSlider->setLabelComponentBounds(labelSlider->getLabelComponentBounds().getX(), labelYPos, labelWidth, labelHeight);
         
-        slider->getSliderComponent().setBounds((horizontalSpace * 0.5f) - (sliderWidth * 0.5), sliderYPos, sliderWidth, sliderHeight);
-        
-        slider->getLabelComponent().setBounds(0, labelYPos, labelWidth, labelHeight);
+        labelSlider->center();
         
         xOffsetMultiplier++;
     }

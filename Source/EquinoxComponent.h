@@ -15,7 +15,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "EquinoxSlider.h"
+#include "LabelSlider.h"
 
 //==============================================================================
 /*
@@ -27,10 +27,10 @@ public:
     ~EquinoxComponent() override;
     
     /** Adds a slider with a label to the component */
-    void addSliderWithLabel(std::shared_ptr<EquinoxSlider> slider);
+    void addLabelSlider(std::shared_ptr<LabelSlider> slider);
     
     /** Returns a shared pointer to one of the sliders */
-    std::shared_ptr<EquinoxSlider> getSlider(String parameterID);
+    std::shared_ptr<LabelSlider> getSlider(String parameterID);
     
     /** Draws a title */
     void drawTitle(Graphics& g, Colour textColour, String titleText, int x, int y, int width, int height);
@@ -42,7 +42,7 @@ public:
     void setHorizontalSliderLayout(int labelYPos, int sliderYPos, unsigned int leftPadding = 0, unsigned int rightPadding = 0);
 
 private:
-    std::vector<std::shared_ptr<EquinoxSlider>> sliders;
+    std::vector<std::shared_ptr<LabelSlider>> labelSliders;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EquinoxComponent)
 };

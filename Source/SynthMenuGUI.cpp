@@ -61,4 +61,6 @@ void SynthMenuGUI::paint (Graphics& g)
 void SynthMenuGUI::resized()
 {
     tabMenu.setBounds(0, 0, getLocalBounds().getWidth(), getLocalBounds().getHeight() - 23);
+    oscillatorGUI.setSize(200, 200);
+    samplerGUI.setSize(200, 200);
 }

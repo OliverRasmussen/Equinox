@@ -43,7 +43,6 @@ void OscillatorGUI::paint (Graphics& g)
 
 void OscillatorGUI::resized()
 {
-
     waveformMenu.setBounds(5, 20, 100, 20);
-
+    SynthGUI::resized();
 }

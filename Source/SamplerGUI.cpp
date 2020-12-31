@@ -46,6 +46,6 @@ void SamplerGUI::paint (Graphics& g)
 
 void SamplerGUI::resized()
 {
-
     loadSampleButton.setBounds(5, 20, 100, 20);
+    SynthGUI::resized();
 }

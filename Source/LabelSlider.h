@@ -20,23 +20,33 @@
 //==============================================================================
 /*
 */
-class EquinoxSlider  : public juce::Component
+class LabelSlider  : public juce::Component
 {
 public:
-    EquinoxSlider();
+    LabelSlider();
     
-    // Creates a slider with a label
-    EquinoxSlider(Slider::SliderStyle sliderStyle, float minRangeValue, float maxRangeValue, float startValue, int sliderWidth, int sliderHeight, String parameterID, String labelText, StateManager& state);
+    /** Creates a slider with a label */
+    LabelSlider(Slider::SliderStyle sliderStyle, float minRangeValue, float maxRangeValue, float startValue, int sliderWidth, int sliderHeight, String parameterID, String labelText, StateManager& state);
     
-    ~EquinoxSlider() override;
+    ~LabelSlider() override;
     
     void setPosition(int x, int y);
+    
+    void setSliderComponentBounds(int x, int y, int width = -1, int height = -1);
+    
+    Rectangle<int> getSliderComponentBounds() const;
+    
+    void setLabelComponentBounds(int x, int y, int width = -1, int height = -1);
+    
+    Rectangle<int> getLabelComponentBounds() const;
     
     String getID() const;
     
     Slider& getSliderComponent();
     
     Label& getLabelComponent();
+    
+    void center();
 
     void paint (juce::Graphics&) override;
     void resized() override;
@@ -47,5 +57,5 @@ private:
     Label label;
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> sliderAttachment;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EquinoxSlider)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LabelSlider)
 };

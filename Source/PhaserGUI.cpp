@@ -13,15 +13,15 @@
 //==============================================================================
 PhaserGUI::PhaserGUI(StateManager& stateManager)
 {
-    addSliderWithLabel(std::make_shared<EquinoxSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 1.0f, 0.0f, 40, 40, "phaserMix", "Mix", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 1.0f, 0.0f, 40, 40, "phaserMix", "Mix", stateManager));
     
-    addSliderWithLabel(std::make_shared<EquinoxSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 1.0f, 0.0f, 40, 40, "phaserRate", "Rate", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 1.0f, 0.0f, 40, 40, "phaserRate", "Rate", stateManager));
     
-    addSliderWithLabel(std::make_shared<EquinoxSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 1.0f, 0.0f, 40, 40, "phaserDepth", "Depth", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 1.0f, 0.0f, 40, 40, "phaserDepth", "Depth", stateManager));
     
-    addSliderWithLabel(std::make_shared<EquinoxSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 100.0f, 22000.0f, 11000.0f, 40, 40, "phaserFrequency", "Freq", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 100.0f, 22000.0f, 11000.0f, 40, 40, "phaserFrequency", "Freq", stateManager));
     
-    addSliderWithLabel(std::make_shared<EquinoxSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, -0.9f, 0.9f, 0.0f, 40, 40, "phaserFeedback", "Feedback", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, -0.9f, 0.9f, 0.0f, 40, 40, "phaserFeedback", "Feedback", stateManager));
 }
 
 PhaserGUI::~PhaserGUI()

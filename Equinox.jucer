@@ -25,9 +25,8 @@
                 file="Source/EquinoxComponent.cpp"/>
           <FILE id="trFyQH" name="EquinoxComponent.h" compile="0" resource="0"
                 file="Source/EquinoxComponent.h"/>
-          <FILE id="R2U2Pb" name="EquinoxSlider.cpp" compile="1" resource="0"
-                file="Source/EquinoxSlider.cpp"/>
-          <FILE id="uicmhJ" name="EquinoxSlider.h" compile="0" resource="0" file="Source/EquinoxSlider.h"/>
+          <FILE id="T39brX" name="LabelSlider.cpp" compile="1" resource="0" file="Source/LabelSlider.cpp"/>
+          <FILE id="OSLp8H" name="LabelSlider.h" compile="0" resource="0" file="Source/LabelSlider.h"/>
         </GROUP>
         <GROUP id="{0BF10D9F-260E-F2B3-690F-AA5CB1075F93}" name="SynthesizerUI">
           <FILE id="flnhu1" name="SynthesizerUnitGUI.cpp" compile="1" resource="0"

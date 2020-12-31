@@ -32,13 +32,6 @@ protected:
     std::string synthInstance;
     
 private:
-    
-    Slider ampSlider, analogSlider, finePitchSlider, pitchTransposeSlider, panningSlider, detuneSlider, portamentoSlider;
-    
-    Label ampLabel, analogLabel, finePitchLabel, pitchTransposeLabel, panningLabel, detuneLabel, portamentoLabel;
-    
-    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> ampAttachment, analogAttachment, finePitchAttachment, pitchTransposeAttachment, panningAttachment, detuneAttachment, portamentoAttachment;
-    
     std::unique_ptr<AudioProcessorValueTreeState::ButtonAttachment> monoAttachment;
     
     TextButton monoButton { "Mono" };

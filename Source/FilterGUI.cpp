@@ -21,11 +21,11 @@ FilterGUI::FilterGUI(StateManager& stateManager, std::string synthInstance) : sy
     
     filterTypeAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(stateManager.getParameters(), "filterType" + synthInstance, filterMenu);
     
-    addSliderWithLabel(std::make_shared<EquinoxSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 50.0f, 22050.0f, 22050.0f, 70, 70, "cutoff" + synthInstance, "Cutoff", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 50.0f, 22050.0f, 22050.0f, 70, 70, "cutoff" + synthInstance, "Cutoff", stateManager));
     
-    addSliderWithLabel(std::make_shared<EquinoxSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 1.0f, 15.0f, 1.0f, 50, 50, "drive" + synthInstance, "Drive", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 1.0f, 15.0f, 1.0f, 50, 50, "drive" + synthInstance, "Drive", stateManager));
     
-    addSliderWithLabel(std::make_shared<EquinoxSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 0.9f, 0.0f, 70, 70, "resonance" + synthInstance, "Resonance", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 0.9f, 0.0f, 70, 70, "resonance" + synthInstance, "Resonance", stateManager));
     
 }
 
@@ -46,6 +46,6 @@ void FilterGUI::resized()
     
     setHorizontalSliderLayout(100, 110, 25, 25);
     
-    EquinoxSlider& driveSlider = *getSlider("drive" + synthInstance);
+    LabelSlider& driveSlider = *getSlider("drive" + synthInstance);
     driveSlider.setPosition(driveSlider.getX(), -30);
 }

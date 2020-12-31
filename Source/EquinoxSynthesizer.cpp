@@ -189,7 +189,6 @@ void EquinoxSynthesizer::addParameters(std::vector<std::unique_ptr<RangedAudioPa
     float initialAmplitude = instanceNum == 1 ? 0.4f : 0.0f;
     params.push_back(std::make_unique<AudioParameterFloat>("amplitude" + instanceNumAsString(), "Amplitude", 0.0f, 0.5f, initialAmplitude));
     
-    
     // General synth parameters
     params.push_back(std::make_unique<AudioParameterFloat>("detune" + instanceNumAsString(), "Detune", -20.0f, 20.0f, 0.0f));
     
@@ -197,9 +196,9 @@ void EquinoxSynthesizer::addParameters(std::vector<std::unique_ptr<RangedAudioPa
     
     params.push_back(std::make_unique<AudioParameterFloat>("oscPanning" + instanceNumAsString(), "OscPanning", -1.0f, 1.0f, 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterInt>("pitchTranspose" + instanceNumAsString(), "PitchTranspose", -24, 24, 0));
+    params.push_back(std::make_unique<AudioParameterFloat>("pitchTranspose" + instanceNumAsString(), "PitchTranspose", NormalisableRange<float>(-24, 24, 1, 1), 0));
     
-    params.push_back(std::make_unique<AudioParameterInt>("analogValue" + instanceNumAsString(), "AnalogValue", 1, 40, 1));
+    params.push_back(std::make_unique<AudioParameterFloat>("analogValue" + instanceNumAsString(), "AnalogValue", NormalisableRange<float>(1, 40, 1, 1), 1));
     
     // Filter parameters
     params.push_back(std::make_unique<AudioParameterFloat>("filterType" + instanceNumAsString(), "FilterType", 0.0f, 3.0f, 0.0f));
