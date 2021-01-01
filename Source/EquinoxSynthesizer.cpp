@@ -35,6 +35,8 @@ std::string EquinoxSynthesizer::instanceNumAsString() const
 
 void EquinoxSynthesizer::valueTreeChildAdded (ValueTree &parentTree, ValueTree &childWhichHasBeenAdded)
 {
+    updateSynth();
+    
     String audioSampleStateId = "audiosamplestate";
     String audioSampleId = "audiosample" + instanceNumAsString();
     
@@ -53,7 +55,6 @@ void EquinoxSynthesizer::valueTreeChildAdded (ValueTree &parentTree, ValueTree &
             }
         }
     }
-    updateSynth();
 }
 
 void EquinoxSynthesizer::valueTreePropertyChanged(ValueTree& valueTree, const Identifier& property)

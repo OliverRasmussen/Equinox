@@ -15,7 +15,6 @@
 #pragma once
 #include <JuceHeader.h>
 #include "AudioSampleValueTreeState.h"
-#include "PresetInfo.h"
 
 class StateManager
 {
@@ -36,10 +35,9 @@ public:
     
     std::unique_ptr<AudioSample> getAudioSample(String sampleId);
     
-    void setPresetInfo(int index, String presetName);
+    void setPresetName(String presetName);
     
-    //std::unique_ptr<std::tuple<int, String>> getPresetInfo();
-    std::unique_ptr<PresetInfo> getPresetInfo();
+    std::unique_ptr<String> getPresetName();
     
     void saveStateToBinary(MemoryBlock& destinationData);
     

@@ -16,7 +16,7 @@
 #include "JuceHeader.h"
 #include "StateManager.h"
 
-class PresetManager : ChangeListener
+class PresetManager
 {
 public:
     
@@ -40,34 +40,32 @@ public:
     
     Value* getCurrentPresetName();
     
-    bool currentPresetFileExists() const;
+    bool currentPresetExistsAsFile();
     
 private:
+    int getPresetIndexFromName(String presetName);
     
-    void setCurrentPreset(File presetFile);
-    
-    int getPresetIndexFromFile(File& presetFile);
+    File getPresetFileFromName(String presetName);
     
     bool directoryContainsFiles();
     
     void initializeFromLastUsedPreset();
     
-    void changeListenerCallback (ChangeBroadcaster* source);
+    void waitForDirectoryToLoad();
     
     std::unique_ptr<DirectoryContentsList> directoryList;
     TimeSliceThread directoryScanThread;
     
     WildcardFileFilter fileFilter;
     
-    File defaultDirectory;
+    File directory;
     String directoryPath;
     
-    File currentPresetFile;
     Value currentPresetName;
     
     StateManager& state;
     
     bool directoryLoaded = false;
     
-    bool scanningForFiles = false;
+    int currentPresetIndex = 0;
 };

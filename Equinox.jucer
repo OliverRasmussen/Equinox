@@ -134,7 +134,6 @@
               file="Source/MasterEffectChain.h"/>
       </GROUP>
       <GROUP id="{47E3156D-846D-D967-FBC0-51FC25CA553E}" name="Utilities">
-        <FILE id="P3RPf5" name="PresetInfo.h" compile="0" resource="0" file="Source/PresetInfo.h"/>
         <FILE id="Kjxz21" name="PresetManager.cpp" compile="1" resource="0"
               file="Source/PresetManager.cpp"/>
         <FILE id="QsfOEa" name="PresetManager.h" compile="0" resource="0" file="Source/PresetManager.h"/>

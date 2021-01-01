@@ -65,7 +65,7 @@ MainMenu::~MainMenu()
 
 void MainMenu::displayOverwritePopUp()
 {
-    if (presetManager.currentPresetFileExists())
+    if (presetManager.currentPresetExistsAsFile())
     {
         int result = overwritePopUp.show();
         

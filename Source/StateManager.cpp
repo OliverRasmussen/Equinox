@@ -1,8 +1,12 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     StateManager.cpp
-    Created: 4 Dec 2020 2:04:12pm
     Author:  Oliver Rasmussen
 
   ==============================================================================
@@ -60,28 +64,16 @@ std::unique_ptr<AudioSample> StateManager::getAudioSample(String sampleId)
     return audioSampleState->getAudioSample(sampleId);
 }
 
-void StateManager::setPresetInfo(int index, String presetName)
+void StateManager::setPresetName(String presetName)
 {
-    currentState.setProperty("presetindex", index, nullptr);
     currentState.setProperty("presetname", presetName, nullptr);
 }
 
-//std::unique_ptr<std::tuple<int, String>> StateManager::getPresetInfo()
-//{
-//    if (currentState.hasProperty("presetindex") && currentState.hasProperty("presetname"))
-//    {
-//        int presetIndex = (int)currentState.getProperty("presetindex");
-//        String presetName = currentState.getProperty("presetname").toString();
-//        return std::make_unique<std::tuple<int, String>>(std::make_tuple(presetIndex, presetName));
-//    }
-//    return nullptr;
-//}
-
-std::unique_ptr<PresetInfo> StateManager::getPresetInfo()
+std::unique_ptr<String> StateManager::getPresetName()
 {
-    if (currentState.hasProperty("presetindex") && currentState.hasProperty("presetname"))
+    if (currentState.hasProperty("presetname"))
     {
-        return std::make_unique<PresetInfo>((int)currentState.getProperty("presetindex"), currentState.getProperty("presetname").toString());
+        return std::make_unique<String>(currentState.getProperty("presetname").toString());
     }
     return nullptr;
 }
@@ -109,9 +101,9 @@ bool StateManager::setStateFromXml(std::unique_ptr<XmlElement> stateXml)
                     currentState.addChild(this->parameterState->state, 0, nullptr);
                     currentState.addChild(this->audioSampleState->state, 1, nullptr);
                     
-                    if (stateXml->hasAttribute("presetindex") && stateXml->hasAttribute("presetname"))
+                    if (stateXml->hasAttribute("presetname"))
                     {
-                        setPresetInfo(stateXml->getIntAttribute("presetindex"), stateXml->getStringAttribute("presetname"));
+                        setPresetName(stateXml->getStringAttribute("presetname"));
                         return true;
                     }
                 }
