@@ -49,8 +49,6 @@ private:
     
     bool directoryContainsFiles();
     
-    void initializeFromLastUsedPreset();
-    
     void waitForDirectoryToLoad();
     
     std::unique_ptr<DirectoryContentsList> directoryList;
@@ -62,10 +60,10 @@ private:
     String directoryPath;
     
     Value currentPresetName;
+    int currentPresetIndex = 0;
     
     StateManager& state;
     
     bool directoryLoaded = false;
     
-    int currentPresetIndex = 0;
 };

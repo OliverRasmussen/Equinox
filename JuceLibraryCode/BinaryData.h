@@ -8,6 +8,9 @@
 
 namespace BinaryData
 {
+    extern const char*   _8bit_fortress_ttf;
+    const int            _8bit_fortress_ttfSize = 11208;
+
     extern const char*   MenuScreen_png;
     const int            MenuScreen_pngSize = 3830;
 
@@ -16,9 +19,6 @@ namespace BinaryData
 
     extern const char*   Background_png;
     const int            Background_pngSize = 1620659;
-
-    extern const char*   _8bit_fortress_ttf;
-    const int            _8bit_fortress_ttfSize = 11208;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 4;

@@ -42,7 +42,7 @@ void PresetManager::loadDirectory(String directoryPath)
     // Directory loaded, setting the preset to match the state
     if (state.getPresetName() == nullptr)
     {
-        // No previous loaded preset
+        // No previous loaded state
         if (directoryContainsFiles())
         {
             // Loading first preset file if directory contains files

@@ -4,18 +4,18 @@
               pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
               displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="cZd1eQ" name="Equinox">
-    <GROUP id="{574F497E-E632-69C7-C5D3-61461608EC44}" name="Resources">
-      <GROUP id="{4AC49238-A9F8-E7CF-4ABF-FC28980732F6}" name="Graphics">
-        <GROUP id="{77E1D3FE-F2E9-2F7E-F7AD-30891D68F35C}" name="Menu">
-          <FILE id="OfWoJB" name="MenuScreen.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Menu Screen/MenuScreen.png"/>
-          <FILE id="mRuyhZ" name="MenuScreenReflection.png" compile="0" resource="1"
-                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Menu Screen/MenuScreenReflection.png"/>
-        </GROUP>
-        <FILE id="pkyw7Q" name="Background.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Background.png"/>
+    <GROUP id="{71CFDAC0-CBDF-907A-DCB2-68588C683A0C}" name="Resources">
+      <GROUP id="{5B72B7EC-FE27-25F8-2E9B-9AEB6CFEBC87}" name="Fonts">
+        <FILE id="qAbC1i" name="8-bit fortress.ttf" compile="0" resource="1"
+              file="Resources/Fonts/8-bit fortress.ttf"/>
       </GROUP>
-      <GROUP id="{63884875-FC65-7454-CA4D-599AB4F38559}" name="Fonts">
-        <FILE id="gtYEsp" name="8-bit fortress.ttf" compile="0" resource="1"
-              file="../../../../../Downloads/8-bit-fortress/8-bit fortress.ttf"/>
+      <GROUP id="{4F8C6044-3546-021D-71F1-08855308E9DA}" name="Graphics">
+        <GROUP id="{3905DC9D-4E75-E993-0E3B-3ADCEF75AC47}" name="Menu">
+          <FILE id="FV6qxJ" name="MenuScreen.png" compile="0" resource="1" file="Resources/Graphics/Menu/MenuScreen.png"/>
+          <FILE id="s2lP1f" name="MenuScreenReflection.png" compile="0" resource="1"
+                file="Resources/Graphics/Menu/MenuScreenReflection.png"/>
+        </GROUP>
+        <FILE id="TKgM5g" name="Background.png" compile="0" resource="1" file="Resources/Graphics/Background.png"/>
       </GROUP>
     </GROUP>
     <GROUP id="{150EB89A-D342-9E47-CCC8-826BCDAF510E}" name="Source">
