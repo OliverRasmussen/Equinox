@@ -1,8 +1,12 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     EquinoxSynthesizer.cpp
-    Created: 8 Apr 2020 9:27:00pm
     Author:  Oliver Rasmussen
 
   ==============================================================================
@@ -35,7 +39,11 @@ std::string EquinoxSynthesizer::instanceNumAsString() const
 
 void EquinoxSynthesizer::valueTreeChildAdded (ValueTree &parentTree, ValueTree &childWhichHasBeenAdded)
 {
-    updateSynth();
+    // Updating the synth if the added child is the params
+    if (childWhichHasBeenAdded.getType() == stateManager.getParameters().state.getType())
+    {
+        updateSynth();
+    }
     
     String audioSampleStateId = "audiosamplestate";
     String audioSampleId = "audiosample" + instanceNumAsString();
@@ -57,9 +65,9 @@ void EquinoxSynthesizer::valueTreeChildAdded (ValueTree &parentTree, ValueTree &
     }
 }
 
-void EquinoxSynthesizer::valueTreePropertyChanged(ValueTree& valueTree, const Identifier& property)
+void EquinoxSynthesizer::valueTreePropertyChanged(ValueTree& valueTree, const Identifier& propertyId)
 {
-    // Checking if the valuetree is a parameter
+    // Updating the synth if the valuetree which property has changed is a parameter
     if (valueTree.getType().toString() == "PARAM")
     {
         updateSynth();

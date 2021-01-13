@@ -25,16 +25,22 @@ public:
     
     ~SampleSynthVoice() override;
     
+    /** Prepares the voices*/
     void prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec& spec) override;
     
+    /** Returns wether the sound is available*/
     bool canPlaySound (SynthesiserSound*) override;
     
+    /** Starts a note*/
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override;
     
+    /** Stops a note*/
     virtual void stopNote(float velocity, bool allowTailOff) override;
     
+    /** Returns the next  sample*/
     float getNextSamplerSample (int channel, const float* const inL, const float* const inR);
     
+    /** Renders the next block*/
     void renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override;
     
 private:

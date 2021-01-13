@@ -26,8 +26,10 @@ public:
 
     ~SampleSynthSound() override;
     
+    /** Returns the name of the current AudioSample*/
     const String& getName() const noexcept { return name; }
     
+    /** Returns the AudioSamples audio data as an AudioBuffer*/
     AudioBuffer<float>* getAudioData() const noexcept { return data.get(); }
 
     bool appliesToNote(int midiNoteNumber) override;
@@ -35,6 +37,9 @@ public:
     bool appliesToChannel(int midiChannel) override;
 
 private:
+    
+    /** Resamples the AudioSample  to match the current samplerate*/
+    void resampleSourceSamplerate(int currentSamplerate);
 
     friend class SampleSynthVoice;
     
@@ -52,7 +57,6 @@ private:
     CatmullRomInterpolator resamplerL;
     CatmullRomInterpolator resamplerR;
     
-    void resampleSourceSamplerate(int currentSamplerate);
     
 };
 

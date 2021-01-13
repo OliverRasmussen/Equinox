@@ -25,21 +25,25 @@ public:
     
     ~OscSynthVoice() override;
     
+    /** Prepares the voices*/
     void prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec&) override;
     
+    /** Returns wether the sound is available*/
     bool canPlaySound (SynthesiserSound*) override;
     
+    /** Starts a note*/
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override;
     
+    /** Renders the next block*/
     void renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override;
     
+    /** Sets the waveform*/
     void setWaveform(float* selectedWaveform);
     
 private:
     
-    double getWaveform(WavetableOscillator& osc, double frequency);
-    
-    double getOscillator(int channel);
+    /** Returns the next oscillator sample, based on the current set waveform*/
+    double getNextOscillatorSample(int channel);
     
     int currentWaveform;
     

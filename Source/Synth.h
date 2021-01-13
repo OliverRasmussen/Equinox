@@ -20,14 +20,18 @@ public:
     ~Synth();
     
 protected:
+    /** Method for finding a free voice*/
     SynthesiserVoice* findFreeVoice (SynthesiserSound* soundToPlay, int midiChannel, int midiNoteNumber, const bool stealIfNoneAvailable) const override;
     
+    /** Called when a note starts*/
     void noteOn (const int midiChannel, const int midiNoteNumber, const float velocity) override;
     
+    /** Method used for handling midi events*/
     void handleMidiEvent(const MidiMessage &) override;
     
     Array<MidiMessage> notesHeldDown;
     
  private:
+    /** Returns true if the synth currently only has one voice*/
     bool monoEnabled() const;
 };

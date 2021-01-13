@@ -24,10 +24,13 @@ public:
     
     ~AudioSampleValueTreeState();
     
+    /** Adds a file as an AudioSample to the AudioSampleValueTreeState*/
     void addAudioSample(File audioFile, String sampleId);
     
+    /** Returns a pointer to a specific sample*/
     std::unique_ptr<AudioSample> getAudioSample(String sampleId);
     
+    /** Replaces the AudioSampleValueTreeStates internal ValueTree*/
     void replaceState(ValueTree newState);
     
     ValueTree state;

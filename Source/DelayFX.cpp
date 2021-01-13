@@ -1,8 +1,12 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     Delay.cpp
-    Created: 23 Dec 2020 10:37:44pm
     Author:  Oliver Rasmussen
 
   ==============================================================================
@@ -25,13 +29,11 @@ void DelayFX::prepare(const dsp::ProcessSpec& spec)
     delayBuffer = AudioBuffer<float> (spec.numChannels, spec.maximumBlockSize);
     
     delay.prepare(spec);
-    delayMixer.prepare(spec);
 }
 
 void DelayFX::reset()
 {
     delay.reset();
-    delayMixer.reset();
 }
 
 bool DelayFX::isActive()

@@ -24,9 +24,6 @@ PresetManager::~PresetManager()
 
 void PresetManager::loadDirectory(String directoryPath)
 {
-    directoryScanThread.startThread();
-    directoryList = std::make_unique<DirectoryContentsList>(&fileFilter, directoryScanThread);
-    
     this->directoryPath = directoryPath;
     
     directory = File(directoryPath);
@@ -34,38 +31,42 @@ void PresetManager::loadDirectory(String directoryPath)
     // Creates directory if it doesnt exist
     if (!directory.exists()) { directory.createDirectory(); }
     
+    // Starting the directoryScanThread and instantiating the directoryList
+    directoryScanThread.startThread();
+    directoryList = std::make_unique<DirectoryContentsList>(&fileFilter, directoryScanThread);
+    
     // Sets the directoryList to scan the default directory
     directoryList->setDirectory(directory, true, true);
     
     waitForDirectoryToLoad();
+    directoryLoaded = true;
     
     // Directory loaded, setting the preset to match the state
-    if (state.getPresetName() == nullptr)
+    if (directoryContainsFiles())
     {
-        // No previous loaded state
-        if (directoryContainsFiles())
+        if (state.getPresetName() == nullptr)
         {
-            // Loading first preset file if directory contains files
+            // No previous loaded state, setting the state from the first file in the directory
             File preset = directoryList->getFile(0);
             if (state.loadStateFromFile(preset))
             {
-                currentPresetName = preset.getFileNameWithoutExtension();
+                currentPresetName = *state.getPresetName();
                 currentPresetIndex = 0;
+                return;
             }
         }
         else
         {
-            // Initializing if no preset files exists in directory
-            initializePreset();
+            // Matching the previous loaded preset
+            currentPresetName = *state.getPresetName();
+            currentPresetIndex = getPresetIndexFromName(currentPresetName.toString());
+            return;
         }
     }
-    else
-    {
-        // Matching the previous loaded preset
-        currentPresetName = *state.getPresetName();
-        currentPresetIndex = getPresetIndexFromName(currentPresetName.toString());
-    }
-    directoryLoaded = true;
+    
+    // Initializing the state if no preset files exists in directory or if state couldnt be loaded
+    initializePreset();
+    
 }
     
 void PresetManager::savePreset()
@@ -82,9 +83,9 @@ void PresetManager::savePreset()
             directoryList->refresh();
             waitForDirectoryToLoad();
             
-            state.setPresetName(preset.getFileNameWithoutExtension());
-            currentPresetName = *state.getPresetName();
+            currentPresetName = preset.getFileNameWithoutExtension();
             currentPresetIndex = getPresetIndexFromName(currentPresetName.toString());
+            state.setPresetName(currentPresetName.toString());
             state.saveStateToFile(preset);
         }
     }
@@ -102,7 +103,7 @@ void PresetManager::loadPreset()
             if (state.loadStateFromFile(preset))
             {
                 currentPresetName = *state.getPresetName();
-                currentPresetIndex = -1;
+                currentPresetIndex = getPresetIndexFromName(currentPresetName.toString());
             }
         }
     }

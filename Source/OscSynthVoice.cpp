@@ -1,8 +1,12 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     OscSynthVoice.cpp
-    Created: 4 Apr 2020 5:13:23pm
     Author:  Oliver Rasmussen
 
   ==============================================================================
@@ -42,44 +46,53 @@ void OscSynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSo
 
 }
 
-// used for setting the currentWaveform
 void OscSynthVoice::setWaveform(float* selectedWaveform)
 {
     currentWaveform = static_cast<int>(*selectedWaveform);
 }
 
-
-// Returns a oscillated waveform from the passed in oscillator and frequency
-double OscSynthVoice::getWaveform(WavetableOscillator& osc, double frequency)
+double OscSynthVoice::getNextOscillatorSample(int channel)
 {
-    double waveform;
-    switch (currentWaveform)
+    double nextSample = 0;
+    double frequency;
+    WavetableOscillator* oscPtr = nullptr;
+    
+    if (channel == 0)
     {
-        case 0:
-            waveform = osc.sine(frequency);
-            break;
-        case 1:
-            waveform = osc.saw(frequency);
-            break;
-        case 2:
-            waveform = osc.triangle(frequency);
-            break;
-        case 3:
-            waveform = osc.square(frequency);
-            break;
-        case 4:
-            waveform = osc.noise();
-            break;
-        default:
-            waveform = osc.sine(frequency);
-            break;
+        oscPtr = &oscillator1;
+        frequency = getFrequency();
     }
-    return waveform;
-}
-
-double OscSynthVoice::getOscillator(int channel)
-{
-    return (channel == 0) ? getWaveform(oscillator1, getFrequency()) : (getDetune()) ? getWaveform(oscillator2, getFrequency() * getDetune()) : getWaveform(oscillator2, getFrequency());
+    else
+    {
+        oscPtr = &oscillator2;
+        frequency = getDetune() ? getFrequency() * getDetune() : getFrequency();
+    }
+    
+    if (oscPtr != nullptr)
+    {
+        switch (currentWaveform)
+        {
+            case 0:
+                nextSample = oscPtr->sine(frequency);
+                break;
+            case 1:
+                nextSample = oscPtr->saw(frequency);
+                break;
+            case 2:
+                nextSample = oscPtr->triangle(frequency);
+                break;
+            case 3:
+                nextSample = oscPtr->square(frequency);
+                break;
+            case 4:
+                nextSample = oscPtr->noise();
+                break;
+            default:
+                nextSample = oscPtr->sine(frequency);
+                break;
+        }
+    }
+    return nextSample;
 }
 
 
@@ -95,7 +108,7 @@ void OscSynthVoice::renderNextBlock (AudioBuffer<float> &outputBuffer, int start
         {
             for (int channel = 0; channel < proxyBuffer.getNumChannels(); ++channel)
             {
-                proxyBuffer.addSample (channel, sample, getOscillator(channel));
+                proxyBuffer.addSample (channel, sample, getNextOscillatorSample(channel));
             }
         }
         addBufferToOutput (proxyBuffer, outputBuffer, startSample, numSamples);

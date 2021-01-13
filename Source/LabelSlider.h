@@ -30,22 +30,31 @@ public:
     
     ~LabelSlider() override;
     
+    /** Sets the position of the LabelSlider*/
     void setPosition(int x, int y);
     
+    /** Sets the bounds of the Slider component*/
     void setSliderComponentBounds(int x, int y, int width = -1, int height = -1);
     
+    /** Returns the bounds of the Slider component*/
     Rectangle<int> getSliderComponentBounds() const;
     
+    /** Sets the bounds of the Label component*/
     void setLabelComponentBounds(int x, int y, int width = -1, int height = -1);
     
+    /** Returns the bounds of the Label component*/
     Rectangle<int> getLabelComponentBounds() const;
     
+    /** Returns the LabelSliders ID*/
     String getID() const;
     
+    /** Returns a reference to the Slider component*/
     Slider& getSliderComponent();
     
+    /** Returns a reference to the Label component*/
     Label& getLabelComponent();
     
+    /** Centers the LabelSliders components*/
     void center();
 
     void paint (juce::Graphics&) override;

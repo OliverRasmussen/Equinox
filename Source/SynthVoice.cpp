@@ -1,8 +1,12 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     SynthVoice.cpp
-    Created: 2 May 2020 4:50:30pm
     Author:  Oliver Rasmussen
 
   ==============================================================================
@@ -41,8 +45,6 @@ void SynthVoice::setFrequency(double frequency)
     this->frequency = frequency;
 }
 
-
-// Returns frequency with modifications applied
 double SynthVoice::getFrequency() const
 {
     return frequency * frequencyModifications();
@@ -58,7 +60,6 @@ float SynthVoice::getDetune() const
     return detune;
 }
 
-// method used for applying various modifications to the frequency
 float SynthVoice::frequencyModifications() const
 {
     if (applyPortamento)
@@ -89,7 +90,6 @@ void SynthVoice::setPanning(float* panValue)
     panningValue = *panValue;
 }
 
-// returns the current panning
 float SynthVoice::getPanning(int currentChannel) const
 {
     float panning = 1;
@@ -120,7 +120,6 @@ bool SynthVoice::isMonoEnabled() const
     return monoMode;
 }
 
-// Calculates and returns the next portamento value
 double SynthVoice::getNextPortamentoValue() const
 {
     double targetValue = 1;
@@ -174,7 +173,6 @@ void SynthVoice::setAnalogValue(float* analogValue)
     this->analogValue = static_cast<int>(*analogValue);
 }
 
-// returns a random value factor. Randomness is determined by Analogvalue
 float SynthVoice::getRandomAnalogFactor() const
 {
     if (analogValue == 1)
@@ -211,7 +209,6 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
     
     if (!noteHasBeenTriggered || inRelease)
     {
-        voiceFilter.reset();
         midiKeyVelocity = velocity;
         ampEnvelope.noteOn();
         filterEnvelope.noteOn();
@@ -236,6 +233,7 @@ void SynthVoice::stopNote (float velocity, bool allowTailOff)
 
 void SynthVoice::resetNote()
 {
+    voiceFilter.reset();
     noteHasBeenTriggered = false;
     clearCurrentNote();
 }
@@ -288,7 +286,7 @@ void SynthVoice::controllerMoved (int controllerNumber, int newControllerValue)
 
 void SynthVoice::addBufferToOutput(AudioBuffer<float> &bufferToAdd, AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
-    getFilterEnvelope().setParameters();
+    getFilterEnvelope().calculateNextValue();
     
     //Pocesses the buffer through the filter and replaces it
     voiceFilter.process(bufferToAdd);

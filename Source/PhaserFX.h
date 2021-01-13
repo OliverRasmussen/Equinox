@@ -20,14 +20,19 @@ public:
     PhaserFX();
     ~PhaserFX();
     
+    /** Prepares the phaser*/
     void prepare(const dsp::ProcessSpec& spec);
     
+    /** Resets the phaser*/
     void reset();
     
+    /** Returns true if the phaser is active*/
     bool isActive();
 
+    /** Sets the phasers parameters*/
     void setParameters(float rate, float depth, float frequency, float feedback, float mix);
     
+    /** Processes the AudioBuffer reference through the phaser*/
     void process(AudioBuffer<float>& bufferToProcess);
     
 private:

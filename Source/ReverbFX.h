@@ -20,14 +20,19 @@ public:
     ReverbFX();
     ~ReverbFX();
     
+    /** Prepares the reverb*/
     void prepare(const dsp::ProcessSpec& spec);
     
+    /** Resets the reverb*/
     void reset();
     
+    /** Returns true if the reverb is active*/
     bool isActive();
 
+    /** Sets the reverbs parameters*/
     void setParameters(float roomSize, float damping, float width, float mix);
     
+    /** Processes the AudioBuffer reference through the reverb*/
     void process(AudioBuffer<float>& bufferToProcess);
     
 private:

@@ -19,15 +19,20 @@ class ADSREnvelope
 public:
         
     virtual ~ADSREnvelope() {}
-        
+    
+    /** Prepares the envelope*/
     virtual void prepareToPlay(double sampleRate) = 0;
-        
+    
+    /** Sets the envelope*/
     virtual void setEnvelope(float *attack, float *decay, float *sustain, float *release) = 0;
-        
+    
+    /** Should be called when a note is triggered*/
     virtual void noteOn() = 0;
-        
+    
+    /** Should be called when a note is released*/
     virtual void noteOff() = 0;
-        
+    
+    /** Returns true if the envelope is active*/
     virtual bool isActive() const = 0;
     
 };

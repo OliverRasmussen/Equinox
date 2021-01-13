@@ -1,8 +1,12 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     Filter.cpp
-    Created: 15 Apr 2020 9:44:46pm
     Author:  Oliver Rasmussen
 
   ==============================================================================
@@ -24,7 +28,7 @@ void Filter::reset()
 void Filter::setMode(float* mode)
 {
     int newMode = *mode;
-    if(filterMode != newMode)
+    if (filterMode != newMode)
     {
         filterMode = newMode;
         switch (filterMode)

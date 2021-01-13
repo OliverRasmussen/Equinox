@@ -1,8 +1,12 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     MasterEffectChain.cpp
-    Created: 18 Apr 2020 3:47:53am
     Author:  Oliver Rasmussen
 
   ==============================================================================
@@ -139,10 +143,18 @@ void MasterEffectChain::process(AudioBuffer<float>& bufferToProcess, double& bpm
     
 void MasterEffectChain::valueTreeChildAdded (ValueTree& parentTree, ValueTree& childWhichHasBeenAdded)
 {
-    updateParameters();
+    // Updating the effects parameter values if the added child is the params
+    if (childWhichHasBeenAdded.getType() == state.getParameters().state.getType())
+    {
+        updateParameters();
+    }
 }
     
-void MasterEffectChain::valueTreePropertyChanged(ValueTree&, const Identifier&)
+void MasterEffectChain::valueTreePropertyChanged(ValueTree& valueTree, const Identifier& propertyId)
 {
-    updateParameters();
+    // Updating the effects parameter values if the valuetree which property has changed is a parameter
+    if (valueTree.getType().toString() == "PARAM")
+    {
+        updateParameters();
+    }
 }

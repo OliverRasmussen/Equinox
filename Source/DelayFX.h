@@ -23,17 +23,23 @@ public:
     DelayFX();
     ~DelayFX();
     
+    /** Prepares the delay*/
     void prepare(const dsp::ProcessSpec& spec);
     
+    /** Resets the delay*/
     void reset();
     
+    /** Returns true if the delay is active*/
     bool isActive();
 
+    /** Sets the delays parameters*/
     void setParameters(float time, float feedback, float mix);
     
+    /** Processes the AudioBuffer reference through the delay*/
     void process(AudioBuffer<float>& bufferToProcess, double& bpm);
     
 private:
+    /** Calculates the delay in samples*/
     float calculateDelayInSamples();
     
     dsp::DelayLine<float> delay;
@@ -41,8 +47,6 @@ private:
     float time = 0;
     float mix = 0;
     float currentBPM = 120;
-    
-    dsp::DryWetMixer<float> delayMixer;
     
     float samplerate = 44100;
     

@@ -21,38 +21,51 @@ class FilterEnvelope : public ADSREnvelope
 public:
     
     FilterEnvelope (Filter&);
-
+    
+    /** Prepares the filter envelope*/
     void prepareToPlay (double sampleRate) override;
-           
+    
+    /** Sets the filter envelopes parameters*/
     void setEnvelope (float *attack, float *decay, float *sustain, float *release) override;
     
+    /** Sets the cutoff limit*/
     void setCutoffLimit (float *cutoffLimit);
-           
+    
+    /** Should be called when a note is triggered*/
     void noteOn() override;
-           
+    
+    /** Should be called when a note is released*/
     void noteOff() override;
-           
+    
+    /** Returns true if the filter envelope is currently active*/
     bool isActive() const override;
     
-    void setParameters();
+    /** Calculates the filter envelopes next value*/
+    void calculateNextValue();
     
 private:
     
+    
+    /** Calculates the next attack value*/
+    void calculateNextAttackValue();
+    
+    /** Calculates the next decay value*/
+    void calculateNextDecayValue();
+    
+    /** Calculates the next sustain value*/
+    void calculateNextSustainValue();
+    
+    /** Calculates the next release value*/
+    void calculateNextReleaseValue();
+    
+    /** Gets the next envelope state*/
+    void nextState();
+    
     Filter& filter;
-
+    
     enum state {attackState, decayState, sustainState, releaseState, idleState};
     
     state currentState;
-    
-    void calculateNextAttackValue();
-    
-    void calculateNextDecayValue();
-    
-    void calculateNextSustainValue();
-    
-    void calculateNextReleaseValue();
-    
-    void nextState();
     
     float attack = 0, decay = 0, sustain = 0, release = 0;
     

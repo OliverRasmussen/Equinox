@@ -20,14 +20,19 @@ public:
     ChorusFX();
     ~ChorusFX();
     
+    /** Prepares the chorus*/
     void prepare(const dsp::ProcessSpec& spec);
     
+    /** Resets the chours*/
     void reset();
     
+    /** Returns true if the chorus is active*/
     bool isActive();
 
+    /** Sets the chorus parameters*/
     void setParameters(float rate, float depth, float delay, float feedback, float mix);
     
+    /** Processes the AudioBuffer reference through the chorus*/
     void process(AudioBuffer<float>& bufferToProcess);
     
 private:

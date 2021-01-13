@@ -1,8 +1,12 @@
 /*
   ==============================================================================
-
+     ______ ____   __  __ ____ _   __ ____  _  __
+    / ____// __ \ / / / //  _// | / // __ \| |/ /
+   / __/  / / / // / / / / / /  |/ // / / /|   /
+  / /___ / /_/ // /_/ /_/ / / /|  // /_/ //   |
+ /_____/ \___\_\\____//___//_/ |_/ \____//_/|_|
+ 
     FilterEnvelope.cpp
-    Created: 18 Apr 2020 3:32:00am
     Author:  Oliver Rasmussen
 
   ==============================================================================
@@ -54,7 +58,7 @@ bool FilterEnvelope::isActive() const
     return active;
 }
 
-void FilterEnvelope::setParameters()
+void FilterEnvelope::calculateNextValue()
 {
     if (active)
     {

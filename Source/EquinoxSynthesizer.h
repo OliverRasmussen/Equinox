@@ -33,44 +33,59 @@ public:
     
     EquinoxSynthesizer(StateManager&, int);
     
-    void initialize();
-    
     ~EquinoxSynthesizer();
     
+    /**Initializes the synthesizer*/
+    void initialize();
+    
+    /** Returns this instance number as a string*/
     std::string instanceNumAsString() const;
     
+    /** Adds the synthesizers parameters to a passed in vector*/
     void addParameters(std::vector<std::unique_ptr<RangedAudioParameter>>&);
     
+    /** Initializes the voices*/
     void setVoices();
     
+    /** loads an AudioSample*/
     void loadAudioSample(AudioSample&);
     
+    /** Sets the synthesizers mode to either oscSynthMode or sampleSynthMode*/
     void setSynthMode(int);
     
+    /** Used for switching the voicing mode*/
     void switchVoicingMode(bool);
     
+    /** Clears all current notes*/
     void clearAllCurrentNotes();
     
+    /** Prepares the synthesizer */
     void prepareToPlay(double, int, int);
     
+    /** Prepares the voices*/
     void prepareVoices();
     
+    /** Updates the synthesizer*/
     void updateSynth();
     
+    /** Used for setting the voices parameters*/
     template<typename T>
     void setVoiceParameters(T);
     
+    /** Renders the next block*/
     void renderNextBlock(AudioBuffer<float>&, MidiBuffer&);
 
 private:
-    
+    /** Receives a callback whenever a ValueTree child is added*/
     void valueTreeChildAdded (ValueTree&, ValueTree&) override;
     
+    /** Receives a callback whenever a property in the ValueTree has changed*/
     void valueTreePropertyChanged(ValueTree&, const Identifier&) override;
     
-    StateManager& stateManager;
-    
+    /** Returns true if the synth is currently active*/
     bool isSynthActive() const;
+
+    StateManager& stateManager;
     
     bool isMonophonic = false;
     

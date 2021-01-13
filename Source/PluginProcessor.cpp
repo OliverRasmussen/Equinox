@@ -151,7 +151,6 @@ bool EquinoxAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) 
 
 void EquinoxAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    
     ScopedNoDenormals noDenormals;
     
     auto totalNumInputChannels  = getTotalNumInputChannels();
