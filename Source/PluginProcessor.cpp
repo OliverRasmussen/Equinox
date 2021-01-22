@@ -26,7 +26,7 @@ EquinoxAudioProcessor::EquinoxAudioProcessor()
                           synthLayer3(stateManager, 3),
                           masterEffectChain(stateManager),
                           stateManager(new AudioProcessorValueTreeState(*this, nullptr, "parameterstate", CreateParameterLayout()),
-                          new AudioSampleValueTreeState("audiosamplestate"))
+                          new AudioSampleValueTreeState("audiosamplestate")), presetManager(stateManager)
 #endif
 {
     synthLayer1.initialize();

@@ -24,7 +24,7 @@
 class MainMenu  : public juce::Component, Value::Listener
 {
 public:
-    MainMenu(StateManager& state);
+    MainMenu(PresetManager& presetManager);
     ~MainMenu() override;
 
     void paint (juce::Graphics&) override;
@@ -56,7 +56,7 @@ private:
     Image menuScreen;
     Image screenReflection;
     
-    PresetManager presetManager;
+    PresetManager& presetManager;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainMenu)
 };

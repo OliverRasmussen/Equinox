@@ -14,6 +14,7 @@
 #include "EquinoxSynthesizer.h"
 #include "MasterEffectChain.h"
 #include "StateManager.h"
+#include "PresetManager.h"
 
 //==============================================================================
 /**
@@ -63,6 +64,8 @@ public:
     MasterEffectChain masterEffectChain;
     
     StateManager stateManager;
+    
+    PresetManager presetManager;
     
 private:
     AudioPlayHead::CurrentPositionInfo currentPositionInfo;

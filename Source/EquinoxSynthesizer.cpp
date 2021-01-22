@@ -39,10 +39,12 @@ std::string EquinoxSynthesizer::instanceNumAsString() const
 
 void EquinoxSynthesizer::valueTreeChildAdded (ValueTree &parentTree, ValueTree &childWhichHasBeenAdded)
 {
-    // Updating the synth if the added child is the params
+    // resetting and updating the synth and its voices if the added child is the parameters
     if (childWhichHasBeenAdded.getType() == stateManager.getParameters().state.getType())
     {
-        updateSynth();
+        needsReset = true;
+        needsUpdate = true;
+        return;
     }
     
     String audioSampleStateId = "audiosamplestate";
@@ -54,13 +56,9 @@ void EquinoxSynthesizer::valueTreeChildAdded (ValueTree &parentTree, ValueTree &
         ValueTree audioSampleState = stateManager.getState().getChildWithName(audioSampleStateId);
         if (audioSampleState.isValid())
         {
-            // Checking if the audioSampleState contains an audio sample,
-            // and loads it if it does
-            ValueTree audioSample = audioSampleState.getChildWithName(audioSampleId);
-            if (audioSample.isValid())
-            {
-                loadAudioSample(*stateManager.getAudioSample(audioSampleId));
-            }
+            loadNewAudioSample = true;
+            needsUpdate = true;
+            return;
         }
     }
 }
@@ -70,7 +68,7 @@ void EquinoxSynthesizer::valueTreePropertyChanged(ValueTree& valueTree, const Id
     // Updating the synth if the valuetree which property has changed is a parameter
     if (valueTree.getType().toString() == "PARAM")
     {
-        updateSynth();
+        needsUpdate = true;
     }
 }
 
@@ -102,6 +100,7 @@ void EquinoxSynthesizer::loadAudioSample(AudioSample& audioSample)
 {
     sampleSynth.clearSounds();
     sampleSynth.addSound(new SampleSynthSound(audioSample, sampleRate));
+    loadNewAudioSample = false;
 }
 
 // sets the current synth mode
@@ -146,8 +145,7 @@ void EquinoxSynthesizer::prepareToPlay(double sampleRate, int samplesPerBlock, i
     sampleSynth.setCurrentPlaybackSampleRate(sampleRate);
     
     prepareVoices();
-    updateSynth();
-    
+    update();
 }
 
 // Prepares all the voices for playback
@@ -171,13 +169,13 @@ void EquinoxSynthesizer::prepareVoices()
 void EquinoxSynthesizer::addParameters(std::vector<std::unique_ptr<RangedAudioParameter>> &params)
 {
     // AmpEnvelope parameters
-    params.push_back(std::make_unique<AudioParameterFloat>("ampAttack" + instanceNumAsString(), "AmpAttack", NormalisableRange<float>(0.01f, 5.0f, 0.1f, 1.0f), 0.01f));
+    params.push_back(std::make_unique<AudioParameterFloat>("ampAttack" + instanceNumAsString(), "AmpAttack", NormalisableRange<float>(0.001f, 5.0f, 0.1f, 1.0f), 0.001f));
     
     params.push_back(std::make_unique<AudioParameterFloat>("ampDecay" + instanceNumAsString(), "AmpDecay", NormalisableRange<float>(0.0f, 5.0f, 0.1f, 1.0f), 1.0f));
     
     params.push_back(std::make_unique<AudioParameterFloat>("ampSustain" + instanceNumAsString(), "AmpSustain", NormalisableRange<float>(0.0f, 1.0f, 0.01f, 1.0f), 0.8f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("ampRelease" + instanceNumAsString(), "AmpRelease", NormalisableRange<float>(0.1f, 5.0f, 0.1f, 1.1f), 0.1f));
+    params.push_back(std::make_unique<AudioParameterFloat>("ampRelease" + instanceNumAsString(), "AmpRelease", NormalisableRange<float>(0.001f, 5.0f, 0.1f, 1.1f), 0.001f));
     
     
     // FilterEnvelope parameters
@@ -233,7 +231,7 @@ bool EquinoxSynthesizer::isSynthActive() const
 }
 
 // Updates the synth
-void EquinoxSynthesizer::updateSynth()
+void EquinoxSynthesizer::update()
 {
     // Check if mono has been turned on or off
     if (isMonophonic != *stateManager.getAudioParameterValue("monoEnabled" + instanceNumAsString()))
@@ -249,9 +247,18 @@ void EquinoxSynthesizer::updateSynth()
         currentSynthMode = static_cast<synthMode>((int)*stateManager.getAudioParameterValue("synthMode" + instanceNumAsString()));
     }
     
+    // Check if new audio sample should be added to the samplesynth
+    if (currentSynthMode == sampleSynthMode && loadNewAudioSample)
+    {
+        if (auto sample = stateManager.getAudioSample("audiosample" + instanceNumAsString()))
+        {
+            loadAudioSample(*sample);
+        }
+    }
+    
     if (currentSynthMode == synthMode::oscSynthMode)
     {
-        // Updating the oscSynthVoices parameters before rendering
+        // Updating the oscSynthVoices parameters
         for (int i = 0; i < numVoices; i++)
         {
             if (auto oscVoice = dynamic_cast<OscSynthVoice*>(oscillatorSynth.getVoice(i)))
@@ -265,7 +272,7 @@ void EquinoxSynthesizer::updateSynth()
     }
     else if (currentSynthMode == synthMode::sampleSynthMode)
     {
-        // Updating the sampleSynthVoices parameters before rendering
+        // Updating the sampleSynthVoices parameters
         for (int i = 0; i < numVoices; i++)
         {
             if (auto sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i)))
@@ -332,5 +339,17 @@ void EquinoxSynthesizer::renderNextBlock(AudioBuffer<float>& buffer, MidiBuffer&
     else if (currentSynthMode == synthMode::sampleSynthMode)
     {
         sampleSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    }
+    
+    if (needsUpdate)
+    {
+        if (needsReset)
+        {
+            setVoices();
+            prepareVoices();
+            needsReset = false;
+        }
+        update();
+        needsUpdate = false;
     }
 }

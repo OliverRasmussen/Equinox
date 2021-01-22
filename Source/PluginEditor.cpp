@@ -13,7 +13,7 @@
 
 //==============================================================================
 EquinoxAudioProcessorEditor::EquinoxAudioProcessorEditor (EquinoxAudioProcessor& p)
-    : AudioProcessorEditor (&p), synthUnitGUI1(p.stateManager, p.synthLayer1.instanceNumAsString()), synthUnitGUI2(p.stateManager, p.synthLayer2.instanceNumAsString()), synthUnitGUI3(p.stateManager, p.synthLayer3.instanceNumAsString()), mainMenu(p.stateManager), masterEffects(p.stateManager)
+    : AudioProcessorEditor (&p), synthUnitGUI1(p.stateManager, p.synthLayer1.instanceNumAsString()), synthUnitGUI2(p.stateManager, p.synthLayer2.instanceNumAsString()), synthUnitGUI3(p.stateManager, p.synthLayer3.instanceNumAsString()), mainMenu(p.presetManager), masterEffects(p.stateManager)
 {
     getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colour(30.0f, 124.0f, 105.0f));
     
@@ -29,7 +29,6 @@ EquinoxAudioProcessorEditor::EquinoxAudioProcessorEditor (EquinoxAudioProcessor&
     addAndMakeVisible(&synthUnitGUI3);
     
     addAndMakeVisible(&masterEffects);
-    
 }
 
 EquinoxAudioProcessorEditor::~EquinoxAudioProcessorEditor()

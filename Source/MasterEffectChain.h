@@ -59,4 +59,6 @@ private:
     StateManager& state;
     
     dsp::ProcessSpec spec;
+    
+    bool needsUpdate = false;
 };

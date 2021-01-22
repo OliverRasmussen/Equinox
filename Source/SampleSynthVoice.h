@@ -43,6 +43,7 @@ public:
     /** Renders the next block*/
     void renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override;
     
+    
 private:
     
     double sourceSamplePositionLeft = 0;

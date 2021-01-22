@@ -31,6 +31,7 @@ SynthMenuGUI::SynthMenuGUI(StateManager& stateManager, std::string synthInstance
 
 SynthMenuGUI::~SynthMenuGUI()
 {
+    stateManager.getParameters().removeParameterListener("synthMode" + synthInstance, this);
 }
 
 // Called if the current tab gets switch to another tab

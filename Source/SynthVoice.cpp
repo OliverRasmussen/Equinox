@@ -209,6 +209,7 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
     
     if (!noteHasBeenTriggered || inRelease)
     {
+        voiceFilter.reset();
         midiKeyVelocity = velocity;
         ampEnvelope.noteOn();
         filterEnvelope.noteOn();
@@ -224,16 +225,10 @@ void SynthVoice::stopNote (float velocity, bool allowTailOff)
     ampEnvelope.noteOff();
     filterEnvelope.noteOff();
     inRelease = true;
-    
-    if (currentVoiceAmplitude == 0)
-    {
-        resetNote();
-    }
 }
 
 void SynthVoice::resetNote()
 {
-    voiceFilter.reset();
     noteHasBeenTriggered = false;
     clearCurrentNote();
 }
@@ -302,7 +297,7 @@ void SynthVoice::addBufferToOutput(AudioBuffer<float> &bufferToAdd, AudioBuffer<
         ++startSample;
     }
     
-    if (currentVoiceAmplitude == 0)
+    if (currentVoiceAmplitude == 0.0f)
     {
         resetNote();
     }

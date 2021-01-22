@@ -16,24 +16,30 @@
 
 PresetManager::PresetManager(StateManager& state) : directoryScanThread("directoryScanner"), fileFilter("*.equinox", "", "Presets"), state(state)
 {
+    // Starting the directoryScanThread and instantiating the directoryList
+    directoryScanThread.startThread();
+    directoryList = std::make_unique<DirectoryContentsList>(&fileFilter, directoryScanThread);
+    
+    // Loading the default directory
+    String defaultDirectoryPath = File::getSpecialLocation(File::userDocumentsDirectory).getFullPathName() + "/Equinox/Presets/";
+    loadDirectory(defaultDirectoryPath, true);
 }
 
 PresetManager::~PresetManager()
 {
 }
 
-void PresetManager::loadDirectory(String directoryPath)
+void PresetManager::loadDirectory(String directoryPath, bool createDirectoryIfNotExisting)
 {
     this->directoryPath = directoryPath;
     
     directory = File(directoryPath);
-
-    // Creates directory if it doesnt exist
-    if (!directory.exists()) { directory.createDirectory(); }
     
-    // Starting the directoryScanThread and instantiating the directoryList
-    directoryScanThread.startThread();
-    directoryList = std::make_unique<DirectoryContentsList>(&fileFilter, directoryScanThread);
+    if (createDirectoryIfNotExisting)
+    {
+        // Creates directory if it doesnt exist
+        if (!directory.exists()) { directory.createDirectory(); }
+    }
     
     // Sets the directoryList to scan the default directory
     directoryList->setDirectory(directory, true, true);

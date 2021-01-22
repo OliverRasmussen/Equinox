@@ -25,7 +25,7 @@ public:
     ~PresetManager();
     
     /** Loads the directory from the specified path*/
-    void loadDirectory(String directoryPath);
+    void loadDirectory(String directoryPath, bool createDirectoryIfNotExisting = false);
     
     /** Opens a dialog box that makes it possible to save the current preset to a file*/
     void savePreset();

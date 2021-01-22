@@ -39,17 +39,20 @@ void SampleSynthVoice::startNote(int midiNoteNumber, float velocity, Synthesiser
 {
     if (auto* sampleSound = dynamic_cast<const SampleSynthSound*> (sound))
     {
-        setFrequency(std::pow (2.0f, (midiNoteNumber - sampleSound->midiRootNote) / 12.0f)
-                     * sampleSound->sourceSamplerate / getSampleRate());
-        
-        sourceSamplePositionLeft = 0.0;
-        sourceSamplePositionRight = 0.0;
-        gain = velocity;
-        
-        sampleLength = sampleSound->length;
+        if (sampleSound->data)
+        {
+            setFrequency(std::pow (2.0f, (midiNoteNumber - sampleSound->midiRootNote) / 12.0f)
+                         * sampleSound->sourceSamplerate / getSampleRate());
+            
+            sourceSamplePositionLeft = 0.0;
+            sourceSamplePositionRight = 0.0;
+            gain = velocity;
+            
+            sampleLength = sampleSound->length;
 
-        //getAmpEnvelope().setSampleRate(sampleSound->sourceSampleRate);
-        SynthVoice::startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
+            //getAmpEnvelope().setSampleRate(sampleSound->sourceSampleRate);
+            SynthVoice::startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
+        }
     }
 }
 

@@ -65,8 +65,8 @@ public:
     /** Prepares the voices*/
     void prepareVoices();
     
-    /** Updates the synthesizer*/
-    void updateSynth();
+    /** Updates the synthesizer and its voices*/
+    void update();
     
     /** Used for setting the voices parameters*/
     template<typename T>
@@ -89,11 +89,11 @@ private:
     
     bool isMonophonic = false;
     
-    double sampleRate;
+    double sampleRate = 44100;
     
-    int samplesPerBlock;
+    int samplesPerBlock = 512;
     
-    int numChannels;
+    int numChannels = 2;
     
     dsp::ProcessSpec spec;
     
@@ -104,4 +104,10 @@ private:
     int instanceNum;
     
     int numVoices = 16;
+    
+    bool needsReset = false;
+    
+    bool needsUpdate = false;
+    
+    bool loadNewAudioSample = false;
 };

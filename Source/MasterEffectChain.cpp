@@ -120,6 +120,12 @@ void MasterEffectChain::updateParameters()
     
 void MasterEffectChain::process(AudioBuffer<float>& bufferToProcess, double& bpm)
 {
+    if (needsUpdate)
+    {
+        updateParameters();
+        needsUpdate = false;
+    }
+    
     if (chorusFX.isActive())
     {
         chorusFX.process(bufferToProcess);
@@ -155,6 +161,6 @@ void MasterEffectChain::valueTreePropertyChanged(ValueTree& valueTree, const Ide
     // Updating the effects parameter values if the valuetree which property has changed is a parameter
     if (valueTree.getType().toString() == "PARAM")
     {
-        updateParameters();
+        needsUpdate = true;
     }
 }
