@@ -81,8 +81,7 @@ float SampleSynthVoice::getNextSamplerSample (int channel, const float* const in
 
 void SampleSynthVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
-    
-    if (sourceSamplePositionLeft < sampleLength && sourceSamplePositionRight < sampleLength)
+    if (isVoiceActive() && sourceSamplePositionLeft < sampleLength && sourceSamplePositionRight < sampleLength)
     {
         if (auto* playingSound = static_cast<SampleSynthSound*> (getCurrentlyPlayingSound().get()))
         {

@@ -47,7 +47,5 @@ private:
     
     int currentWaveform;
     
-    int dummy = 0;
-    
     WavetableOscillator oscillator1, oscillator2;
 };

@@ -167,10 +167,16 @@ void EquinoxAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
     
     
     // Getting the currentPositionInfo
-    getPlayHead()->getCurrentPosition(currentPositionInfo);
+    if (auto playHead = getPlayHead())
+    {
+        playHead->getCurrentPosition(currentPositionInfo);
+        
+        // Setting the current bpm
+        currentBPM = currentPositionInfo.bpm;
+    }
     
     // Processing the buffer through the effect chain
-    masterEffectChain.process(buffer, currentPositionInfo.bpm);
+    masterEffectChain.process(buffer, currentBPM);
 }
 
 //==============================================================================

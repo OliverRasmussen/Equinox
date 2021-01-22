@@ -274,6 +274,11 @@ double SynthVoice::noteOffsetInHertz(double offset) const
     return std::pow(2.0, offset / 1200);
 }
 
+bool SynthVoice::isVoiceActive() const
+{
+    return getCurrentlyPlayingNote() >= 0 && masterAmplitude > 0.0f;
+}
+
 void SynthVoice::controllerMoved (int controllerNumber, int newControllerValue)
 {
     

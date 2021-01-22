@@ -332,15 +332,6 @@ void EquinoxSynthesizer::setVoiceParameters(T voice)
 // Updates the synth and renders all the voices
 void EquinoxSynthesizer::renderNextBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    if (currentSynthMode == synthMode::oscSynthMode)
-    {
-        oscillatorSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-    }
-    else if (currentSynthMode == synthMode::sampleSynthMode)
-    {
-        sampleSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-    }
-    
     if (needsUpdate)
     {
         if (needsReset)
@@ -351,5 +342,14 @@ void EquinoxSynthesizer::renderNextBlock(AudioBuffer<float>& buffer, MidiBuffer&
         }
         update();
         needsUpdate = false;
+    }
+    
+    if (currentSynthMode == synthMode::oscSynthMode)
+    {
+        oscillatorSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    }
+    else if (currentSynthMode == synthMode::sampleSynthMode)
+    {
+        sampleSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }
 }

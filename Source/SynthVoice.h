@@ -98,7 +98,7 @@ protected:
     virtual void stopNote(float velocity, bool allowTailOff) override;
     
     /** Resets the note*/
-    virtual void resetNote();
+    void resetNote();
     
     /** Adds an audiobuffer to another audiobuffer*/
     void addBufferToOutput(AudioBuffer<float> &bufferToAdd, AudioBuffer<float> &outputBuffer, int startSample, int numSamples);
@@ -124,6 +124,9 @@ protected:
     /** Converts and returns a notes offset to hertz*/
     double noteOffsetInHertz(double offset) const;
     
+    /**Returns true if the voice is active*/
+    bool isVoiceActive() const override;
+    
     AudioBuffer<float> voiceBuffer;
     
     int currentNoteNumber;
@@ -138,6 +141,12 @@ protected:
     
     float currentVoiceAmplitude = 0;
     
+    Filter voiceFilter;
+    
+    FilterEnvelope filterEnvelope;
+    
+    AmpEnvelope ampEnvelope;
+    
 private:
     
     bool applyPortamento = false;
@@ -149,12 +158,6 @@ private:
     float masterAmplitude = 1.0f;
     
     float midiKeyVelocity;
-    
-    Filter voiceFilter;
-    
-    FilterEnvelope filterEnvelope;
-    
-    AmpEnvelope ampEnvelope;
     
     float finePitch = 0.0f;
     
@@ -177,5 +180,7 @@ private:
     mutable double portamentoValue = 0.0;
     
     mutable bool portamentoStartValueHasBeenSet = false;
+    
+    int dummy = 0;
     
 };

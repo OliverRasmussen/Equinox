@@ -35,7 +35,7 @@ public:
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override;
     
     /** Stops a note*/
-    virtual void stopNote(float velocity, bool allowTailOff) override;
+    void stopNote(float velocity, bool allowTailOff) override;
     
     /** Returns the next  sample*/
     float getNextSamplerSample (int channel, const float* const inL, const float* const inR);

@@ -21,6 +21,7 @@ MasterEffectChain::MasterEffectChain(StateManager& state) : state(state)
 void MasterEffectChain::initialize()
 {
     state.getState().addListener(this);
+    updateParameters();
 }
 
 MasterEffectChain::~MasterEffectChain()
@@ -152,7 +153,7 @@ void MasterEffectChain::valueTreeChildAdded (ValueTree& parentTree, ValueTree& c
     // Updating the effects parameter values if the added child is the params
     if (childWhichHasBeenAdded.getType() == state.getParameters().state.getType())
     {
-        updateParameters();
+        needsUpdate = true;
     }
 }
     
