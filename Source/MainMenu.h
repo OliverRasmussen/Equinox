@@ -17,6 +17,7 @@
 #include <JuceHeader.h>
 #include "StateManager.h"
 #include "PresetManager.h"
+#include "EquinoxButton.h"
 
 //==============================================================================
 /*
@@ -43,18 +44,21 @@ private:
     Label presetNameLabel;
     Value presetName;
     
+    Value presetHasBeenEdited;
+    
     ArrowButton backArrow;
     ArrowButton forwardArrow;
     
-    TextButton initializeButton {"Initialize"};
-    TextButton loadButton {"Load Preset"};
-    TextButton overwriteButton {"Overwrite"};
-    TextButton saveButton {"Save Preset"};
+    EquinoxButton initializeButton {"Initialize"};
+    EquinoxButton loadButton {"Load Preset"};
+    EquinoxButton overwriteButton {"Overwrite"};
+    EquinoxButton saveButton {"Save Preset"};
     
     PopupMenu overwritePopUp;
     
     Image menuScreen;
     Image screenReflection;
+    float screenXPosition;
     
     PresetManager& presetManager;
     

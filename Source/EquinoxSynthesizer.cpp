@@ -14,7 +14,7 @@
 
 #include "EquinoxSynthesizer.h"
 
-EquinoxSynthesizer::EquinoxSynthesizer(StateManager& state, int synthNum) : stateManager(state)
+EquinoxSynthesizer::EquinoxSynthesizer(StateManager& state, int synthNum) : oscillatorSynth(Synth::voiceType::oscillator), sampleSynth(Synth::voiceType::sampler), stateManager(state)
 {
     instanceNum = synthNum;
     formatManager.registerBasicFormats();
@@ -22,14 +22,14 @@ EquinoxSynthesizer::EquinoxSynthesizer(StateManager& state, int synthNum) : stat
 
 void EquinoxSynthesizer::initialize()
 {
-    stateManager.getState().addListener(this);
-    setVoices();
+    stateManager.addListener(this);
+    
+    oscillatorSynth.addVoices(numVoices);
+    sampleSynth.addVoices(numVoices);
 }
 
 EquinoxSynthesizer::~EquinoxSynthesizer()
 {
-    oscillatorSynth.clearVoices();
-    sampleSynth.clearVoices();
 }
 
 std::string EquinoxSynthesizer::instanceNumAsString() const
@@ -53,7 +53,7 @@ void EquinoxSynthesizer::valueTreeChildAdded (ValueTree &parentTree, ValueTree &
     // Checking wether the added child is an audiosample or the audiosamplestate.
     if (childWhichHasBeenAdded.hasType(audioSampleStateId) || childWhichHasBeenAdded.hasType(audioSampleId))
     {
-        ValueTree audioSampleState = stateManager.getState().getChildWithName(audioSampleStateId);
+        ValueTree audioSampleState = stateManager.getChildWithName(audioSampleStateId);
         if (audioSampleState.isValid())
         {
             loadNewAudioSample = true;
@@ -72,30 +72,6 @@ void EquinoxSynthesizer::valueTreePropertyChanged(ValueTree& valueTree, const Id
     }
 }
 
-// Initializes and add voices to the synth
-void EquinoxSynthesizer::setVoices()
-{
-    clearAllCurrentNotes();
-    
-    numVoices = isMonophonic ? 1 : MAX_VOICES;
-    
-    oscillatorSynth.clearVoices();
-    sampleSynth.clearVoices();
-    
-    for (int i = 0; i < numVoices; i++)
-    {
-        oscillatorSynth.addVoice(new OscSynthVoice(isMonophonic));
-    }
-    oscillatorSynth.clearSounds();
-    oscillatorSynth.addSound(new OscSynthSound());
-
-    
-    for (int i = 0; i < numVoices; i++)
-    {
-        sampleSynth.addVoice(new SampleSynthVoice(isMonophonic));
-    }
-}
-
 void EquinoxSynthesizer::loadAudioSample(AudioSample& audioSample)
 {
     sampleSynth.clearSounds();
@@ -109,24 +85,8 @@ void EquinoxSynthesizer::setSynthMode(int newSynthMode)
     if (currentSynthMode != newSynthMode)
     {
         currentSynthMode = static_cast<synthMode>(newSynthMode);
-        clearAllCurrentNotes();
-    }
-}
-
-// Clear all current playing notes
-void EquinoxSynthesizer::clearAllCurrentNotes()
-{
-    for (int i = 0; i < numVoices; i++)
-    {
-        if (auto oscVoice = dynamic_cast<OscSynthVoice*>(oscillatorSynth.getVoice(i)))
-        {
-            oscVoice->clearCurrentNote();
-        }
-        
-        if (auto sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i)))
-        {
-            sampleVoice->clearCurrentNote();
-        }
+        oscillatorSynth.clearAllCurrentNotes();
+        sampleSynth.clearAllCurrentNotes();
     }
 }
 
@@ -141,28 +101,10 @@ void EquinoxSynthesizer::prepareToPlay(double sampleRate, int samplesPerBlock, i
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = numChannels;
     
-    oscillatorSynth.setCurrentPlaybackSampleRate(sampleRate);
-    sampleSynth.setCurrentPlaybackSampleRate(sampleRate);
+    oscillatorSynth.prepare(spec);
+    sampleSynth.prepare(spec);
     
-    prepareVoices();
     update();
-}
-
-// Prepares all the voices for playback
-void EquinoxSynthesizer::prepareVoices()
-{
-    for (int i = 0; i < numVoices; i++)
-    {
-        if (auto oscVoice = dynamic_cast<OscSynthVoice*>(oscillatorSynth.getVoice(i)))
-        {
-            oscVoice->prepareVoice(sampleRate, samplesPerBlock, numChannels, spec);
-        }
-        
-        if (auto sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i)))
-        {
-            sampleVoice->prepareVoice(sampleRate, samplesPerBlock, numChannels, spec);
-        }
-    }
 }
 
 // Adds all the needed parameters for controlling the synth
@@ -192,9 +134,11 @@ void EquinoxSynthesizer::addParameters(std::vector<std::unique_ptr<RangedAudioPa
     // Waveform parameter
     params.push_back(std::make_unique<AudioParameterFloat>("waveform" + instanceNumAsString(), "Waveform", 0.0f, 4.0f, 0.0f));
     
-    // Amplitude parameter - setting the initial amplitude value to 0 if this EquinoxSynthesizer instance is not the first one
-    float initialAmplitude = instanceNum == 1 ? 0.4f : 0.0f;
-    params.push_back(std::make_unique<AudioParameterFloat>("amplitude" + instanceNumAsString(), "Amplitude", 0.0f, 0.5f, initialAmplitude));
+    // isActive parameter - only setting the first EquinoxSynthesizer instance to active
+    bool initializeAsActive = instanceNum == 1 ? true : false;
+    params.push_back(std::make_unique<AudioParameterBool>("isActive" + instanceNumAsString(), "On/Off", initializeAsActive));
+
+    params.push_back(std::make_unique<AudioParameterFloat>("amplitude" + instanceNumAsString(), "Amplitude", 0.0f, 0.5f, 0.4f));
     
     // General synth parameters
     params.push_back(std::make_unique<AudioParameterFloat>("detune" + instanceNumAsString(), "Detune", -20.0f, 20.0f, 0.0f));
@@ -203,9 +147,9 @@ void EquinoxSynthesizer::addParameters(std::vector<std::unique_ptr<RangedAudioPa
     
     params.push_back(std::make_unique<AudioParameterFloat>("oscPanning" + instanceNumAsString(), "OscPanning", -1.0f, 1.0f, 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("pitchTranspose" + instanceNumAsString(), "PitchTranspose", NormalisableRange<float>(-24, 24, 1, 1), 0));
+    params.push_back(std::make_unique<AudioParameterFloat>("pitchTranspose" + instanceNumAsString(), "PitchTranspose", NormalisableRange<float>(-24.0f, 24.0f, 1.0f, 1.0f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("analogValue" + instanceNumAsString(), "AnalogValue", NormalisableRange<float>(1, 40, 1, 1), 1));
+    params.push_back(std::make_unique<AudioParameterFloat>("analogValue" + instanceNumAsString(), "AnalogValue", NormalisableRange<float>(1.0f, 40.0f, 1.0f, 1.0f), 1.0f));
     
     // Filter parameters
     params.push_back(std::make_unique<AudioParameterFloat>("filterType" + instanceNumAsString(), "FilterType", 0.0f, 3.0f, 0.0f));
@@ -216,29 +160,47 @@ void EquinoxSynthesizer::addParameters(std::vector<std::unique_ptr<RangedAudioPa
     
     params.push_back(std::make_unique<AudioParameterFloat>("drive" + instanceNumAsString(), "Drive", NormalisableRange<float>(1.0f, 15.0f, 0.01f, 1.0f), 1.0f));
     
-    // SynthMode
+    // Synth Mode
     params.push_back(std::make_unique<AudioParameterFloat>("synthMode" + instanceNumAsString(), "SynthMode", 0.0f, 1.0f, 0.0f));
     
     // Mono & Portamento
-    params.push_back(std::make_unique<AudioParameterBool>("monoEnabled" + instanceNumAsString(), "MonoEnabled", false));
+    params.push_back(std::make_unique<AudioParameterBool>("monoEnabled" + instanceNumAsString(), "Mono", false));
     params.push_back(std::make_unique<AudioParameterFloat>("portamento" + instanceNumAsString(), "Portamento", NormalisableRange<float>(0.0f, 40000.0f, 100.0f, 1.0f), 0.0f));
     
-}
-
-bool EquinoxSynthesizer::isSynthActive() const
-{
-    return *stateManager.getAudioParameterValue("amplitude" + instanceNumAsString()) > 0.0f;
+    // Oscillator Phase
+    params.push_back(std::make_unique<AudioParameterFloat>("phase" + instanceNumAsString(), "Phase", NormalisableRange<float>(0.0f, 1.0f, 0.001f, 1.0f), 0.0f));
+    
+    // Sample start time
+    params.push_back(std::make_unique<AudioParameterFloat>("sampleStartTime" + instanceNumAsString(), "Sample start time", NormalisableRange<float>(0.0f, 0.9f, 0.001f, 0.5f), 0.0f));
+    
 }
 
 // Updates the synth
 void EquinoxSynthesizer::update()
 {
+    // Check if the EquinoxSynthesizer instance has been activated or deactivated
+    if (isSynthActive != *stateManager.getAudioParameterValue("isActive" + instanceNumAsString()))
+    {
+        isSynthActive = *stateManager.getAudioParameterValue("isActive" + instanceNumAsString());
+        
+        oscillatorSynth.addVoices(numVoices);
+        sampleSynth.addVoices(numVoices);
+        
+        oscillatorSynth.prepare(spec);
+        sampleSynth.prepare(spec);
+    }
     // Check if mono has been turned on or off
     if (isMonophonic != *stateManager.getAudioParameterValue("monoEnabled" + instanceNumAsString()))
     {
         isMonophonic = *stateManager.getAudioParameterValue("monoEnabled" + instanceNumAsString());
-        setVoices();
-        prepareVoices();
+        
+        numVoices = isMonophonic ? 1 : MAX_VOICES;
+        
+        oscillatorSynth.addVoices(numVoices);
+        sampleSynth.addVoices(numVoices);
+        
+        oscillatorSynth.prepare(spec);
+        sampleSynth.prepare(spec);
     }
     
     // Check if currentSynthmode has changed
@@ -267,6 +229,9 @@ void EquinoxSynthesizer::update()
                 
                 // sets oscillators waveform
                 oscVoice->setWaveform((float*)stateManager.getAudioParameterValue("waveform" + instanceNumAsString()));
+                
+                // sets oscillator phase
+                oscVoice->setPhase((float)*stateManager.getAudioParameterValue("phase" + instanceNumAsString()));
             }
         }
     }
@@ -278,6 +243,8 @@ void EquinoxSynthesizer::update()
             if (auto sampleVoice = dynamic_cast<SampleSynthVoice*>(sampleSynth.getVoice(i)))
             {
                 setVoiceParameters<SampleSynthVoice*>(sampleVoice);
+                
+                sampleVoice->setSampleStartTime((float)*stateManager.getAudioParameterValue("sampleStartTime" + instanceNumAsString()));
             }
         }
     }
@@ -298,7 +265,7 @@ void EquinoxSynthesizer::setVoiceParameters(T voice)
     voice->setFinePitch((float*)stateManager.getAudioParameterValue("finePitch" + instanceNumAsString()));
     
     // sets analog value
-    voice->setAnalogValue((float*)stateManager.getAudioParameterValue("analogValue" + instanceNumAsString()));
+    voice->setAnalogFactor((float*)stateManager.getAudioParameterValue("analogValue" + instanceNumAsString()));
     
     voice->setPitchTranspose((float*)stateManager.getAudioParameterValue("pitchTranspose" + instanceNumAsString()));
     
@@ -336,20 +303,27 @@ void EquinoxSynthesizer::renderNextBlock(AudioBuffer<float>& buffer, MidiBuffer&
     {
         if (needsReset)
         {
-            setVoices();
-            prepareVoices();
+            oscillatorSynth.addVoices(numVoices);
+            sampleSynth.addVoices(numVoices);
+            
+            oscillatorSynth.prepare(spec);
+            sampleSynth.prepare(spec);
+            
             needsReset = false;
         }
         update();
         needsUpdate = false;
     }
     
-    if (currentSynthMode == synthMode::oscSynthMode)
+    if (isSynthActive)
     {
-        oscillatorSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-    }
-    else if (currentSynthMode == synthMode::sampleSynthMode)
-    {
-        sampleSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+        if (currentSynthMode == synthMode::oscSynthMode)
+        {
+            oscillatorSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+        }
+        else if (currentSynthMode == synthMode::sampleSynthMode)
+        {
+            sampleSynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+        }
     }
 }

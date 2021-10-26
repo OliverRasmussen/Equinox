@@ -56,6 +56,9 @@ void ReverbFX::setParameters(float roomSize, float damping, float width, float m
 
 void ReverbFX::process(AudioBuffer<float>& bufferToProcess)
 {
-    dsp::AudioBlock<float> inputBlock (bufferToProcess);
-    reverb.process(dsp::ProcessContextReplacing<float> (inputBlock));
+    if (isActive())
+    {
+        dsp::AudioBlock<float> inputBlock (bufferToProcess);
+        reverb.process(dsp::ProcessContextReplacing<float> (inputBlock));
+    }
 }

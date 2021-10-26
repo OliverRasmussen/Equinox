@@ -65,28 +65,30 @@ float DelayFX::calculateDelayInSamples()
 
 void DelayFX::process(AudioBuffer<float>& bufferToProcess, double& bpm)
 {
-    
-    // Checking if the currentBPM has changed
-    if (currentBPM != bpm)
+    if (isActive())
     {
-        // Setting the current bpm and calculating the delay
-        currentBPM = bpm;
-        delay.setDelay(calculateDelayInSamples());
-    }
-    
-    for (int sample = 0; sample < bufferToProcess.getNumSamples(); ++sample)
-    {
-        for (int channel = 0; channel < bufferToProcess.getNumChannels(); ++channel)
+        // Checking if the currentBPM has changed
+        if (currentBPM != bpm)
         {
-            float delayedSample = delay.popSample(channel);
-            
-            // Adding the delayed sample to the buffer
-            bufferToProcess.addSample(channel, sample, delayedSample * mix * feedback);
-            
-            float nextSample = bufferToProcess.getSample(channel, sample);
-            
-            // Pushing the next buffer sample to the delay
-            delay.pushSample(channel, nextSample);
+            // Setting the current bpm and calculating the delay
+            currentBPM = bpm;
+            delay.setDelay(calculateDelayInSamples());
+        }
+        
+        for (int sample = 0; sample < bufferToProcess.getNumSamples(); ++sample)
+        {
+            for (int channel = 0; channel < bufferToProcess.getNumChannels(); ++channel)
+            {
+                float delayedSample = delay.popSample(channel);
+                
+                // Adding the delayed sample to the buffer
+                bufferToProcess.addSample(channel, sample, delayedSample * mix * feedback);
+                
+                float nextSample = bufferToProcess.getSample(channel, sample);
+                
+                // Pushing the next buffer sample to the delay
+                delay.pushSample(channel, nextSample);
+            }
         }
     }
 }

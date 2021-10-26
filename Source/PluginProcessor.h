@@ -67,6 +67,7 @@ public:
     
     PresetManager presetManager;
     
+    MidiKeyboardState midiKeyboardState;
 private:
     AudioPlayHead::CurrentPositionInfo currentPositionInfo;
     
@@ -74,6 +75,7 @@ private:
     
     double lastSampleRate;
     double currentBPM = 120;
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EquinoxAudioProcessor)
 };

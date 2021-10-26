@@ -15,8 +15,6 @@
 #pragma once
 #include <JuceHeader.h>
 #include "Synth.h"
-#include "OscSynthVoice.h"
-#include "SampleSynthVoice.h"
 #include "StateManager.h"
 
 #define MAX_VOICES 16
@@ -44,9 +42,6 @@ public:
     /** Adds the synthesizers parameters to a passed in vector*/
     void addParameters(std::vector<std::unique_ptr<RangedAudioParameter>>&);
     
-    /** Initializes the voices*/
-    void setVoices();
-    
     /** loads an AudioSample*/
     void loadAudioSample(AudioSample&);
     
@@ -56,14 +51,8 @@ public:
     /** Used for switching the voicing mode*/
     void switchVoicingMode(bool);
     
-    /** Clears all current notes*/
-    void clearAllCurrentNotes();
-    
     /** Prepares the synthesizer */
     void prepareToPlay(double, int, int);
-    
-    /** Prepares the voices*/
-    void prepareVoices();
     
     /** Updates the synthesizer and its voices*/
     void update();
@@ -81,9 +70,6 @@ private:
     
     /** Receives a callback whenever a property in the ValueTree has changed*/
     void valueTreePropertyChanged(ValueTree&, const Identifier&) override;
-    
-    /** Returns true if the synth is currently active*/
-    bool isSynthActive() const;
 
     StateManager& stateManager;
     
@@ -103,11 +89,13 @@ private:
     
     int instanceNum;
     
-    int numVoices = 16;
+    int numVoices = MAX_VOICES;
     
     bool needsReset = false;
     
     bool needsUpdate = false;
     
     bool loadNewAudioSample = false;
+    
+    bool isSynthActive = false;
 };

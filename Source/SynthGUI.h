@@ -14,6 +14,7 @@
 
 #pragma once
 #include "EquinoxComponent.h"
+#include "EquinoxButton.h"
 
 //==============================================================================
 /*
@@ -33,8 +34,10 @@ protected:
     
 private:
     std::unique_ptr<AudioProcessorValueTreeState::ButtonAttachment> monoAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::ButtonAttachment> onOffAttachment;
     
-    TextButton monoButton { "Mono" };
+    EquinoxButton monoButton { "Mono", true };
+    EquinoxButton onOffButton { "On/Off", true };
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthGUI)
 };

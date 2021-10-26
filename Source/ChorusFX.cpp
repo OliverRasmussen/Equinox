@@ -54,6 +54,9 @@ void ChorusFX::setParameters(float rate, float depth, float delay, float feedbac
 
 void ChorusFX::process(AudioBuffer<float>& bufferToProcess)
 {
-    dsp::AudioBlock<float> inputBlock (bufferToProcess);
-    chorus.process(dsp::ProcessContextReplacing<float> (inputBlock));
+    if (isActive())
+    {
+        dsp::AudioBlock<float> inputBlock (bufferToProcess);
+        chorus.process(dsp::ProcessContextReplacing<float> (inputBlock));
+    }
 }

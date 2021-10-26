@@ -30,9 +30,11 @@ SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stat
 
     addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 40000.0f, 0.0f, 40, 40, "portamento" + synthInstance, "Portamento", stateManager));
     
+    // On/Off button
+    onOffAttachment = std::make_unique<AudioProcessorValueTreeState::ButtonAttachment>(stateManager.getParameters(), "isActive" + synthInstance, onOffButton);
+    addAndMakeVisible(onOffButton);
 
     // Mono button
-    monoButton.setClickingTogglesState(true);
     monoAttachment = std::make_unique<AudioProcessorValueTreeState::ButtonAttachment>(stateManager.getParameters(), "monoEnabled" + synthInstance, monoButton);
     addAndMakeVisible(monoButton);
 }
@@ -49,19 +51,19 @@ void SynthGUI::paint (Graphics& g)
 void SynthGUI::resized()
 {
     LabelSlider& amplitudeSlider = *getSlider("amplitude" + synthInstance);
-    amplitudeSlider.setBounds(105, 2, 40, 70);
+    amplitudeSlider.setBounds(155, 0, 50, 70);
     amplitudeSlider.setSliderComponentBounds(amplitudeSlider.getSliderComponentBounds().getX(), 14);
     amplitudeSlider.setLabelComponentBounds(amplitudeSlider.getLabelComponentBounds().getX(), 2, amplitudeSlider.getWidth(), 30);
     amplitudeSlider.center();
     
     LabelSlider& panningSlider = *getSlider("oscPanning" + synthInstance);
-    panningSlider.setBounds(140, 2, 40, 70);
+    panningSlider.setBounds(155, 46, 50, 70);
     panningSlider.setSliderComponentBounds(panningSlider.getSliderComponentBounds().getX(), 14);
     panningSlider.setLabelComponentBounds(panningSlider.getLabelComponentBounds().getX(), 2, panningSlider.getWidth(), 30);
     panningSlider.center();
     
     LabelSlider& portamentoSlider = *getSlider("portamento" + synthInstance);
-    portamentoSlider.setBounds(75, 46, 50, 70);
+    portamentoSlider.setBounds(50, 46, 50, 70);
     portamentoSlider.setSliderComponentBounds(portamentoSlider.getSliderComponentBounds().getX(), 14);
     portamentoSlider.setLabelComponentBounds(portamentoSlider.getLabelComponentBounds().getX(), 2, portamentoSlider.getWidth(), 30);
     portamentoSlider.center();
@@ -90,5 +92,7 @@ void SynthGUI::resized()
     detuneSlider.setLabelComponentBounds(detuneSlider.getLabelComponentBounds().getX(), 2, detuneSlider.getWidth(), 30);
     detuneSlider.center();
     
-    monoButton.setBounds(5, 68, 70, 20);
+    onOffButton.setBounds(110, 20, 40, 18);
+    
+    monoButton.setBounds(5, 71, 48, 18);
 }

@@ -160,11 +160,13 @@ void EquinoxAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
         buffer.clear (i, 0, buffer.getNumSamples());
 
 
+    // Adding midi messages to the midibuffer from the on-screen midikeyboard
+    midiKeyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
+    
     // Rendering the synthesizers
     synthLayer1.renderNextBlock(buffer, midiMessages);
     synthLayer2.renderNextBlock(buffer, midiMessages);
     synthLayer3.renderNextBlock(buffer, midiMessages);
-    
     
     // Getting the currentPositionInfo
     if (auto playHead = getPlayHead())

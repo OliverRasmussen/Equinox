@@ -18,6 +18,7 @@ StateManager::StateManager(AudioProcessorValueTreeState* apvts, AudioSampleValue
 {
     // Initializing currentState
     currentState = ValueTree("currentstate");
+    setPresetName("Init");
     
     this->parameterState = std::unique_ptr<AudioProcessorValueTreeState>(apvts);
     
@@ -39,9 +40,14 @@ StateManager::~StateManager()
 {
 }
 
-ValueTree& StateManager::getState()
+void StateManager::addListener(ValueTree::Listener *listener)
 {
-    return currentState;
+    currentState.addListener(listener);
+}
+
+ValueTree StateManager::getChildWithName (const Identifier& type) const
+{
+    return currentState.getChildWithName(type);
 }
 
 AudioProcessorValueTreeState& StateManager::getParameters()
@@ -69,13 +75,9 @@ void StateManager::setPresetName(String presetName)
     currentState.setProperty("presetname", presetName, nullptr);
 }
 
-std::unique_ptr<String> StateManager::getPresetName()
+Value StateManager::getPresetName()
 {
-    if (currentState.hasProperty("presetname"))
-    {
-        return std::make_unique<String>(currentState.getProperty("presetname").toString());
-    }
-    return nullptr;
+    return currentState.getPropertyAsValue("presetname", nullptr);
 }
 
 std::unique_ptr<XmlElement> StateManager::getStateAsXml()
@@ -90,20 +92,21 @@ bool StateManager::setStateFromXml(std::unique_ptr<XmlElement> stateXml)
     {
         if (stateXml->hasTagName(currentState.getType()))
         {
-            if (XmlElement* audioProcessorValueTreeState = stateXml->getChildByName(parameterState->state.getType()))
+            if (stateXml->hasAttribute("presetname"))
             {
-                parameterState->replaceState(ValueTree::fromXml(*audioProcessorValueTreeState));
+                setPresetName(stateXml->getStringAttribute("presetname"));
                 
-                if (XmlElement* audioSampleValueTreeStateXml = stateXml->getChildByName(audioSampleState->state.getType()))
+                if (XmlElement* audioProcessorValueTreeState = stateXml->getChildByName(parameterState->state.getType()))
                 {
-                    audioSampleState->replaceState(ValueTree::fromXml(*audioSampleValueTreeStateXml));
+                    parameterState->replaceState(ValueTree::fromXml(*audioProcessorValueTreeState));
                     
-                    currentState.addChild(this->parameterState->state, 0, nullptr);
-                    currentState.addChild(this->audioSampleState->state, 1, nullptr);
-                    
-                    if (stateXml->hasAttribute("presetname"))
+                    if (XmlElement* audioSampleValueTreeStateXml = stateXml->getChildByName(audioSampleState->state.getType()))
                     {
-                        setPresetName(stateXml->getStringAttribute("presetname"));
+                        audioSampleState->replaceState(ValueTree::fromXml(*audioSampleValueTreeStateXml));
+                        
+                        currentState.addChild(this->parameterState->state, 0, nullptr);
+                        currentState.addChild(this->audioSampleState->state, 1, nullptr);
+                        
                         return true;
                     }
                 }
@@ -130,9 +133,13 @@ bool StateManager::saveStateToFile(File& file)
 
 bool StateManager::loadStateFromFile(File& file)
 {
-    XmlDocument xmlDocument(file);
-    return setStateFromXml(xmlDocument.getDocumentElement());
-    
+    if (file.existsAsFile())
+    {
+        XmlDocument xmlDocument(file);
+        return setStateFromXml(xmlDocument.getDocumentElement());
+    }
+    std::cout<<"file: " + file.getFileName() + " does not exist"<<std::endl;
+    return false;
 }
 
 void StateManager::resetStateToDefault()

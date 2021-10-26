@@ -21,6 +21,9 @@ MainMenu::MainMenu(PresetManager& presetManager) : backArrow("back", 0.5, Colour
     presetName = Value(*presetManager.getCurrentPresetName());
     presetName.addListener(this);
     
+    presetHasBeenEdited = Value(*presetManager.getCurrentPresetHasBeenEdited());
+    presetHasBeenEdited.addListener(this);
+    
     menuScreen = ImageCache::getFromMemory(BinaryData::MenuScreen_png, BinaryData::MenuScreen_pngSize);
     screenReflection = ImageCache::getFromMemory(BinaryData::MenuScreenReflection_png, BinaryData::MenuScreenReflection_pngSize);
     
@@ -43,7 +46,8 @@ MainMenu::MainMenu(PresetManager& presetManager) : backArrow("back", 0.5, Colour
     forwardArrow.onClick = [&]() { presetManager.getNextPreset(); };
     addAndMakeVisible(&forwardArrow);
     
-        initializeButton.onClick = [&]() { presetManager.initializePreset(); };
+    
+    initializeButton.onClick = [&]() { presetManager.initializePreset(); };
     addAndMakeVisible(&initializeButton);
     
     loadButton.onClick = [&]() { presetManager.loadPreset(); };
@@ -62,6 +66,8 @@ MainMenu::MainMenu(PresetManager& presetManager) : backArrow("back", 0.5, Colour
 
 MainMenu::~MainMenu()
 {
+    presetName.removeListener(this);
+    presetHasBeenEdited.removeListener(this);
 }
 
 void MainMenu::displayOverwritePopUp()
@@ -83,25 +89,38 @@ void MainMenu::valueChanged(Value& value)
     if (presetName == value)
     {
         // Changes the presetNamelabel text to match the preset name
-        presetNameLabel.setText(presetManager.getCurrentPresetName()->toString(), NotificationType::dontSendNotification);
+        presetNameLabel.setText(presetName.toString(), NotificationType::dontSendNotification);
+    }
+    
+    if (presetHasBeenEdited == value)
+    {
+        if ((bool)presetHasBeenEdited.getValue() == true)
+        {
+            String editedAffix = " *Edited*";
+            presetNameLabel.setText(presetName.toString() + editedAffix, NotificationType::dontSendNotification);
+        }
+        else
+        {
+            presetNameLabel.setText(presetName.toString(), NotificationType::dontSendNotification);
+        }
     }
 }
 
 void MainMenu::paint (juce::Graphics& g)
 {
-    g.drawImageAt(menuScreen, (800 - menuScreen.getWidth()) / 2, 80);
-    
-    g.drawImageAt(screenReflection, (800 - screenReflection.getWidth()) / 2, 80);
+    g.drawImageAt(menuScreen, screenXPosition, 80);
+    g.drawImageAt(screenReflection, screenXPosition, 80);
 }
 
 void MainMenu::resized()
 {
-    menuTitleLabel.setBounds(((800 - menuScreen.getWidth()) / 2) + 45, 100, 100, 12);
-    presetNameLabel.setBounds(((800 - menuScreen.getWidth()) / 2) + 45, 120, 200, 14);
-    backArrow.setBounds(515, 103, 12, 12);
-    forwardArrow.setBounds(535, 103, 12, 12);
-    initializeButton.setBounds(595, 80, 60, 16);
-    overwriteButton.setBounds(595, 100, 60, 16);
-    saveButton.setBounds(595, 120, 60, 16);
-    loadButton.setBounds(595, 140, 60, 16);
+    screenXPosition = (getLocalBounds().getWidth() - menuScreen.getWidth()) / 2;
+    menuTitleLabel.setBounds(screenXPosition + 45, 100, 100, 12);
+    presetNameLabel.setBounds(screenXPosition + 45, 120, 200, 14);
+    backArrow.setBounds(635, 103, 12, 12);
+    forwardArrow.setBounds(655, 103, 12, 12);
+    initializeButton.setBounds(715, 80, 60, 16);
+    overwriteButton.setBounds(715, 100, 60, 16);
+    saveButton.setBounds(715, 120, 60, 16);
+    loadButton.setBounds(715, 140, 60, 16);
 }

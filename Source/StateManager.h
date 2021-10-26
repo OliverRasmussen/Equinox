@@ -25,8 +25,11 @@ public:
     
     ~StateManager();
     
-    /** Returns the StateManagers internal ValueTree object*/
-    ValueTree& getState();
+    /** Adds a listener to the internal ValueTree object*/
+    void addListener(ValueTree::Listener *listener);
+    
+    /** Returns a child ValueTree object*/
+    ValueTree getChildWithName (const Identifier& type) const;
     
     /** Returns a reference to the AudioProcessorValueTreeState object*/
     AudioProcessorValueTreeState& getParameters();
@@ -44,7 +47,7 @@ public:
     void setPresetName(String presetName);
     
     /** Returns the current states preset name*/
-    std::unique_ptr<String> getPresetName();
+    Value getPresetName();
     
     /** Saves the state to binary*/
     void saveStateToBinary(MemoryBlock& destinationData);

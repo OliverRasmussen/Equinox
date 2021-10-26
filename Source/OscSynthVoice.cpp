@@ -20,10 +20,10 @@ OscSynthVoice::OscSynthVoice(bool isMonoVoice) : SynthVoice(isMonoVoice)
 
 OscSynthVoice::~OscSynthVoice(){}
 
-void OscSynthVoice::prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec& spec)
+void OscSynthVoice::prepareVoice(dsp::ProcessSpec& spec)
 {
-    WavetableOscillator::prepare(sampleRate);
-    SynthVoice::prepareVoice(sampleRate, samplesPerBlock, numChannels, spec);
+    WavetableOscillator::prepare(spec.sampleRate);
+    SynthVoice::prepareVoice(spec);
 }
 
 bool OscSynthVoice::canPlaySound (SynthesiserSound* sound)
@@ -35,15 +35,25 @@ void OscSynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSo
 {
     if (dynamic_cast<const OscSynthSound*> (sound))
     {
-        if (!isMonoEnabled())
+        if (!noteHasBeenTriggered)
         {
-            oscillator1.setPhase(0);
-            oscillator2.setPhase(0);            
+            oscillator1.setPhase(phase);
+            oscillator2.setPhase(phase + (getRandomAnalogValue(true) / 100));
         }
         setFrequencyByMidiNote(midiNoteNumber);
         SynthVoice::startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
     }
 
+}
+
+void OscSynthVoice::setPhase(float phase)
+{
+    this->phase = phase;
+}
+
+float OscSynthVoice::getPhase() const
+{
+    return phase;
 }
 
 void OscSynthVoice::setWaveform(float* selectedWaveform)

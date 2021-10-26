@@ -38,5 +38,4 @@ public:
 private:
     dsp::Reverb::Parameters reverbParameters;
     dsp::Reverb reverb;
-    
 };

@@ -54,6 +54,9 @@ void PhaserFX::setParameters(float rate, float depth, float frequency, float fee
 
 void PhaserFX::process(AudioBuffer<float>& bufferToProcess)
 {
-    dsp::AudioBlock<float> inputBlock (bufferToProcess);
-    phaser.process(dsp::ProcessContextReplacing<float> (inputBlock));
+    if (isActive())
+    {
+        dsp::AudioBlock<float> inputBlock (bufferToProcess);
+        phaser.process(dsp::ProcessContextReplacing<float> (inputBlock));
+    }
 }

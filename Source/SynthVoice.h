@@ -28,7 +28,7 @@ public:
     virtual ~SynthVoice() override;
     
     /** Prepares the voices*/
-    virtual void prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec&);
+    virtual void prepareVoice(dsp::ProcessSpec&);
     
     /** Sets the stereo panning of the voice*/
     void setPanning(float* panValue);
@@ -40,7 +40,7 @@ public:
     void setDetune(float* detuneValue);
     
     /** Sets the voice analog value*/
-    void setAnalogValue(float* analogValue);
+    void setAnalogFactor(float* analogValue);
     
     /** Sets the voice pitch transpose*/
     void setPitchTranspose(float* transposeValue);
@@ -85,8 +85,11 @@ protected:
     /** Returns the amount of panning*/
     float getPanning(int currentChannel) const;
     
-    /** Returns a random generated value*/
-    float getRandomAnalogFactor() const;
+    /** Returns a random offset in hertz based on the analog factor*/
+    float getAnalogPitch() const;
+        
+    /** Returns a random generated value set by the analog factor*/
+    float getRandomAnalogValue(bool positiveValuesOnly) const;
     
     /** Returns the next portamento value*/
     double getNextPortamentoValue() const;
@@ -96,9 +99,6 @@ protected:
     
     /** Called when a note ends*/
     virtual void stopNote(float velocity, bool allowTailOff) override;
-    
-    /** Resets the note*/
-    void resetNote();
     
     /** Adds an audiobuffer to another audiobuffer*/
     void addBufferToOutput(AudioBuffer<float> &bufferToAdd, AudioBuffer<float> &outputBuffer, int startSample, int numSamples);
@@ -124,16 +124,11 @@ protected:
     /** Converts and returns a notes offset to hertz*/
     double noteOffsetInHertz(double offset) const;
     
-    /**Returns true if the voice is active*/
-    bool isVoiceActive() const override;
-    
     AudioBuffer<float> voiceBuffer;
     
     int currentNoteNumber;
     
     bool noteHasBeenTriggered = false;
-    
-    bool inRelease = false;
     
     double currentModifiedFrequency = 0;
     
@@ -147,6 +142,8 @@ protected:
     
     AmpEnvelope ampEnvelope;
     
+    int dummy = 0;
+    
 private:
     
     bool applyPortamento = false;
@@ -157,17 +154,17 @@ private:
     
     float masterAmplitude = 1.0f;
     
-    float midiKeyVelocity;
+    float midiKeyVelocity = 0;
     
     float finePitch = 0.0f;
     
     float pitchTranspose = 0.0f;
     
-    int analogValue = 0;
+    int analogFactor = 0;
     
     float panningValue = 0;
     
-    float analogFactor = 0.0f;
+    float analogPitchMod = 0.0f;
     
     float pitchBend = 0.0f;
     
@@ -180,7 +177,4 @@ private:
     mutable double portamentoValue = 0.0;
     
     mutable bool portamentoStartValueHasBeenSet = false;
-    
-    int dummy = 0;
-    
 };

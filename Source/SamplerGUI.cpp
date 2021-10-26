@@ -25,6 +25,9 @@ SamplerGUI::SamplerGUI(StateManager& stateManager, std::string synthInstance) : 
     samplerLabel.setMinimumHorizontalScale(0.1f);
     samplerLabel.setJustificationType(Justification::centred);
     addAndMakeVisible(&samplerLabel);
+    
+    // sample start time labelslider
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 0.9f, 0.0f, 40, 40, "sampleStartTime" + synthInstance, "Start time", stateManager));
 }
 
 SamplerGUI::~SamplerGUI()
@@ -51,5 +54,12 @@ void SamplerGUI::paint (Graphics& g)
 void SamplerGUI::resized()
 {
     loadSampleButton.setBounds(5, 20, 100, 20);
+    
+    LabelSlider& sampleStartSlider = *getSlider("sampleStartTime" + synthInstance);
+    sampleStartSlider.setBounds(105, 46, 50, 70);
+    sampleStartSlider.setSliderComponentBounds(sampleStartSlider.getSliderComponentBounds().getX(), 14);
+    sampleStartSlider.setLabelComponentBounds(sampleStartSlider.getLabelComponentBounds().getX(), 2, sampleStartSlider.getWidth(), 30);
+    sampleStartSlider.center();
+    
     SynthGUI::resized();
 }

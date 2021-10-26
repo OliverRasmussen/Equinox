@@ -24,10 +24,9 @@ SampleSynthVoice::~SampleSynthVoice()
     
 }
 
-void SampleSynthVoice::prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec& spec)
+void SampleSynthVoice::prepareVoice(dsp::ProcessSpec& spec)
 {
-    
-    SynthVoice::prepareVoice(sampleRate, samplesPerBlock, numChannels, spec);
+    SynthVoice::prepareVoice(spec);
 }
 
 bool SampleSynthVoice::canPlaySound(SynthesiserSound* sound)
@@ -44,16 +43,27 @@ void SampleSynthVoice::startNote(int midiNoteNumber, float velocity, Synthesiser
             setFrequency(std::pow (2.0f, (midiNoteNumber - sampleSound->midiRootNote) / 12.0f)
                          * sampleSound->sourceSamplerate / getSampleRate());
             
-            sourceSamplePositionLeft = 0.0;
-            sourceSamplePositionRight = 0.0;
-            gain = velocity;
-            
             sampleLength = sampleSound->length;
-
-            //getAmpEnvelope().setSampleRate(sampleSound->sourceSampleRate);
+            
+            if (!noteHasBeenTriggered)
+            {
+                sourceSamplePositionLeft = getSampleStartTime();
+                sourceSamplePositionRight = getSampleStartTime();
+            }
             SynthVoice::startNote(midiNoteNumber, velocity, sound, currentPitchWheelPosition);
         }
     }
+}
+
+void SampleSynthVoice::setSampleStartTime(float startTime)
+{
+    if (startTime > 1 || startTime < 0) { return; }
+    sampleStart = startTime;
+}
+
+float SampleSynthVoice::getSampleStartTime() const
+{
+    return sampleStart * sampleLength;
 }
 
 void SampleSynthVoice::stopNote(float velocity, bool allowTailOff)
@@ -63,27 +73,30 @@ void SampleSynthVoice::stopNote(float velocity, bool allowTailOff)
 
 float SampleSynthVoice::getNextSamplerSample (int channel, const float* const inL, const float* const inR)
 {
+    float nextSample = 0;
+    if (sourceSamplePositionLeft < sampleLength &&
+        sourceSamplePositionRight < sampleLength &&
+        inL != nullptr && inR != nullptr)
+    {
+        double* sourceSamplePos = (channel == 0) ? &sourceSamplePositionLeft : &sourceSamplePositionRight;
+        auto* channelReadPtr = (channel == 0) ? inL : inR;
         
-    double * sourceSamplePos = (channel == 0) ? &sourceSamplePositionLeft : &sourceSamplePositionRight;
-    
-    auto pos = (int) *sourceSamplePos;
-    auto alpha = (float) (*sourceSamplePos - pos);
-    auto invAlpha = 1.0f - alpha;
-    
-    float nextSample = ((channel == 0) ? (inL[pos] * invAlpha + inL[pos + 1] * alpha) : (inR != nullptr) ? (inR[pos] * invAlpha + inR[pos + 1] * alpha)
-    : 0) * gain;
-    
-    *sourceSamplePos += (channel == 0) ? getFrequency() : (getDetune()) ? getFrequency() * (getDetune()) : getFrequency();
-    
+        auto pos = (int) *sourceSamplePos;
+        auto alpha = (float) (*sourceSamplePos - pos);
+        auto invAlpha = 1.0f - alpha;
+        
+        nextSample = (channelReadPtr[pos] * invAlpha + channelReadPtr[pos + 1] * alpha);
+        
+        *sourceSamplePos += (channel == 0) ? getFrequency() : (getDetune()) ? getFrequency() * (getDetune()) : getFrequency();
+    }
     return nextSample;
-    
 }
 
 void SampleSynthVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
     if (isVoiceActive() && sourceSamplePositionLeft < sampleLength && sourceSamplePositionRight < sampleLength)
     {
-        if (auto* playingSound = static_cast<SampleSynthSound*> (getCurrentlyPlayingSound().get()))
+        if (auto* playingSound = dynamic_cast<SampleSynthSound*> (getCurrentlyPlayingSound().get()))
         {
             jassert (numSamples <= voiceBuffer.getNumSamples());
             AudioBuffer<float> proxyBuffer (voiceBuffer.getArrayOfWritePointers(), voiceBuffer.getNumChannels(), startSample, numSamples);
@@ -98,12 +111,6 @@ void SampleSynthVoice::renderNextBlock(AudioBuffer<float> &outputBuffer, int sta
                 for (int channel = 0; channel < sampleData.getNumChannels(); ++channel)
                 {
                     proxyBuffer.addSample (channel, sample, getNextSamplerSample(channel, inL, inR));
-                }
-                
-                if (sourceSamplePositionLeft > sampleLength || sourceSamplePositionRight > sampleLength)
-                {
-                    resetNote();
-                    break;
                 }
             }
             addBufferToOutput(proxyBuffer, outputBuffer, startSample, numSamples);

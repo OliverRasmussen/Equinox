@@ -23,6 +23,12 @@ PresetManager::PresetManager(StateManager& state) : directoryScanThread("directo
     // Loading the default directory
     String defaultDirectoryPath = File::getSpecialLocation(File::userDocumentsDirectory).getFullPathName() + "/Equinox/Presets/";
     loadDirectory(defaultDirectoryPath, true);
+    
+    // Adding the PresetManager to the state as a listener
+    state.addListener(this);
+    
+    currentPresetName = Value(state.getPresetName());
+    currentPresetHasBeenEdited = Value(false);
 }
 
 PresetManager::~PresetManager()
@@ -47,32 +53,13 @@ void PresetManager::loadDirectory(String directoryPath, bool createDirectoryIfNo
     waitForDirectoryToLoad();
     directoryLoaded = true;
     
-    // Directory loaded, setting the preset to match the state
+    // Directory loaded, setting the first preset as the state
     if (directoryContainsFiles())
     {
-        if (state.getPresetName() == nullptr)
-        {
-            // No previous loaded state, setting the state from the first file in the directory
-            File preset = directoryList->getFile(0);
-            if (state.loadStateFromFile(preset))
-            {
-                currentPresetName = *state.getPresetName();
-                currentPresetIndex = 0;
-                return;
-            }
-        }
-        else
-        {
-            // Matching the previous loaded preset
-            currentPresetName = *state.getPresetName();
-            currentPresetIndex = getPresetIndexFromName(currentPresetName.toString());
-            return;
-        }
+        File presetFile = directoryList->getFile(0);
+        state.loadStateFromFile(presetFile);
+        
     }
-    
-    // Initializing the state if no preset files exists in directory or if state couldnt be loaded
-    initializePreset();
-    
 }
     
 void PresetManager::savePreset()
@@ -80,19 +67,24 @@ void PresetManager::savePreset()
     if (directoryLoaded)
     {
         FileChooser fileChooser("Save preset", getPresetFileFromName(currentPresetName.toString()), "", true, false, nullptr);
-
         if (fileChooser.browseForFileToSave(true))
         {
-            File preset = fileChooser.getResult();
-            preset.create();
+            File presetFile = fileChooser.getResult();
             
-            directoryList->refresh();
-            waitForDirectoryToLoad();
+            if (!presetFile.existsAsFile())
+            {
+                presetFile.create();
+                
+                directoryList->refresh();
+                waitForDirectoryToLoad();
+    
+                state.setPresetName(presetFile.getFileNameWithoutExtension());
+            }
             
-            currentPresetName = preset.getFileNameWithoutExtension();
-            currentPresetIndex = getPresetIndexFromName(currentPresetName.toString());
-            state.setPresetName(currentPresetName.toString());
-            state.saveStateToFile(preset);
+            
+            state.saveStateToFile(presetFile);
+            state.loadStateFromFile(presetFile);
+            //currentPresetHasBeenEdited = false;
         }
     }
 }
@@ -105,12 +97,9 @@ void PresetManager::loadPreset()
         
         if (fileChooser.browseForFileToOpen())
         {
-            File preset = fileChooser.getResult();
-            if (state.loadStateFromFile(preset))
-            {
-                currentPresetName = *state.getPresetName();
-                currentPresetIndex = getPresetIndexFromName(currentPresetName.toString());
-            }
+            File presetFile = fileChooser.getResult();
+            
+            state.loadStateFromFile(presetFile);
         }
     }
 }
@@ -119,13 +108,11 @@ void PresetManager::getNextPreset()
 {
     if (directoryContainsFiles())
     {
-        currentPresetIndex = currentPresetIndex < (directoryList->getNumFiles() - 1) ? ++currentPresetIndex : 0;
+        int index = currentPresetIndex < (directoryList->getNumFiles() - 1) ? currentPresetIndex + 1 : 0;
         
-        File presetFile = directoryList->getFile(currentPresetIndex);
-        if (state.loadStateFromFile(presetFile))
-        {
-            currentPresetName = *state.getPresetName();
-        }
+        File presetFile = directoryList->getFile(index);
+        
+        state.loadStateFromFile(presetFile);
     }
 }
     
@@ -133,28 +120,25 @@ void PresetManager::getPreviousPreset()
 {
     if (directoryContainsFiles())
     {
-        currentPresetIndex = currentPresetIndex > 0 ? --currentPresetIndex : directoryList->getNumFiles() - 1;
+        int index = currentPresetIndex > 0 ? currentPresetIndex - 1 : (directoryList->getNumFiles() - 1);
         
-        File presetFile = directoryList->getFile(currentPresetIndex);
-        if (state.loadStateFromFile(presetFile))
-        {
-            currentPresetName = *state.getPresetName();
-        }
+        File presetFile = directoryList->getFile(index);
+        
+        state.loadStateFromFile(presetFile);
     }
 }
     
 void PresetManager::overwritePreset()
 {
-    File presetFile = getPresetFileFromName(currentPresetName.toString());
+    File presetFile = directoryList->getFile(currentPresetIndex);
     state.saveStateToFile(presetFile);
+    //currentPresetHasBeenEdited = false;
+    state.loadStateFromFile(presetFile);
 }
     
 void PresetManager::initializePreset()
 {
     state.resetStateToDefault();
-    currentPresetName = "Init";
-    currentPresetIndex = -1;
-    state.setPresetName(currentPresetName.toString());
 }
     
 Value* PresetManager::getCurrentPresetName()
@@ -164,11 +148,16 @@ Value* PresetManager::getCurrentPresetName()
 
 bool PresetManager::currentPresetExistsAsFile()
 {
-    if (getPresetFileFromName(currentPresetName.toString()).exists())
+    if (directoryList->getFile(currentPresetIndex).existsAsFile())
     {
         return true;
     }
     return false;
+}
+
+Value* PresetManager::getCurrentPresetHasBeenEdited()
+{
+    return &currentPresetHasBeenEdited;
 }
 
 
@@ -179,7 +168,7 @@ int PresetManager::getPresetIndexFromName(String presetName)
     if (directoryList->contains(presetFile))
     {
         DirectoryContentsList::FileInfo fileInfo;
-        for (int i = 0; i < directoryList->getNumFiles() - 1; i++)
+        for (int i = 0; i < directoryList->getNumFiles(); i++)
         {
             // Searching through the directoryList for a matching file
             if (directoryList->getFileInfo(i, fileInfo))
@@ -211,6 +200,31 @@ void PresetManager::waitForDirectoryToLoad()
     while (directoryList->isStillLoading())
     {
         Time::waitForMillisecondCounter(Time::getMillisecondCounter() + 50);
+    }
+}
+
+void PresetManager::valueTreeChildAdded (ValueTree &parentTree, ValueTree &childWhichHasBeenAdded)
+{
+    // New state loaded
+    if (childWhichHasBeenAdded.getType() == state.getParameters().state.getType())
+    {
+        currentPresetHasBeenEdited = false;
+    }
+}
+
+void PresetManager::valueTreePropertyChanged(ValueTree& valueTree, const Identifier& propertyId)
+{
+    // Checking if the presetname has changed
+    if (propertyId.toString() == "presetname")
+    {
+        // Sets the preset index to match the preset
+        currentPresetIndex = getPresetIndexFromName(currentPresetName.toString());
+    }
+    
+    // Checking if any parameter has been changed
+    if (valueTree.getType().toString() == "PARAM")
+    {
+        currentPresetHasBeenEdited = true;
     }
 }
 

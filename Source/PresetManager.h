@@ -16,7 +16,7 @@
 #include "JuceHeader.h"
 #include "StateManager.h"
 
-class PresetManager
+class PresetManager : public ValueTree::Listener
 {
 public:
     
@@ -51,6 +51,9 @@ public:
     /** Returns true if the current preset exists as an actual file*/
     bool currentPresetExistsAsFile();
     
+    /** Returns true if the current preset has been edited*/
+    Value* getCurrentPresetHasBeenEdited();
+    
 private:
     /** Returns the index of a preset file by name*/
     int getPresetIndexFromName(String presetName);
@@ -64,6 +67,12 @@ private:
     /** Waits for the directory load before continuing*/
     void waitForDirectoryToLoad();
     
+    /** Receives a callback whenever a ValueTree child is added*/
+    void valueTreeChildAdded (ValueTree &parentTree, ValueTree &childWhichHasBeenAdded) override;
+    
+    /** Receives a callback whenever a property in the ValueTree has changed*/
+    void valueTreePropertyChanged(ValueTree&, const Identifier&) override;
+    
     std::unique_ptr<DirectoryContentsList> directoryList;
     TimeSliceThread directoryScanThread;
     
@@ -73,7 +82,8 @@ private:
     String directoryPath;
     
     Value currentPresetName;
-    int currentPresetIndex = 0;
+    Value currentPresetHasBeenEdited;
+    int currentPresetIndex = -1;
     
     StateManager& state;
     

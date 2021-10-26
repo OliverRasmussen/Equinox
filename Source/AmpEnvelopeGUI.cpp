@@ -16,13 +16,13 @@
 //==============================================================================
 AmpEnvelopeGUI::AmpEnvelopeGUI(StateManager& stateManager, std::string synthInstance)
 {
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.001f, 5.0f, 0.1f, 40, 130, "ampAttack" + synthInstance, "A", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.001f, 5.0f, 0.1f, 40, 125, "ampAttack" + synthInstance, "A", stateManager));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.01f, 5.0f, 0.1f, 40, 130, "ampDecay" + synthInstance, "D", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.01f, 5.0f, 0.1f, 40, 125, "ampDecay" + synthInstance, "D", stateManager));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.0f, 1.0f, 0.8f, 40, 130, "ampSustain" + synthInstance, "S", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.0f, 1.0f, 0.8f, 40, 125, "ampSustain" + synthInstance, "S", stateManager));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.001f, 5.0f, 0.5f, 40, 130, "ampRelease" + synthInstance, "R", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.001f, 5.0f, 0.5f, 40, 125, "ampRelease" + synthInstance, "R", stateManager));
 }
 
 AmpEnvelopeGUI::~AmpEnvelopeGUI()
@@ -37,5 +37,5 @@ void AmpEnvelopeGUI::paint (Graphics& g)
 
 void AmpEnvelopeGUI::resized()
 {
-    setHorizontalSliderLayout(35, 45, 20, 20);
+    setHorizontalSliderLayout(35, 50, 20, 20);
 }

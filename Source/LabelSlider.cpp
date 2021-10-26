@@ -18,6 +18,13 @@
 //==============================================================================
 LabelSlider::LabelSlider(Slider::SliderStyle sliderStyle, float minRangeValue, float maxRangeValue, float startValue, int sliderWidth, int sliderHeight, String parameterID, String labelText, StateManager& state) : parameterID(parameterID)
 {
+    
+    label.setText(labelText, NotificationType::dontSendNotification);
+    label.setMinimumHorizontalScale(0.1f);
+    label.setJustificationType(Justification::centredTop);
+    label.setSize(label.getFont().getStringWidth(labelText), 30);
+    addAndMakeVisible(&label);
+    
     slider.setSliderStyle(sliderStyle);
     slider.setRange(minRangeValue, maxRangeValue);
     slider.setValue(startValue);
@@ -26,12 +33,6 @@ LabelSlider::LabelSlider(Slider::SliderStyle sliderStyle, float minRangeValue, f
     addAndMakeVisible(&slider);
     
     sliderAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(state.getParameters(), parameterID, slider);
-    
-    label.setText(labelText, NotificationType::dontSendNotification);
-    label.setMinimumHorizontalScale(0.1f);
-    label.setJustificationType(Justification::centredTop);
-    label.setSize(label.getFont().getStringWidth(labelText), 30);
-    addAndMakeVisible(&label);
 }
 
 LabelSlider::~LabelSlider()
@@ -59,7 +60,7 @@ void LabelSlider::setLabelComponentBounds(int x, int y, int width, int height)
 {
     int labelWidth = width == -1 ? label.getWidth() : width;
     int labelHeight = height == -1 ? label.getHeight() : height;
-    label.setBounds(x, y, labelWidth,labelHeight);
+    label.setBounds(x, y, labelWidth, labelHeight);
 }
 
 Rectangle<int> LabelSlider::getLabelComponentBounds() const

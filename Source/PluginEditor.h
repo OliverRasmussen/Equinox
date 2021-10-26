@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "EquinoxLookAndFeel.h"
 #include "PluginProcessor.h"
 #include "SynthesizerUnitGUI.h"
 #include "MainMenu.h"
@@ -37,6 +38,10 @@ private:
     MainMenu mainMenu;
     
     MasterEffectsGUI masterEffects;
+    
+    MidiKeyboardComponent keyboardComponent;
+    
+    EquinoxLookAndFeel lookAndFeel;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EquinoxAudioProcessorEditor)
 };

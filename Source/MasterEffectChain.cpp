@@ -20,7 +20,7 @@ MasterEffectChain::MasterEffectChain(StateManager& state) : state(state)
 
 void MasterEffectChain::initialize()
 {
-    state.getState().addListener(this);
+    state.addListener(this);
     updateParameters();
 }
 
@@ -127,25 +127,10 @@ void MasterEffectChain::process(AudioBuffer<float>& bufferToProcess, double& bpm
         needsUpdate = false;
     }
     
-    if (chorusFX.isActive())
-    {
-        chorusFX.process(bufferToProcess);
-    }
-
-    if (phaserFX.isActive())
-    {
-        phaserFX.process(bufferToProcess);
-    }
-
-    if (reverbFX.isActive())
-    {
-        reverbFX.process(bufferToProcess);
-    }
-    
-    if (delayFX.isActive())
-    {
-        delayFX.process(bufferToProcess, bpm);        
-    }
+    chorusFX.process(bufferToProcess);
+    phaserFX.process(bufferToProcess);
+    reverbFX.process(bufferToProcess);
+    delayFX.process(bufferToProcess, bpm);
 }
     
 void MasterEffectChain::valueTreeChildAdded (ValueTree& parentTree, ValueTree& childWhichHasBeenAdded)

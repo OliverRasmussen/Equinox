@@ -26,7 +26,7 @@ public:
     ~OscSynthVoice() override;
     
     /** Prepares the voices*/
-    void prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec&) override;
+    void prepareVoice(dsp::ProcessSpec&) override;
     
     /** Returns wether the sound is available*/
     bool canPlaySound (SynthesiserSound*) override;
@@ -40,10 +40,18 @@ public:
     /** Sets the waveform*/
     void setWaveform(float* selectedWaveform);
     
+    /** Sets the phase to a value between 0 and 1*/
+    void setPhase(float phase);
+    
+    /** Returns the phase value*/
+    float getPhase() const;
+    
 private:
     
     /** Returns the next oscillator sample, based on the current set waveform*/
     double getNextOscillatorSample(int channel);
+    
+    float phase = 0;
     
     int currentWaveform;
     

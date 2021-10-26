@@ -26,17 +26,17 @@ SynthVoice::~SynthVoice()
 }
 
 // Used for preparing the voice and its objects
-void SynthVoice::prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec &spec)
+void SynthVoice::prepareVoice(dsp::ProcessSpec &spec)
 {
-    setCurrentPlaybackSampleRate(sampleRate);
+    setCurrentPlaybackSampleRate(spec.sampleRate);
     
     voiceFilter.prepareToPlay(spec);
     
-    ampEnvelope.prepareToPlay(sampleRate);
+    ampEnvelope.prepareToPlay(spec.sampleRate);
     
-    filterEnvelope.prepareToPlay(sampleRate);
+    filterEnvelope.prepareToPlay(spec.sampleRate);
     
-    voiceBuffer.setSize(numChannels, samplesPerBlock);
+    voiceBuffer.setSize(spec.numChannels, spec.maximumBlockSize);
 }
 
 void SynthVoice::setFrequency(double frequency)
@@ -64,9 +64,9 @@ float SynthVoice::frequencyModifications() const
 {
     if (applyPortamento)
     {
-        return finePitch * pitchTranspose * analogFactor * getNextPortamentoValue();
+        return finePitch * pitchTranspose * analogPitchMod * getNextPortamentoValue();
     }
-    return finePitch * pitchTranspose * analogFactor;
+    return finePitch * pitchTranspose * analogPitchMod;
 }
 
 
@@ -168,18 +168,29 @@ void SynthVoice::setDetune(float* detuneValue)
 
 }
 
-void SynthVoice::setAnalogValue(float* analogValue)
+void SynthVoice::setAnalogFactor(float* analogFactorValue)
 {
-    this->analogValue = static_cast<int>(*analogValue);
+    this->analogFactor = (int)*analogFactorValue;
 }
 
-float SynthVoice::getRandomAnalogFactor() const
+float SynthVoice::getAnalogPitch() const
 {
-    if (analogValue == 1)
+    if (analogFactor == 1) {return analogFactor;}
+    return noteOffsetInHertz(getRandomAnalogValue(false));
+}
+
+float SynthVoice::getRandomAnalogValue(bool positiveValuesOnly) const
+{
+    if (analogFactor == 1) {return 0;}
+    
+    if (positiveValuesOnly)
     {
-        return analogValue;
+        return rand() & analogFactor + 1;
     }
-    return noteOffsetInHertz(rand() % (analogValue + 1) + (-((analogValue / 2) + 1)));
+    else
+    {
+        return rand() % (analogFactor + 1) + (-((analogFactor / 2) + 1));
+    }
 }
 
 void SynthVoice::setPitchTranspose(float* transposeValue)
@@ -197,24 +208,23 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
 {
     applyPortamento = false;
     setPitchBend(currentPitchWheelPosition);
-    analogFactor = getRandomAnalogFactor();
+    analogPitchMod = getAnalogPitch();
     currentModifiedFrequency = getFrequency();
     
-    if (monoMode && noteHasBeenTriggered && portamentoTime > 0)
+    if (portamentoTime > 0)
     {
         applyPortamento = true;
         portamentoStartValueHasBeenSet = false;
         portamentoValue = 0;
     }
-    
-    if (!noteHasBeenTriggered || inRelease)
+
+    if (!noteHasBeenTriggered)
     {
         voiceFilter.reset();
         midiKeyVelocity = velocity;
         ampEnvelope.noteOn();
         filterEnvelope.noteOn();
         noteHasBeenTriggered = true;
-        inRelease = false;
     }
 }
 
@@ -222,15 +232,13 @@ void SynthVoice::stopNote (float velocity, bool allowTailOff)
 {
     if (monoMode && isKeyDown()) { return; }
     
+    if (!allowTailOff)
+    {
+        clearCurrentNote();
+    }
+    noteHasBeenTriggered = false;
     ampEnvelope.noteOff();
     filterEnvelope.noteOff();
-    inRelease = true;
-}
-
-void SynthVoice::resetNote()
-{
-    noteHasBeenTriggered = false;
-    clearCurrentNote();
 }
 
 void SynthVoice::pitchWheelMoved (int newPitchWheelValue)
@@ -274,11 +282,6 @@ double SynthVoice::noteOffsetInHertz(double offset) const
     return std::pow(2.0, offset / 1200);
 }
 
-bool SynthVoice::isVoiceActive() const
-{
-    return getCurrentlyPlayingNote() >= 0 && masterAmplitude > 0.0f;
-}
-
 void SynthVoice::controllerMoved (int controllerNumber, int newControllerValue)
 {
     
@@ -288,7 +291,7 @@ void SynthVoice::addBufferToOutput(AudioBuffer<float> &bufferToAdd, AudioBuffer<
 {
     getFilterEnvelope().calculateNextValue();
     
-    //Pocesses the buffer through the filter and replaces it
+    //Pocess the buffer through the filter
     voiceFilter.process(bufferToAdd);
     
     for (int sample = 0; sample < numSamples; ++sample)
@@ -302,8 +305,8 @@ void SynthVoice::addBufferToOutput(AudioBuffer<float> &bufferToAdd, AudioBuffer<
         ++startSample;
     }
     
-    if (currentVoiceAmplitude == 0.0f)
+    if (currentVoiceAmplitude == 0)
     {
-        resetNote();
+        stopNote(0.0f, false);
     }
 }

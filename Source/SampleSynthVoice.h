@@ -26,13 +26,19 @@ public:
     ~SampleSynthVoice() override;
     
     /** Prepares the voices*/
-    void prepareVoice(double sampleRate, int samplesPerBlock, int numChannels, dsp::ProcessSpec& spec) override;
+    void prepareVoice(dsp::ProcessSpec& spec) override;
     
     /** Returns wether the sound is available*/
     bool canPlaySound (SynthesiserSound*) override;
     
     /** Starts a note*/
     void startNote (int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override;
+    
+    /** Sets the start time of the sample to a value between 0 and 1*/
+    void setSampleStartTime(float startTime);
+    
+    /** Returns the current sample start time*/
+    float getSampleStartTime() const;
     
     /** Stops a note*/
     void stopNote(float velocity, bool allowTailOff) override;
@@ -45,11 +51,8 @@ public:
     
     
 private:
-    
     double sourceSamplePositionLeft = 0;
     double sourceSamplePositionRight = 0;
+    double sampleStart = 0;
     int sampleLength = 0;
-    
-    float gain = 10;
-
 };

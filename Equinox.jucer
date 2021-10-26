@@ -10,17 +10,51 @@
               file="Resources/Fonts/8-bit fortress.ttf"/>
       </GROUP>
       <GROUP id="{4F8C6044-3546-021D-71F1-08855308E9DA}" name="Graphics">
-        <GROUP id="{3905DC9D-4E75-E993-0E3B-3ADCEF75AC47}" name="Menu">
-          <FILE id="FV6qxJ" name="MenuScreen.png" compile="0" resource="1" file="Resources/Graphics/Menu/MenuScreen.png"/>
-          <FILE id="s2lP1f" name="MenuScreenReflection.png" compile="0" resource="1"
-                file="Resources/Graphics/Menu/MenuScreenReflection.png"/>
+        <GROUP id="{B44EE43C-C734-3620-6AEF-EEFE82125D97}" name="Buttons">
+          <FILE id="KORw46" name="BtnDown1.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnDown1.png"/>
+          <FILE id="JQ9qRj" name="BtnDown1Shadow.png" compile="0" resource="1"
+                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnDown1Shadow.png"/>
+          <FILE id="mtjMTe" name="BtnUp1.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnUp1.png"/>
+          <FILE id="AO7SmN" name="BtnUp1Shadow.png" compile="0" resource="1"
+                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnUp1Shadow.png"/>
+          <FILE id="OsBtgp" name="BtnDown2.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnDown2.png"/>
+          <FILE id="NXJoi1" name="BtnDown3.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnDown3.png"/>
+          <FILE id="SKSLyg" name="BtnUp2.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnUp2.png"/>
+          <FILE id="RxdvF8" name="BtnUp3.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnUp3.png"/>
+        </GROUP>
+        <GROUP id="{E7A868D7-21B7-4BD4-2CA1-669CE706024C}" name="LinearSlider">
+          <FILE id="jL5mMb" name="LargeSliderKnob.png" compile="0" resource="1"
+                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/LinearSlider/LargeSliderKnob.png"/>
+          <FILE id="oiY4LX" name="SliderLine.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/LinearSlider/SliderLine.png"/>
+          <FILE id="AYcSiD" name="SmallSliderKnob.png" compile="0" resource="1"
+                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/LinearSlider/SmallSliderKnob.png"/>
+        </GROUP>
+        <GROUP id="{353B52CF-44F4-3D22-A11E-CD8B7F5153DA}" name="RotarySlider">
+          <FILE id="PTBB2G" name="RotaryKnob.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/RotarySlider/RotaryKnob.png"/>
+          <FILE id="dI6qAb" name="RotaryKnobShadow.png" compile="0" resource="1"
+                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/RotarySlider/RotaryKnobShadow.png"/>
+        </GROUP>
+        <GROUP id="{305A6AD0-3422-086E-23D9-D0D9EE8C1746}" name="Screens">
+          <FILE id="lNHJB8" name="MenuScreen.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Screens/MenuScreen.png"/>
+          <FILE id="wbateB" name="MenuScreenReflection.png" compile="0" resource="1"
+                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Screens/MenuScreenReflection.png"/>
+          <FILE id="errNFN" name="SmallScreen.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Screens/SmallScreen.png"/>
+          <FILE id="dogC91" name="SmallScreenReflection.png" compile="0" resource="1"
+                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Screens/SmallScreenReflection.png"/>
         </GROUP>
         <FILE id="TKgM5g" name="Background.png" compile="0" resource="1" file="Resources/Graphics/Background.png"/>
       </GROUP>
     </GROUP>
     <GROUP id="{150EB89A-D342-9E47-CCC8-826BCDAF510E}" name="Source">
       <GROUP id="{F15E239B-35CC-96B2-73FA-B07D68D3D6C9}" name="UI">
+        <FILE id="YbEFDm" name="EquinoxLookAndFeel.cpp" compile="1" resource="0"
+              file="Source/EquinoxLookAndFeel.cpp"/>
+        <FILE id="IfClgC" name="EquinoxLookAndFeel.h" compile="0" resource="0"
+              file="Source/EquinoxLookAndFeel.h"/>
         <GROUP id="{EE5AA1ED-BF63-16A7-8ADE-00685E74FDA4}" name="Components">
+          <FILE id="rP7YP0" name="EquinoxButton.cpp" compile="1" resource="0"
+                file="Source/EquinoxButton.cpp"/>
+          <FILE id="cYDjpJ" name="EquinoxButton.h" compile="0" resource="0" file="Source/EquinoxButton.h"/>
           <FILE id="TRbCAA" name="EquinoxComponent.cpp" compile="1" resource="0"
                 file="Source/EquinoxComponent.cpp"/>
           <FILE id="trFyQH" name="EquinoxComponent.h" compile="0" resource="0"
@@ -156,7 +190,7 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX">
+    <XCODE_MAC targetFolder="Builds/MacOSX" extraDefs="JUCE_MODAL_LOOPS_PERMITTED=1">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" auBinaryLocation="~/Library/Audio/Plug-Ins/Components"
                        vst3BinaryLocation="~/Library/Audio/Plug-Ins/VST3"/>
