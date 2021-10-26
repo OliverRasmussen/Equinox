@@ -17,17 +17,17 @@ namespace BinaryData
     extern const char*   BtnDown1Shadow_png;
     const int            BtnDown1Shadow_pngSize = 315;
 
-    extern const char*   BtnUp1_png;
-    const int            BtnUp1_pngSize = 784;
-
-    extern const char*   BtnUp1Shadow_png;
-    const int            BtnUp1Shadow_pngSize = 1369;
-
     extern const char*   BtnDown2_png;
     const int            BtnDown2_pngSize = 810;
 
     extern const char*   BtnDown3_png;
     const int            BtnDown3_pngSize = 810;
+
+    extern const char*   BtnUp1_png;
+    const int            BtnUp1_pngSize = 784;
+
+    extern const char*   BtnUp1Shadow_png;
+    const int            BtnUp1Shadow_pngSize = 1369;
 
     extern const char*   BtnUp2_png;
     const int            BtnUp2_pngSize = 2093;

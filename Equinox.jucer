@@ -11,37 +11,38 @@
       </GROUP>
       <GROUP id="{4F8C6044-3546-021D-71F1-08855308E9DA}" name="Graphics">
         <GROUP id="{B44EE43C-C734-3620-6AEF-EEFE82125D97}" name="Buttons">
-          <FILE id="KORw46" name="BtnDown1.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnDown1.png"/>
-          <FILE id="JQ9qRj" name="BtnDown1Shadow.png" compile="0" resource="1"
-                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnDown1Shadow.png"/>
-          <FILE id="mtjMTe" name="BtnUp1.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnUp1.png"/>
-          <FILE id="AO7SmN" name="BtnUp1Shadow.png" compile="0" resource="1"
-                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnUp1Shadow.png"/>
-          <FILE id="OsBtgp" name="BtnDown2.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnDown2.png"/>
-          <FILE id="NXJoi1" name="BtnDown3.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnDown3.png"/>
-          <FILE id="SKSLyg" name="BtnUp2.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnUp2.png"/>
-          <FILE id="RxdvF8" name="BtnUp3.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Buttons/BtnUp3.png"/>
+          <FILE id="fOa1Kw" name="BtnDown1.png" compile="0" resource="1" file="Resources/Graphics/Buttons/BtnDown1.png"/>
+          <FILE id="bIcLy0" name="BtnDown1Shadow.png" compile="0" resource="1"
+                file="Resources/Graphics/Buttons/BtnDown1Shadow.png"/>
+          <FILE id="XM4kXh" name="BtnDown2.png" compile="0" resource="1" file="Resources/Graphics/Buttons/BtnDown2.png"/>
+          <FILE id="XrMSrH" name="BtnDown3.png" compile="0" resource="1" file="Resources/Graphics/Buttons/BtnDown3.png"/>
+          <FILE id="QT7rFT" name="BtnUp1.png" compile="0" resource="1" file="Resources/Graphics/Buttons/BtnUp1.png"/>
+          <FILE id="XPHSsI" name="BtnUp1Shadow.png" compile="0" resource="1"
+                file="Resources/Graphics/Buttons/BtnUp1Shadow.png"/>
+          <FILE id="ozgARd" name="BtnUp2.png" compile="0" resource="1" file="Resources/Graphics/Buttons/BtnUp2.png"/>
+          <FILE id="DVALtX" name="BtnUp3.png" compile="0" resource="1" file="Resources/Graphics/Buttons/BtnUp3.png"/>
         </GROUP>
         <GROUP id="{E7A868D7-21B7-4BD4-2CA1-669CE706024C}" name="LinearSlider">
-          <FILE id="jL5mMb" name="LargeSliderKnob.png" compile="0" resource="1"
-                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/LinearSlider/LargeSliderKnob.png"/>
-          <FILE id="oiY4LX" name="SliderLine.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/LinearSlider/SliderLine.png"/>
-          <FILE id="AYcSiD" name="SmallSliderKnob.png" compile="0" resource="1"
-                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/LinearSlider/SmallSliderKnob.png"/>
+          <FILE id="zfMBqD" name="LargeSliderKnob.png" compile="0" resource="1"
+                file="Resources/Graphics/LinearSlider/LargeSliderKnob.png"/>
+          <FILE id="gmX6JJ" name="SliderLine.png" compile="0" resource="1" file="Resources/Graphics/LinearSlider/SliderLine.png"/>
+          <FILE id="s5Ffte" name="SmallSliderKnob.png" compile="0" resource="1"
+                file="Resources/Graphics/LinearSlider/SmallSliderKnob.png"/>
         </GROUP>
         <GROUP id="{353B52CF-44F4-3D22-A11E-CD8B7F5153DA}" name="RotarySlider">
-          <FILE id="PTBB2G" name="RotaryKnob.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/RotarySlider/RotaryKnob.png"/>
-          <FILE id="dI6qAb" name="RotaryKnobShadow.png" compile="0" resource="1"
-                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/RotarySlider/RotaryKnobShadow.png"/>
+          <FILE id="TTubAW" name="RotaryKnob.png" compile="0" resource="1" file="Resources/Graphics/RotarySlider/RotaryKnob.png"/>
+          <FILE id="GeYuQi" name="RotaryKnobShadow.png" compile="0" resource="1"
+                file="Resources/Graphics/RotarySlider/RotaryKnobShadow.png"/>
         </GROUP>
         <GROUP id="{305A6AD0-3422-086E-23D9-D0D9EE8C1746}" name="Screens">
-          <FILE id="lNHJB8" name="MenuScreen.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Screens/MenuScreen.png"/>
-          <FILE id="wbateB" name="MenuScreenReflection.png" compile="0" resource="1"
-                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Screens/MenuScreenReflection.png"/>
-          <FILE id="errNFN" name="SmallScreen.png" compile="0" resource="1" file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Screens/SmallScreen.png"/>
-          <FILE id="dogC91" name="SmallScreenReflection.png" compile="0" resource="1"
-                file="../../../../../Desktop/Equinox Graphics/GUI Sketch Exports/Screens/SmallScreenReflection.png"/>
+          <FILE id="Vt1FGa" name="MenuScreen.png" compile="0" resource="1" file="Resources/Graphics/Screens/MenuScreen.png"/>
+          <FILE id="WpBPET" name="MenuScreenReflection.png" compile="0" resource="1"
+                file="Resources/Graphics/Screens/MenuScreenReflection.png"/>
+          <FILE id="OBQUCP" name="SmallScreen.png" compile="0" resource="1" file="Resources/Graphics/Screens/SmallScreen.png"/>
+          <FILE id="BMp8cn" name="SmallScreenReflection.png" compile="0" resource="1"
+                file="Resources/Graphics/Screens/SmallScreenReflection.png"/>
         </GROUP>
+        <GROUP id="{B8663B46-CDAF-A5DD-9901-3F29696208B8}" name="Surface"/>
         <FILE id="TKgM5g" name="Background.png" compile="0" resource="1" file="Resources/Graphics/Background.png"/>
       </GROUP>
     </GROUP>
