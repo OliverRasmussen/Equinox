@@ -14,25 +14,22 @@
 
 #include "PresetManager.h"
 
-PresetManager::PresetManager(StateManager& state) : directoryScanThread("directoryScanner"), fileFilter("*.equinox", "", "Presets"), state(state)
+PresetManager::PresetManager(StateManager& state) : directoryScanThread("directoryScanner"), fileFilter("*.equinox", "", "Presets"), 
+                                                    directoryList(&fileFilter, directoryScanThread), currentPresetName(Value(state.getPresetName())),
+                                                    currentPresetHasBeenEdited(var(false)), state(state)
 {
-    // Starting the directoryScanThread and instantiating the directoryList
-    directoryScanThread.startThread();
-    directoryList = std::make_unique<DirectoryContentsList>(&fileFilter, directoryScanThread);
+    // Adding the PresetManager to the state as a listener
+    state.addListener(this);
     
     // Loading the default directory
     String defaultDirectoryPath = File::getSpecialLocation(File::userDocumentsDirectory).getFullPathName() + "/Equinox/Presets/";
     loadDirectory(defaultDirectoryPath, true);
-    
-    // Adding the PresetManager to the state as a listener
-    state.addListener(this);
-    
-    currentPresetName = Value(state.getPresetName());
-    currentPresetHasBeenEdited = Value(false);
 }
 
 PresetManager::~PresetManager()
 {
+    state.removeListener(this);
+    directoryList.clear();
 }
 
 void PresetManager::loadDirectory(String directoryPath, bool createDirectoryIfNotExisting)
@@ -48,59 +45,51 @@ void PresetManager::loadDirectory(String directoryPath, bool createDirectoryIfNo
     }
     
     // Sets the directoryList to scan the default directory
-    directoryList->setDirectory(directory, true, true);
-    
+    directoryList.setDirectory(directory, true, true);
+    directoryScanThread.startThread();
+
     waitForDirectoryToLoad();
-    directoryLoaded = true;
     
     // Directory loaded, setting the first preset as the state
     if (directoryContainsFiles())
     {
-        File presetFile = directoryList->getFile(0);
+        File presetFile = directoryList.getFile(0);
         state.loadStateFromFile(presetFile);
-        
     }
 }
     
 void PresetManager::savePreset()
 {
-    if (directoryLoaded)
+    FileChooser fileChooser("Save preset", getPresetFileFromName(currentPresetName.toString()), "", true, false, nullptr);
+    if (fileChooser.browseForFileToSave(true))
     {
-        FileChooser fileChooser("Save preset", getPresetFileFromName(currentPresetName.toString()), "", true, false, nullptr);
-        if (fileChooser.browseForFileToSave(true))
+        File presetFile = fileChooser.getResult();
+
+        if (!presetFile.existsAsFile())
         {
-            File presetFile = fileChooser.getResult();
-            
-            if (!presetFile.existsAsFile())
-            {
-                presetFile.create();
-                
-                directoryList->refresh();
-                waitForDirectoryToLoad();
-    
-                state.setPresetName(presetFile.getFileNameWithoutExtension());
-            }
-            
-            
-            state.saveStateToFile(presetFile);
-            state.loadStateFromFile(presetFile);
-            //currentPresetHasBeenEdited = false;
+            presetFile.create();
+
+            state.setPresetName(presetFile.getFileNameWithoutExtension());
+
+            directoryList.refresh();
+            waitForDirectoryToLoad();
         }
+
+
+        state.saveStateToFile(presetFile);
+        state.loadStateFromFile(presetFile);
     }
 }
     
 void PresetManager::loadPreset()
 {
-    if (directoryLoaded)
+    FileChooser fileChooser("Load preset", directory, "*.equinox", true, false, nullptr);
+
+    if (fileChooser.browseForFileToOpen())
     {
-        FileChooser fileChooser("Load preset", directory, "*.equinox", true, false, nullptr);
-        
-        if (fileChooser.browseForFileToOpen())
-        {
-            File presetFile = fileChooser.getResult();
-            
-            state.loadStateFromFile(presetFile);
-        }
+        File presetFile = fileChooser.getResult();
+
+        state.loadStateFromFile(presetFile);
     }
 }
     
@@ -108,9 +97,9 @@ void PresetManager::getNextPreset()
 {
     if (directoryContainsFiles())
     {
-        int index = currentPresetIndex < (directoryList->getNumFiles() - 1) ? currentPresetIndex + 1 : 0;
+        int index = currentPresetIndex < (directoryList.getNumFiles() - 1) ? currentPresetIndex + 1 : 0;
         
-        File presetFile = directoryList->getFile(index);
+        File presetFile = directoryList.getFile(index);
         
         state.loadStateFromFile(presetFile);
     }
@@ -120,9 +109,9 @@ void PresetManager::getPreviousPreset()
 {
     if (directoryContainsFiles())
     {
-        int index = currentPresetIndex > 0 ? currentPresetIndex - 1 : (directoryList->getNumFiles() - 1);
+        int index = currentPresetIndex > 0 ? currentPresetIndex - 1 : (directoryList.getNumFiles() - 1);
         
-        File presetFile = directoryList->getFile(index);
+        File presetFile = directoryList.getFile(index);
         
         state.loadStateFromFile(presetFile);
     }
@@ -130,9 +119,8 @@ void PresetManager::getPreviousPreset()
     
 void PresetManager::overwritePreset()
 {
-    File presetFile = directoryList->getFile(currentPresetIndex);
+    File presetFile = directoryList.getFile(currentPresetIndex);
     state.saveStateToFile(presetFile);
-    //currentPresetHasBeenEdited = false;
     state.loadStateFromFile(presetFile);
 }
     
@@ -148,7 +136,7 @@ Value* PresetManager::getCurrentPresetName()
 
 bool PresetManager::currentPresetExistsAsFile()
 {
-    if (directoryList->getFile(currentPresetIndex).existsAsFile())
+    if (directoryList.getFile(currentPresetIndex).existsAsFile())
     {
         return true;
     }
@@ -165,13 +153,13 @@ int PresetManager::getPresetIndexFromName(String presetName)
 {
     File presetFile = getPresetFileFromName(presetName);
     
-    if (directoryList->contains(presetFile))
+    if (directoryList.contains(presetFile))
     {
         DirectoryContentsList::FileInfo fileInfo;
-        for (int i = 0; i < directoryList->getNumFiles(); i++)
+        for (int i = 0; i < directoryList.getNumFiles(); i++)
         {
             // Searching through the directoryList for a matching file
-            if (directoryList->getFileInfo(i, fileInfo))
+            if (directoryList.getFileInfo(i, fileInfo))
             {
                 if (presetFile.getFileName() == fileInfo.filename)
                 {
@@ -181,7 +169,7 @@ int PresetManager::getPresetIndexFromName(String presetName)
             }
         }
     }
-    // preset couldn't be found / doesn't exist
+    // preset wasnt found in directory / doesn't exist
     return -1;
 }
 
@@ -192,14 +180,14 @@ File PresetManager::getPresetFileFromName(String presetName)
 
 bool PresetManager::directoryContainsFiles()
 {
-    return directoryList->getNumFiles() > 0;
+    return directoryList.getNumFiles() > 0;
 }
 
 void PresetManager::waitForDirectoryToLoad()
 {
-    while (directoryList->isStillLoading())
+    while (directoryList.isStillLoading())
     {
-        Time::waitForMillisecondCounter(Time::getMillisecondCounter() + 50);
+        Time::waitForMillisecondCounter(Time::getMillisecondCounter() + 10);
     }
 }
 
@@ -219,6 +207,7 @@ void PresetManager::valueTreePropertyChanged(ValueTree& valueTree, const Identif
     {
         // Sets the preset index to match the preset
         currentPresetIndex = getPresetIndexFromName(currentPresetName.toString());
+
     }
     
     // Checking if any parameter has been changed

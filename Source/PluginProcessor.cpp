@@ -184,7 +184,7 @@ void EquinoxAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
 //==============================================================================
 bool EquinoxAudioProcessor::hasEditor() const
 {
-    return true; // (change this to false if you choose to not supply an editor)
+    return true;
 }
 
 AudioProcessorEditor* EquinoxAudioProcessor::createEditor()

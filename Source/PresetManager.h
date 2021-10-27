@@ -73,10 +73,11 @@ private:
     /** Receives a callback whenever a property in the ValueTree has changed*/
     void valueTreePropertyChanged(ValueTree&, const Identifier&) override;
     
-    std::unique_ptr<DirectoryContentsList> directoryList;
-    TimeSliceThread directoryScanThread;
+    //std::unique_ptr<DirectoryContentsList> directoryList;
     
     WildcardFileFilter fileFilter;
+    TimeSliceThread directoryScanThread;
+    DirectoryContentsList directoryList;
     
     File directory;
     String directoryPath;
@@ -86,7 +87,5 @@ private:
     int currentPresetIndex = -1;
     
     StateManager& state;
-    
-    bool directoryLoaded = false;
     
 };

@@ -45,6 +45,11 @@ void StateManager::addListener(ValueTree::Listener *listener)
     currentState.addListener(listener);
 }
 
+void StateManager::removeListener(ValueTree::Listener* listener)
+{
+    currentState.removeListener(listener);
+}
+
 ValueTree StateManager::getChildWithName (const Identifier& type) const
 {
     return currentState.getChildWithName(type);

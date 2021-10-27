@@ -25,8 +25,11 @@ public:
     
     ~StateManager();
     
-    /** Adds a listener to the internal ValueTree object*/
+    /** Adds a listener to the internal ValueTree*/
     void addListener(ValueTree::Listener *listener);
+
+    /**Removes a listenerr from the internal ValueTree*/
+    void removeListener(ValueTree::Listener* listener);
     
     /** Returns a child ValueTree object*/
     ValueTree getChildWithName (const Identifier& type) const;
