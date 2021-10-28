@@ -28,7 +28,7 @@ double WavetableOscillator::frequencies[WavetableOscillator::frequencyRange] = {
 
 void WavetableOscillator::prepare(int sampleRate)
 {
-    // Makes sure we only generate the wavetables once (sampleRate is static)
+    // Makes sure we only generate the wavetables once or when the Samplerate changes
     if (WavetableOscillator::sampleRate == sampleRate) { return; }
     
     WavetableOscillator::sampleRate = sampleRate;
@@ -42,13 +42,13 @@ void WavetableOscillator::prepare(int sampleRate)
 
 float WavetableOscillator::getPhase() const
 {
-    return phase / waveTableSize;
+    return phase / (waveTableSize - 1);
 }
 
 void WavetableOscillator::setPhase(float phaseValue)
 {
     if (phaseValue > 1 || phaseValue < 0) { return; }
-    phase = phaseValue * waveTableSize;
+    phase = phaseValue * (waveTableSize - 1);
 }
 
 double WavetableOscillator::sine(double frequency)
@@ -99,8 +99,13 @@ double WavetableOscillator::nextOutputSample(std::map<double, std::array<double,
 
     double outputSample = value0 + fraction * (value1 - value0);
 
-    // Increments phase and wraps value if it exceeds waveTableSize
-    if ((phase += fractionFrequency) > (float)waveTableSize) { phase -= (float)waveTableSize; }
+    // Increments phase and wraps value if it exceeds the wavetables size
+    phase += fractionFrequency;
+
+    if ((int)phase > waveTableSize - 1)
+    { 
+        phase -= (float)waveTableSize;
+    }
     
     return outputSample;
 }
@@ -108,7 +113,7 @@ double WavetableOscillator::nextOutputSample(std::map<double, std::array<double,
 void WavetableOscillator::generateWavetable(waveform waveform)
 {
     // Creates tables for all frequencies
-    for (int i = 0; i < frequencyRange; i++)
+    for (int i = 0; i < frequencyRange - 1; i++)
     {
         // The current frequency
         double frequency = frequencies[i];

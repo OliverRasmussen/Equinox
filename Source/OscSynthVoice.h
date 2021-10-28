@@ -53,7 +53,7 @@ private:
     
     float phase = 0;
     
-    int currentWaveform;
+    int currentWaveform = 0;
     
     WavetableOscillator oscillator1, oscillator2;
 };
