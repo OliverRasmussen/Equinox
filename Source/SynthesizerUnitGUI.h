@@ -28,17 +28,11 @@ class SynthesizerUnitGUI    : public Component
 public:
     SynthesizerUnitGUI(StateManager&, std::string);
     ~SynthesizerUnitGUI();
-    
-    static int getNumInstances();
 
     void paint (Graphics&) override;
     void resized() override;
 
 private:
-
-    static int objCounter;
-    
-    int instanceNum;
     
     SynthMenuGUI synthMenuGUI;
     

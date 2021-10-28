@@ -15,12 +15,9 @@
 
 //==============================================================================
 
-int SynthesizerUnitGUI::objCounter;
-
 SynthesizerUnitGUI::SynthesizerUnitGUI(StateManager& stateManager, std::string instanceNum) : synthMenuGUI(stateManager, instanceNum), ampEnvelopeGUI(stateManager, instanceNum), filterEnvelopeGUI(stateManager, instanceNum), filterGUI(stateManager, instanceNum)
 
 {
-    instanceNum = ++objCounter;
     addAndMakeVisible(&synthMenuGUI);
     addAndMakeVisible(&ampEnvelopeGUI);
     addAndMakeVisible(&filterEnvelopeGUI);
@@ -29,12 +26,7 @@ SynthesizerUnitGUI::SynthesizerUnitGUI(StateManager& stateManager, std::string i
 
 SynthesizerUnitGUI::~SynthesizerUnitGUI()
 {
-    --objCounter;
-}
-
-int SynthesizerUnitGUI::getNumInstances()
-{
-    return objCounter;
+    
 }
 
 void SynthesizerUnitGUI::paint (Graphics& g)

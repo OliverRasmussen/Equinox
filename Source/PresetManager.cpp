@@ -14,8 +14,10 @@
 
 #include "PresetManager.h"
 
-PresetManager::PresetManager(StateManager& state) : directoryScanThread("directoryScanner"), fileFilter("*.equinox", "", "Presets"), 
-                                                    directoryList(&fileFilter, directoryScanThread), currentPresetName(Value(state.getPresetName())),
+PresetManager::PresetManager(StateManager& state) : fileFilter("*.equinox", "", "Presets"),
+                                                    directoryScanThread("directoryScanner"),
+                                                    directoryList(&fileFilter, directoryScanThread),
+                                                    currentPresetName(Value(state.getPresetName())),
                                                     currentPresetHasBeenEdited(var(false)), state(state)
 {
     // Adding the PresetManager to the state as a listener

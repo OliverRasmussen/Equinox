@@ -19,7 +19,7 @@ EquinoxAudioProcessorEditor::EquinoxAudioProcessorEditor (EquinoxAudioProcessor&
     getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colour(30.0f, 124.0f, 105.0f));
     
     
-    synthInstanceNum = SynthesizerUnitGUI::getNumInstances();
+    synthInstanceNum = 3;
     
     int height = 330 + (200 * synthInstanceNum);
     int width = 1050;
