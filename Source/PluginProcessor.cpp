@@ -107,8 +107,6 @@ void EquinoxAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
     
-    DBG(sampleRate);
-    
     WavetableOscillator::prepare(sampleRate);
     
     synthLayer1.prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
