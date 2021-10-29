@@ -81,8 +81,8 @@ double WavetableOscillator::nextOutputSample(std::map<double, std::array<double,
     // Sets currentFrequency and fractionFrequency when frequency changes
     if (currentFrequency != frequency)
     {
-        // Return null if frequency is above the frequency range
-        if (frequency > frequencies[frequencyRange-1]) { return NULL; }
+        // Return null if frequency is out of frequency range
+        if (frequency > frequencies[frequencyRange-1] || frequency < frequencies[0]) { return 0; }
         
         currentFrequency = frequency;
         fractionFrequency = frequency * ((float)waveTableSize / (float)sampleRate);
@@ -102,7 +102,7 @@ double WavetableOscillator::nextOutputSample(std::map<double, std::array<double,
     // Increments phase and wraps value if it exceeds the wavetables size
     phase += fractionFrequency;
 
-    if ((int)phase > waveTableSize - 1)
+    if (phase > waveTableSize - 1)
     { 
         phase -= (float)waveTableSize;
     }

@@ -104,11 +104,12 @@ void EquinoxAudioProcessor::changeProgramName (int index, const String& newName)
 //==============================================================================
 void EquinoxAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-    
     ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
+    
+    DBG(sampleRate);
+    
+    WavetableOscillator::prepare(sampleRate);
     
     synthLayer1.prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
     synthLayer2.prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());

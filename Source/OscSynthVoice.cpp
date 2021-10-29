@@ -22,7 +22,6 @@ OscSynthVoice::~OscSynthVoice(){}
 
 void OscSynthVoice::prepareVoice(dsp::ProcessSpec& spec)
 {
-    WavetableOscillator::prepare(spec.sampleRate);
     SynthVoice::prepareVoice(spec);
 }
 
