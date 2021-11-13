@@ -16,7 +16,8 @@
 #include "LabelSlider.h"
 
 //==============================================================================
-LabelSlider::LabelSlider(Slider::SliderStyle sliderStyle, float minRangeValue, float maxRangeValue, float startValue, int sliderWidth, int sliderHeight, String parameterID, String labelText, StateManager& state) : parameterID(parameterID)
+LabelSlider::LabelSlider(Slider::SliderStyle sliderStyle, float minRangeValue, float maxRangeValue, float startValue, int sliderWidth, int sliderHeight, String parameterID, String labelText, StateManager& state) :
+parameterID(parameterID)
 {
     
     label.setText(labelText, NotificationType::dontSendNotification);
@@ -33,6 +34,8 @@ LabelSlider::LabelSlider(Slider::SliderStyle sliderStyle, float minRangeValue, f
     addAndMakeVisible(&slider);
     
     sliderAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(state.getParameters(), parameterID, slider);
+    
+    slider.onValueChange = [&]() {slider.setTooltip((String)slider.getValue());};
 }
 
 LabelSlider::~LabelSlider()

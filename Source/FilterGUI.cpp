@@ -40,7 +40,10 @@ FilterGUI::~FilterGUI()
 void FilterGUI::paint (Graphics& g)
 {
     drawTitle(g, Colours::white, "Filter",0, 15, getWidth(), 20);
-    drawRectangle(g, Colours::darkgrey, 5, 30, getWidth() - 5, 145, 20.0f, 2.0f);
+    
+    int rectXPos = 5;
+    int rectYPos = 30;
+    drawRectangle(g, Colours::darkgrey, rectXPos, rectYPos, getWidth() - rectXPos, getLocalBounds().getHeight() - (rectYPos * 2), 20.0f, 2.0f);
 }
 
 void FilterGUI::resized()

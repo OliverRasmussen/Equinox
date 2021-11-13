@@ -29,6 +29,8 @@ private:
     
     void drawRotarySlider (Graphics& g, int x, int y, int width, int height, float sliderPos, const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider) override;
     
+    void drawTabButton (TabBarButton& button, Graphics& g, bool isMouseOver, bool isMouseDown) override;
+    
     Image buttonUp;
     Image buttonDown;
     Image rotaryKnob;

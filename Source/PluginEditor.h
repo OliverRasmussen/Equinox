@@ -32,6 +32,9 @@ public:
     
 
 private:
+    
+    TabMenu synthLayerTabMenu;
+    
     int synthInstanceNum;
     SynthesizerUnitGUI synthUnitGUI1, synthUnitGUI2, synthUnitGUI3;
     

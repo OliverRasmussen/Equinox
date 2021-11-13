@@ -16,13 +16,13 @@
 //==============================================================================
 AmpEnvelopeGUI::AmpEnvelopeGUI(StateManager& stateManager, std::string synthInstance)
 {
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.001f, 5.0f, 0.1f, 40, 125, "ampAttack" + synthInstance, "A", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.001f, 5.0f, 0.1f, 40, 155, "ampAttack" + synthInstance, "A", stateManager));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.01f, 5.0f, 0.1f, 40, 125, "ampDecay" + synthInstance, "D", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.01f, 5.0f, 0.1f, 40, 155, "ampDecay" + synthInstance, "D", stateManager));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.0f, 1.0f, 0.8f, 40, 125, "ampSustain" + synthInstance, "S", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.0f, 1.0f, 0.8f, 40, 155, "ampSustain" + synthInstance, "S", stateManager));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.001f, 5.0f, 0.5f, 40, 125, "ampRelease" + synthInstance, "R", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.001f, 5.0f, 0.5f, 40, 155, "ampRelease" + synthInstance, "R", stateManager));
 }
 
 AmpEnvelopeGUI::~AmpEnvelopeGUI()
@@ -31,8 +31,12 @@ AmpEnvelopeGUI::~AmpEnvelopeGUI()
 
 void AmpEnvelopeGUI::paint (Graphics& g)
 {
+    
     drawTitle(g, Colours::white, "Amp Envelope",0, 15, getWidth(), 20);
-    drawRectangle(g, Colours::darkgrey, 5, 30, getWidth() - 5, 145, 20.0f, 2.0f);
+    
+    int rectXPos = 5;
+    int rectYPos = 30;
+    drawRectangle(g, Colours::darkgrey, rectXPos, rectYPos, getWidth() - rectXPos, getLocalBounds().getHeight() - (rectYPos * 2), 20.0f, 2.0f);
 }
 
 void AmpEnvelopeGUI::resized()

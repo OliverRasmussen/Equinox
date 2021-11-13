@@ -12,16 +12,14 @@
   ==============================================================================
 */
 
-#pragma once
-#include <JuceHeader.h>
-class TabMenu : public TabbedComponent
-{
-public:
-    
-    TabMenu(TabbedButtonBar::Orientation orientation);
+#include "TabMenu.h"
 
-    void currentTabChanged(int currentTabIndex, const String &currentTabName) override;
-    
-    std::function<void()> onTabChanged;
-    
-};
+TabMenu::TabMenu(TabbedButtonBar::Orientation orientation) : TabbedComponent(orientation)
+{
+    onTabChanged = []() {};
+}
+
+void TabMenu::currentTabChanged(int currentTabIndex, const String &currentTabName)
+{
+    onTabChanged();
+}

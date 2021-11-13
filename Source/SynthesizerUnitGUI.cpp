@@ -40,7 +40,7 @@ void SynthesizerUnitGUI::resized()
     const int componentCount = 4;
     
     const int componentWidth = area.getWidth() / componentCount;
-    const int componentHeight = 200;
+    const int componentHeight = area.getHeight();
     
     synthMenuGUI.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     

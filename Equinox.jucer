@@ -78,6 +78,7 @@
                 file="Source/AmpEnvelopeGUI.cpp"/>
           <FILE id="cDoP7p" name="AmpEnvelopeGUI.h" compile="0" resource="0"
                 file="Source/AmpEnvelopeGUI.h"/>
+          <FILE id="eAjlDC" name="TabMenu.cpp" compile="1" resource="0" file="Source/TabMenu.cpp"/>
           <FILE id="v5qRji" name="TabMenu.h" compile="0" resource="0" file="Source/TabMenu.h"/>
           <FILE id="MxjCJo" name="SynthMenuGUI.cpp" compile="1" resource="0"
                 file="Source/SynthMenuGUI.cpp"/>
