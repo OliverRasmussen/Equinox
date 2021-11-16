@@ -16,7 +16,7 @@
 //==============================================================================
 SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stateManager(stateManager), synthInstance(synthInstance)
 {
-    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 40, 40, "amplitude" + synthInstance, "Amp", "%", "", 2));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 40, 40, "amplitude" + synthInstance, "Amp", "%"));
     
     addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, -24, 24, 40, 40, "pitchTranspose" + synthInstance, "Transpose"));
     
