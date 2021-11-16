@@ -18,15 +18,15 @@
 //==============================================================================
 ChorusGUI::ChorusGUI(StateManager& stateManager)
 {
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 1.0f, 0.0f, 40, 40, "chorusMix", "Mix", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 40, 40, "chorusMix", "Mix", "%"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 5.0f, 1.0f, 40, 40, "chorusRate", "Rate", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 5.0f, 40, 40, "chorusRate", "Rate", "Hz", "", 2));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 0.15f, 0.0f, 40, 40, "chorusDepth", "Depth", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 40, 40, "chorusDepth", "Depth", "%"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 1.0f, 30.0f, 1.0f, 40, 40, "chorusDelay", "Delay", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 30.0f, 40, 40, "chorusDelay", "Delay", "ms"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, -1.0f, 1.0f, 0.0f, 40, 40, "chorusFeedback", "Feedback", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, -100.0f, 100.0f, 40, 40, "chorusFeedback", "Feedback"));
 }
 
 ChorusGUI::~ChorusGUI()

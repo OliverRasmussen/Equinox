@@ -16,15 +16,15 @@
 //==============================================================================
 FilterEnvelopeGUI::FilterEnvelopeGUI(StateManager& stateManager, std::string synthInstance)
 {
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.0f, 99.0f, 0.0f, 40, 155, "filterAttack" + synthInstance, "A", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::LinearVertical, 0.0f, 10000.0f, 40, 155, "filterAttack" + synthInstance, "A", "ms"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.0f, 99.0f, 0.0f, 40, 155, "filterDecay" + synthInstance, "D", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::LinearVertical, 0.0f, 10000.0f, 40, 155, "filterDecay" + synthInstance, "D", "ms"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.0f, 99.0f, 50.0f, 40, 155, "filterSustain" + synthInstance, "S", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::LinearVertical, 0.0f, 1.0f, 40, 155, "filterSustain" + synthInstance, "S", "", "", 2));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::LinearVertical, 0.0f, 200.0f, 0.0f, 40, 155, "filterRelease" + synthInstance, "R", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::LinearVertical, 0.0f, 2000.0f, 40, 155, "filterRelease" + synthInstance, "R", "ms"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 200.0f, 22050.0f, 10000.0f, 45, 45, "envelopeCutoffLimit" + synthInstance, "Limit", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 200.0f, 22050.0f, 45, 45, "envelopeCutoffLimit" + synthInstance, "Limit", "Hz"));
 }
 
 FilterEnvelopeGUI::~FilterEnvelopeGUI()

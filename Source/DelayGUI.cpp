@@ -18,11 +18,11 @@
 //==============================================================================
 DelayGUI::DelayGUI(StateManager& stateManager)
 {
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 1.0f, 0.0f, 40, 40, "delayMix", "Mix", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 40, 40, "delayMix", "Mix", "%"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 1.0f, 8.0f, 1.0f, 40, 40, "delayTime", "Time", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 1.0f, 8.0f, 40, 40, "delayTime", "Time", "", "1/"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 0.0f, 40, 40, "delayFeedback", "Feedback", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 40, 40, "delayFeedback", "Feedback"));
 }
 
 DelayGUI::~DelayGUI()

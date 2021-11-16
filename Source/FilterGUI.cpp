@@ -16,11 +16,11 @@
 //==============================================================================
 FilterGUI::FilterGUI(StateManager& stateManager, std::string synthInstance) : synthInstance(synthInstance)
 { 
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 50.0f, 22050.0f, 22050.0f, 70, 70, "cutoff" + synthInstance, "Cutoff", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 50.0f, 22050.0f, 70, 70, "cutoff" + synthInstance, "Cutoff", "Hz"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 1.0f, 15.0f, 1.0f, 50, 50, "drive" + synthInstance, "Drive", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 50, 50, "drive" + synthInstance, "Drive"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 0.9f, 0.0f, 70, 70, "resonance" + synthInstance, "Resonance", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 70, 70, "resonance" + synthInstance, "Resonance"));
 
     filterMenu.addItem("LPF12", 1);
     filterMenu.addItem("HPF12", 2);

@@ -41,7 +41,6 @@ void FilterEnvelope::noteOn()
 {
     sustainHasBeenSet = false;
     lastReachedValue = 0;
-    //initialCutoffValue = filter.getCutoffValue();
     nextCutoffValue = initialCutoffValue;
     cutoffPct = cutoffLimit / 100;
     currentState = attackState;

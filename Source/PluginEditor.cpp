@@ -29,7 +29,7 @@ EquinoxAudioProcessorEditor::EquinoxAudioProcessorEditor (EquinoxAudioProcessor&
     
     addAndMakeVisible(&synthLayerTabMenu);
     
-    int height = 330 + 200;// (200 * synthInstanceNum);
+    int height = 530 + 81;
     int width = 1050;
     setSize (width, height);
     
@@ -38,11 +38,10 @@ EquinoxAudioProcessorEditor::EquinoxAudioProcessorEditor (EquinoxAudioProcessor&
     addAndMakeVisible(&masterEffects);
     
     keyboardComponent.clearKeyMappings();
-    keyboardComponent.setBounds(0, 850, getWidth(), 80);
+    keyboardComponent.setBounds(0, 531, getWidth(), 80);
     addAndMakeVisible(&keyboardComponent);
     
     setBufferedToImage(true);
-    
 }
 
 EquinoxAudioProcessorEditor::~EquinoxAudioProcessorEditor()

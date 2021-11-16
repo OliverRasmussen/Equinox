@@ -154,11 +154,9 @@ double SynthVoice::getNextPortamentoValue() const
 
 void SynthVoice::setAmplitude(float* ampValue)
 {
-    masterAmplitude = *ampValue;
-    
-    if (masterAmplitude > 1)
+    if (*ampValue <= 1)
     {
-        masterAmplitude = 1;
+        masterAmplitude = *ampValue;
     }
 }
 

@@ -34,5 +34,9 @@ public:
     
     /** Returns true if the envelope is active*/
     virtual bool isActive() const = 0;
+
+protected:
+    const float minAttackValue = 0.001f;
+    const float minReleaseValue = 0.001f;
     
 };

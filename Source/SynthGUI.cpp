@@ -16,19 +16,19 @@
 //==============================================================================
 SynthGUI::SynthGUI(StateManager& stateManager, std::string synthInstance) : stateManager(stateManager), synthInstance(synthInstance)
 {
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 0.5f, 0.4f, 40, 40, "amplitude" + synthInstance, "Amp", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 40, 40, "amplitude" + synthInstance, "Amp", "%", "", 2));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, -24, 24, 0.0f, 40, 40, "pitchTranspose" + synthInstance, "Transpose", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, -24, 24, 40, 40, "pitchTranspose" + synthInstance, "Transpose"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, -100.0f, 100.0f, 0.0f, 40, 40, "finePitch" + synthInstance, "Fine Pitch", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, -100.0f, 100.0f, 40, 40, "finePitch" + synthInstance, "Fine Pitch", " Cent"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 1.0f, 40.0f, 1.0f, 40, 40, "analogValue" + synthInstance, "Analog Factor", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 40, 40, "analogValue" + synthInstance, "Analog Factor"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, -1.0f, 1.0f, 0.0f, 40, 40, "oscPanning" + synthInstance, "Pan", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, -100.0f, 100.0f, 40, 40, "oscPanning" + synthInstance, "Pan"));
     
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, -20.0f, 20.0f, 0.0f, 40, 40, "detune" + synthInstance, "Detune", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, -20.0f, 20.0f, 40, 40, "detune" + synthInstance, "Detune"));
 
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 40000.0f, 0.0f, 40, 40, "portamento" + synthInstance, "Portamento", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 40, 40, "portamento" + synthInstance, "Portamento"));
     
     // On/Off button
     onOffAttachment = std::make_unique<AudioProcessorValueTreeState::ButtonAttachment>(stateManager.getParameters(), "isActive" + synthInstance, onOffButton);

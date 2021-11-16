@@ -23,10 +23,10 @@
 class LabelSlider  : public juce::Component
 {
 public:
-    LabelSlider();
     
     /** Creates a slider with a label */
-    LabelSlider(Slider::SliderStyle sliderStyle, float minRangeValue, float maxRangeValue, float startValue, int sliderWidth, int sliderHeight, String parameterID, String labelText, StateManager& state);
+    LabelSlider(StateManager& state, Slider::SliderStyle sliderStyle, float minSliderValue, float maxSliderValue,
+                int sliderWidth, int sliderHeight, String paramID, String labelText, String valueSuffix = "", String valuePrefix = "", unsigned int valueMaxDecimals = 0);
     
     ~LabelSlider() override;
     
@@ -64,6 +64,11 @@ private:
     String parameterID;
     Slider slider;
     Label label;
+    String suffix;
+    String prefix;
+    float minValue;
+    float maxValue;
+    unsigned int maxDecimals;
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> sliderAttachment;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LabelSlider)

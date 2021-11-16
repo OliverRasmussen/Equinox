@@ -35,7 +35,7 @@ OscillatorGUI::OscillatorGUI(StateManager& stateManager, std::string synthInstan
     addAndMakeVisible(&waveformLabel);
     
     // Phase labelslider
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 1.0f, 0.0f, 40, 40, "phase" + synthInstance, "Phase", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 40, 40, "phase" + synthInstance, "Phase"));
 
 }
 

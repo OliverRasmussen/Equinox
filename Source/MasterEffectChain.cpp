@@ -33,24 +33,24 @@ void MasterEffectChain::addParameters(std::vector<std::unique_ptr<RangedAudioPar
     // Chorus parameters
     params.push_back(std::make_unique<AudioParameterFloat>("chorusMix", "Chorus mix", NormalisableRange<float>(0.0f, 1.0f, 0.01f, 1.0f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("chorusRate", "Chorus rate", NormalisableRange<float>(0.0f, 5.0f, 0.05f, 1.0f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("chorusRate", "Chorus rate", NormalisableRange<float>(0.0f, 5.0f, 0.01f, 1.0f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("chorusDepth", "Chorus depth", NormalisableRange<float>(0.0f, 0.15f, 0.01f, 1.0f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("chorusDepth", "Chorus depth", NormalisableRange<float>(0.0f, 0.15f, 0.0015f, 1.0f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("chorusDelay", "Chorus delay", NormalisableRange<float>(1.0f, 30.0f, 0.1f, 1.0f), 1.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("chorusDelay", "Chorus delay", NormalisableRange<float>(1.0f, 30.0f, 0.29f, 1.0f), 1.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("chorusFeedback", "Chorus feedback", NormalisableRange<float>(-1.0f, 1.0f, 0.01f, 1.0f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("chorusFeedback", "Chorus feedback", NormalisableRange<float>(-1.0f, 1.0f, 0.02f, 1.0f), 0.0f));
     
     // Phaser parameters
     params.push_back(std::make_unique<AudioParameterFloat>("phaserMix", "Phaser mix", NormalisableRange<float>(0.0f, 1.0f, 0.01f, 1.0f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("phaserRate", "Phaser rate", NormalisableRange<float>(0.0f, 1.0f, 0.00060f, 1.0f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("phaserRate", "Phaser rate", NormalisableRange<float>(0.0f, 1.0f, 0.01f, 1.0f), 0.0f));
     
     params.push_back(std::make_unique<AudioParameterFloat>("phaserDepth", "Phaser depth", NormalisableRange<float>(0.0f, 1.0f, 0.01f, 1.0f), 0.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("phaserFrequency", "Phaser frequency", NormalisableRange<float>(100.0f, 22000.0f, 20.0f, 1.0f), 11000.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("phaserFrequency", "Phaser frequency", NormalisableRange<float>(100.0f, 22000.0f, 2.0f, 1.0f), 11000.0f));
     
-    params.push_back(std::make_unique<AudioParameterFloat>("phaserFeedback", "Phaser feedback", NormalisableRange<float>(-0.9f, 0.9f, 0.01f, 1.0f), 0.0f));
+    params.push_back(std::make_unique<AudioParameterFloat>("phaserFeedback", "Phaser feedback", NormalisableRange<float>(-0.9f, 0.9f, 0.018f, 1.0f), 0.0f));
     
     // Reverb parameters
     params.push_back(std::make_unique<AudioParameterFloat>("reverbMix", "Reverb mix", NormalisableRange<float>(0.0f, 1.0f, 0.01f, 1.0f), 0.0f));

@@ -27,7 +27,7 @@ SamplerGUI::SamplerGUI(StateManager& stateManager, std::string synthInstance) : 
     addAndMakeVisible(&samplerLabel);
     
     // sample start time labelslider
-    addLabelSlider(std::make_shared<LabelSlider>(Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 0.9f, 0.0f, 40, 40, "sampleStartTime" + synthInstance, "Start time", stateManager));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 40, 40, "sampleStartTime" + synthInstance, "Start time"));
 }
 
 SamplerGUI::~SamplerGUI()
