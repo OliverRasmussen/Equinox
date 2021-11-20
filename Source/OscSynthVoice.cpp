@@ -57,49 +57,21 @@ float OscSynthVoice::getPhase() const
 
 void OscSynthVoice::setWaveform(float* selectedWaveform)
 {
-    currentWaveform = static_cast<int>(*selectedWaveform);
+    oscillator1.setWaveform(static_cast<WavetableOscillator::Waveform>(*selectedWaveform));
+    oscillator2.setWaveform(static_cast<WavetableOscillator::Waveform>(*selectedWaveform));
 }
 
 double OscSynthVoice::getNextOscillatorSample(int channel)
 {
     double nextSample = 0;
-    double frequency;
-    WavetableOscillator* oscPtr = nullptr;
     
     if (channel == 0)
     {
-        oscPtr = &oscillator1;
-        frequency = getFrequency();
+        nextSample = oscillator1.getNextSample(getFrequency());
     }
     else
     {
-        oscPtr = &oscillator2;
-        frequency = getDetune() ? getFrequency() * getDetune() : getFrequency();
-    }
-    
-    if (oscPtr != nullptr)
-    {
-        switch (currentWaveform)
-        {
-            case 0:
-                nextSample = oscPtr->sine(frequency);
-                break;
-            case 1:
-                nextSample = oscPtr->saw(frequency);
-                break;
-            case 2:
-                nextSample = oscPtr->triangle(frequency);
-                break;
-            case 3:
-                nextSample = oscPtr->square(frequency);
-                break;
-            case 4:
-                nextSample = oscPtr->noise();
-                break;
-            default:
-                nextSample = oscPtr->sine(frequency);
-                break;
-        }
+        nextSample = oscillator2.getNextSample(getDetune() ? getFrequency() * getDetune() : getFrequency());
     }
     return nextSample;
 }

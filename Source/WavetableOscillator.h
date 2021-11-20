@@ -17,56 +17,77 @@
 #include <map>
 #include <array>
 #include <math.h>
+#include <functional>
+#include <cassert>
+
+#define M_ASSERT(expr, msg) assert(( (void)(msg), (expr) ))
 
 #define M_2PI 6.283185307179586476925286766559
 
 class WavetableOscillator
 {
+
 public:
-    
+    enum class Waveform { sineWave, sawWave, triangleWave, squareWave, noise };
+
+    WavetableOscillator();
+
+    ~WavetableOscillator();
+
     /** Set samplerate and generates wavetables */
-    static void prepare(int sampleRate);
-    
+    static void prepare(int samplerate);
+
+    /** Set the waveform to be used */
+    void setWaveform(Waveform waveform);
+
     /** Get current phase value */
-    float getPhase() const;
-    
+    float getPhase();
+
     /** Set the oscillators phase.
-    phase value must be between 0 and 1 */
+        phase value must be between 0 and 1 */
     void setPhase(float phaseValue);
-    
-    /** Generates a Sine wave */
-    double sine(double frequency);
-    
-    /** Generates a Square wave */
-    double square(double frequency);
-    
-    /** Generates a Saw wave */
-    double saw(double frequency);
-    
-    /** Generates a triangle wave */
-    double triangle(double frequency);
-    
-    /** Generates random noise */
-    double noise() const;
-    
-    
+
+    /** Returns the next oscillator sample*/
+    double getNextSample(double frequency);
+
 private:
-    enum waveform { sineWave, sawWave, squareWave, triangleWave };
-    waveform currentWaveform;
+
+    static bool isPrepared;
+
     static int sampleRate;
+
     static int nyquistFrequency;
+
     static const int frequencyRange = 117;
+
     static const int waveTableSize = 2048;
+
     float phase = 0;
-    double currentFrequency;
-    float fractionFrequency;
+
+    double currentFrequency = 440;
+
+    float fractionFrequency = 0;
+
     static std::map<double, std::array<double, waveTableSize>> sineTable, squareTable, sawTable, triangleTable;
-    static double frequencies[frequencyRange];
-    
-    /** Calculates and returns the next sample from a wavetable */
-    double nextOutputSample(std::map<double, std::array<double, waveTableSize>>& wavetable, double frequency);
-    
+
+    std::map<double, std::array<double, waveTableSize>>::const_iterator tableIterator;
+
+    const std::map<double, std::array<double, waveTableSize>>* currentTable = nullptr;
+
+    const static double frequencies[frequencyRange];
+
+    std::function<double(double)> nextSampleFunction = [](double) { return 0; };
+
+    /** Calculates and returns the next sample,
+    based on the current waveform, frequency, and phase*/
+    double nextWaveformSample(double frequency);
+
+    /** Generates random noise */
+    double nextNoiseSample() const;
+
+    /** Set TableIterator to point to the current frequency in the current table */
+    void setTableIterator();
+
     /** Generate wavetable */
-    static void generateWavetable(waveform waveform);
-    
+    static void generateWavetable(Waveform waveform);
 };
