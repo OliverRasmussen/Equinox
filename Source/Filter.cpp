@@ -52,7 +52,7 @@ void Filter::setMode(float* mode)
     }
 }
 
-bool Filter::isActive()
+bool Filter::isActive() const
 {
     return (filterMode == 0 || filterMode == 2) ? currentCutoffValue < sampleRate / 2 : currentCutoffValue > 0;
 }

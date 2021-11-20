@@ -49,20 +49,20 @@ public:
     Value* getCurrentPresetName();
     
     /** Returns true if the current preset exists as an actual file*/
-    bool currentPresetExistsAsFile();
+    bool currentPresetExistsAsFile() const;
     
     /** Returns true if the current preset has been edited*/
     Value* getCurrentPresetHasBeenEdited();
     
 private:
     /** Returns the index of a preset file by name*/
-    int getPresetIndexFromName(String presetName);
+    int getPresetIndexFromName(String presetName) const;
     
     /** Returns a file matching the specified presetName*/
-    File getPresetFileFromName(String presetName);
+    File getPresetFileFromName(String presetName) const;
     
     /** Returns true if the directory contains any files*/
-    bool directoryContainsFiles();
+    bool directoryContainsFiles() const;
     
     /** Waits for the directory load before continuing*/
     void waitForDirectoryToLoad();

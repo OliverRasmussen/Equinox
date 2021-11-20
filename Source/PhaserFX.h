@@ -27,7 +27,7 @@ public:
     void reset();
     
     /** Returns true if the phaser is active*/
-    bool isActive();
+    bool isActive() const;
 
     /** Sets the phasers parameters*/
     void setParameters(float rate, float depth, float frequency, float feedback, float mix);

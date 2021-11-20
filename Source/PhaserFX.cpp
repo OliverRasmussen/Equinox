@@ -32,7 +32,7 @@ void PhaserFX::reset()
     phaser.reset();
 }
 
-bool PhaserFX::isActive()
+bool PhaserFX::isActive() const
 {
     return mix > 0.0f;
 }

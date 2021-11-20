@@ -27,7 +27,7 @@ public:
     void reset();
     
     /** Returns true if the reverb is active*/
-    bool isActive();
+    bool isActive() const;
 
     /** Sets the reverbs parameters*/
     void setParameters(float roomSize, float damping, float width, float mix);

@@ -32,7 +32,7 @@ void ChorusFX::reset()
     chorus.reset();
 }
 
-bool ChorusFX::isActive()
+bool ChorusFX::isActive() const
 {
     return mix > 0.0f;
 }

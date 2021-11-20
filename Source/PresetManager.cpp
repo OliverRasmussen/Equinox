@@ -136,7 +136,7 @@ Value* PresetManager::getCurrentPresetName()
     return &currentPresetName;
 }
 
-bool PresetManager::currentPresetExistsAsFile()
+bool PresetManager::currentPresetExistsAsFile() const
 {
     if (directoryList.getFile(currentPresetIndex).existsAsFile())
     {
@@ -151,7 +151,7 @@ Value* PresetManager::getCurrentPresetHasBeenEdited()
 }
 
 
-int PresetManager::getPresetIndexFromName(String presetName)
+int PresetManager::getPresetIndexFromName(String presetName) const
 {
     File presetFile = getPresetFileFromName(presetName);
     
@@ -175,12 +175,12 @@ int PresetManager::getPresetIndexFromName(String presetName)
     return -1;
 }
 
-File PresetManager::getPresetFileFromName(String presetName)
+File PresetManager::getPresetFileFromName(String presetName) const
 {
     return File(directoryPath + presetName + ".equinox");
 }
 
-bool PresetManager::directoryContainsFiles()
+bool PresetManager::directoryContainsFiles() const
 {
     return directoryList.getNumFiles() > 0;
 }

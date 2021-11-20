@@ -32,7 +32,7 @@ void ReverbFX::reset()
     reverb.reset();
 }
 
-bool ReverbFX::isActive()
+bool ReverbFX::isActive() const
 {
     return reverbParameters.wetLevel > 0.0f;
 }

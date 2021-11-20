@@ -30,7 +30,7 @@ public:
     void reset();
     
     /** Returns true if the delay is active*/
-    bool isActive();
+    bool isActive() const;
 
     /** Sets the delays parameters*/
     void setParameters(float time, float feedback, float mix);

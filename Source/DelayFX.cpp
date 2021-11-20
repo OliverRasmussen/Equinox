@@ -36,7 +36,7 @@ void DelayFX::reset()
     delay.reset();
 }
 
-bool DelayFX::isActive()
+bool DelayFX::isActive() const
 {
     return mix > 0.0f;
 }

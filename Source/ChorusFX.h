@@ -27,7 +27,7 @@ public:
     void reset();
     
     /** Returns true if the chorus is active*/
-    bool isActive();
+    bool isActive() const;
 
     /** Sets the chorus parameters*/
     void setParameters(float rate, float depth, float delay, float feedback, float mix);
