@@ -54,14 +54,17 @@ void Filter::setMode(float* mode)
 
 bool Filter::isActive() const
 {
-    return (filterMode == 0 || filterMode == 2) ? currentCutoffValue < sampleRate / 2 : currentCutoffValue > 0;
+    return ((filterMode == 0 || filterMode == 2) ? currentCutoffValue < 22050 : currentCutoffValue > 5)
+           || currentDriveValue > 1 || currentResonanceValue > 0;
 }
 
 void Filter::setFilter(float* cutoff, float* resonance, float* drive)
 {
     setCutoff(*cutoff);
-    ladderFilter.setResonance(*resonance);
-    ladderFilter.setDrive(*drive);
+    currentResonanceValue = *resonance;
+    ladderFilter.setResonance(currentResonanceValue);
+    currentDriveValue = *drive;
+    ladderFilter.setDrive(currentDriveValue);
 }
 
 void Filter::setCutoff(float cutoff)

@@ -45,6 +45,8 @@ public:
 private:
     dsp::LadderFilter<float> ladderFilter;
     float currentCutoffValue;
+    float currentDriveValue;
+    float currentResonanceValue;
     int filterMode = 0;
     int sampleRate;
 };

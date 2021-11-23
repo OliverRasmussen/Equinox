@@ -81,17 +81,16 @@ void OscSynthVoice::renderNextBlock (AudioBuffer<float> &outputBuffer, int start
 {
     if (isVoiceActive())
     {
-        jassert (numSamples <= voiceBuffer.getNumSamples());
-        AudioBuffer<float> proxyBuffer (voiceBuffer.getArrayOfWritePointers(), voiceBuffer.getNumChannels(), startSample, numSamples);
-        proxyBuffer.clear();
+        voiceBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
+        voiceBuffer.clear();
         
-        for (int sample = 0; sample < proxyBuffer.getNumSamples(); ++sample)
+        for (int sample = 0; sample < voiceBuffer.getNumSamples(); ++sample)
         {
-            for (int channel = 0; channel < proxyBuffer.getNumChannels(); ++channel)
+            for (int channel = 0; channel < voiceBuffer.getNumChannels(); ++channel)
             {
-                proxyBuffer.addSample (channel, sample, getNextOscillatorSample(channel));
+                voiceBuffer.addSample (channel, sample, getNextOscillatorSample(channel));
             }
         }
-        addBufferToOutput (proxyBuffer, outputBuffer, startSample, numSamples);
+        addBufferToOutput (voiceBuffer, outputBuffer, startSample, numSamples);
     }
 }

@@ -16,7 +16,7 @@
 //==============================================================================
 FilterGUI::FilterGUI(StateManager& stateManager, std::string synthInstance) : synthInstance(synthInstance)
 { 
-    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 50.0f, 22050.0f, 70, 70, "cutoff" + synthInstance, "Cutoff", "Hz"));
+    addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 5.0f, 22050.0f, 70, 70, "cutoff" + synthInstance, "Cutoff", "Hz"));
     
     addLabelSlider(std::make_shared<LabelSlider>(stateManager, Slider::SliderStyle::RotaryHorizontalVerticalDrag, 0.0f, 100.0f, 50, 50, "drive" + synthInstance, "Drive"));
     
