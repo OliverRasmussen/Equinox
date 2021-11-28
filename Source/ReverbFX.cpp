@@ -34,11 +34,12 @@ void ReverbFX::reset()
 
 bool ReverbFX::isActive() const
 {
-    return reverbParameters.wetLevel > 0.0f;
+    return mix > 0.0f;
 }
 
 void ReverbFX::setParameters(float roomSize, float damping, float width, float mix)
 {
+    this->mix = mix;
     if (mix == 0.0f)
     {
         reset();
@@ -47,7 +48,7 @@ void ReverbFX::setParameters(float roomSize, float damping, float width, float m
     reverbParameters.roomSize = roomSize;
     reverbParameters.damping = damping;
     reverbParameters.width = width;
-    reverbParameters.dryLevel = 1.0f - mix;
+    reverbParameters.dryLevel = 0.5f - (mix * 0.5f);
     reverbParameters.wetLevel = mix;
     reverbParameters.freezeMode = 0.0f;
     

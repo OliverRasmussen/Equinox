@@ -38,4 +38,5 @@ public:
 private:
     dsp::Reverb::Parameters reverbParameters;
     dsp::Reverb reverb;
+    float mix = 0.0f;
 };
