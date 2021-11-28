@@ -66,11 +66,6 @@ float SampleSynthVoice::getSampleStartTime() const
     return sampleStart * sampleLength;
 }
 
-void SampleSynthVoice::stopNote(float velocity, bool allowTailOff)
-{
-    SynthVoice::stopNote(velocity, allowTailOff);
-}
-
 float SampleSynthVoice::getNextSamplerSample (int channel, const float* const inL, const float* const inR)
 {
     float nextSample = 0;

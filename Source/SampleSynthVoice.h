@@ -40,9 +40,6 @@ public:
     /** Returns the current sample start time*/
     float getSampleStartTime() const;
     
-    /** Stops a note*/
-    void stopNote(float velocity, bool allowTailOff) override;
-    
     /** Returns the next  sample*/
     float getNextSamplerSample (int channel, const float* const inL, const float* const inR);
     

@@ -41,7 +41,4 @@ struct AudioSample
                   sampleSource(sampleSource)
     {
     }
-    ~AudioSample()
-    {
-    }
 };
