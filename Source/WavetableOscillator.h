@@ -64,7 +64,7 @@ private:
 
     float phase = 0;
 
-    double currentFrequency = 440;
+    double currentFrequency = 0;
 
     float fractionFrequency = 0;
 
@@ -87,6 +87,9 @@ private:
 
     /** Set TableIterator to point to the current frequency in the current table */
     void setTableIterator();
+    
+    /** Set the frequency of the waveform*/
+    void setFrequency(double frequency);
 
     /** Generate wavetable */
     static void generateWavetable(Waveform waveform);
