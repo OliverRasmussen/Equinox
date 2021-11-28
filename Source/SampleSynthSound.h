@@ -22,7 +22,7 @@ class SampleSynthSound : public SynthesiserSound
     
 public:
     
-    SampleSynthSound(AudioSample sample, int currentSamplerate);
+    SampleSynthSound(AudioSample &sample, int currentSamplerate);
 
     ~SampleSynthSound() override;
     

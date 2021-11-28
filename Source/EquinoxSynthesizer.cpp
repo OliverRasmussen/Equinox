@@ -305,6 +305,7 @@ void EquinoxSynthesizer::renderNextBlock(AudioBuffer<float>& buffer, MidiBuffer&
         {
             oscillatorSynth.addVoices(numVoices);
             sampleSynth.addVoices(numVoices);
+            sampleSynth.clearSounds();
             
             oscillatorSynth.prepare(spec);
             sampleSynth.prepare(spec);

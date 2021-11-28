@@ -14,7 +14,7 @@
 
 #include "SampleSynthSound.h"
 
-SampleSynthSound::SampleSynthSound (AudioSample sample, int currentSamplerate)
+SampleSynthSound::SampleSynthSound (AudioSample &sample, int currentSamplerate)
 {
     name = sample.sampleName;
     sourceSamplerate = sample.samplerate;
@@ -52,14 +52,16 @@ void SampleSynthSound::resampleSourceSamplerate(int currentSamplerate)
     sourceSamplerate = currentSamplerate;
 }
 
-SampleSynthSound::~SampleSynthSound() {}
+SampleSynthSound::~SampleSynthSound()
+{
+}
 
 bool SampleSynthSound::appliesToNote (int midiNoteNumber)
 {
     return midiNoteRange[midiNoteNumber];
 }
 
-bool SampleSynthSound::appliesToChannel (int /*midiChannel*/)
+bool SampleSynthSound::appliesToChannel (int midiChannel)
 {
     return true;
 }

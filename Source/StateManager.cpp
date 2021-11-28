@@ -99,16 +99,17 @@ bool StateManager::setStateFromXml(std::unique_ptr<XmlElement> stateXml)
         {
             if (stateXml->hasAttribute("presetname"))
             {
-                setPresetName(stateXml->getStringAttribute("presetname"));
-                
                 if (XmlElement* audioProcessorValueTreeState = stateXml->getChildByName(parameterState->state.getType()))
                 {
-                    parameterState->replaceState(ValueTree::fromXml(*audioProcessorValueTreeState));
-                    
                     if (XmlElement* audioSampleValueTreeStateXml = stateXml->getChildByName(audioSampleState->state.getType()))
                     {
+                        setPresetName(stateXml->getStringAttribute("presetname"));
+                        
+                        parameterState->replaceState(ValueTree::fromXml(*audioProcessorValueTreeState));
+                        
                         audioSampleState->replaceState(ValueTree::fromXml(*audioSampleValueTreeStateXml));
                         
+                        currentState.removeAllChildren(nullptr);
                         currentState.addChild(this->parameterState->state, 0, nullptr);
                         currentState.addChild(this->audioSampleState->state, 1, nullptr);
                         

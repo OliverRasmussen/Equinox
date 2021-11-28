@@ -47,8 +47,8 @@ void Synth::prepare(dsp::ProcessSpec& spec)
 void Synth::addVoices(int voicesToAdd)
 {
     clearAllCurrentNotes();
-    clearVoices();
     notesHeldDown.clear();
+    clearVoices();
     
     bool monophonic = voicesToAdd == 1 ? true : false;
     
