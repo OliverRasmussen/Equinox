@@ -15,190 +15,69 @@
 #include "FilterEnvelope.h"
 FilterEnvelope::FilterEnvelope(Filter& _filter) : filter(_filter)
 {
-    currentState = idleState;
 }
 
 void FilterEnvelope::prepareToPlay(double sampleRate)
 {
-    this->sampleRate = sampleRate/2;
+    envelope.setSampleRate(sampleRate);
 }
        
 void FilterEnvelope::setEnvelope(float *attack, float *decay, float *sustain, float *release)
 {
-    this->attack = *attack;
-    this->decay = *decay;
-    this->sustain = *sustain;
-    this->release = *release;
-    initialCutoffValue = filter.getCutoffValue();
+    envelopeParameters.attack = *attack;
+    envelopeParameters.decay = *decay;
+    envelopeParameters.sustain = *sustain;
+    envelopeParameters.release = *release;
+    envelope.setParameters(envelopeParameters);
+
+    if (!envelopeParameters.attack && 
+        !envelopeParameters.decay && 
+        !envelopeParameters.sustain && 
+        !envelopeParameters.release)
+    {
+        envelope.reset();
+        filter.modulateCutoff(filter.getCutoffValue());
+        enabled = false;
+    }
+    else
+    {
+        enabled = true;
+    }
 }
 
 void FilterEnvelope::setCutoffLimit(float *cutoffLimit)
 {
-    this->cutoffLimit = *cutoffLimit;
+    this->cutoffUpperLimit = *cutoffLimit;
 }
        
 void FilterEnvelope::noteOn()
 {
-    sustainHasBeenSet = false;
-    lastReachedValue = 0;
-    nextCutoffValue = initialCutoffValue;
-    cutoffPct = cutoffLimit / 100;
-    currentState = attackState;
-    active = (attack > 0 || decay > 0 || sustain > 0 || release > 0);
+    if (enabled)
+    {
+        cutoffLowerLimit = filter.getCutoffValue();
+        filter.modulateCutoff(cutoffUpperLimit);
+        envelope.noteOn();
+    }
 }
        
 void FilterEnvelope::noteOff()
 {
-    currentState = releaseState;
+    if (enabled)
+    {
+        envelope.noteOff();
+    }
 }
        
 bool FilterEnvelope::isActive() const
 {
-    return active;
+    return envelope.isActive() && enabled;
 }
 
 void FilterEnvelope::calculateNextValue()
 {
-    if (active)
+    if (isActive())
     {
-        switch (currentState)
-        {
-            case attackState:
-                calculateNextAttackValue();
-                break;
-            case decayState:
-                calculateNextDecayValue();
-                break;
-            case sustainState:
-                calculateNextSustainValue();
-                break;
-            case releaseState:
-                calculateNextReleaseValue();
-                break;
-            case idleState:
-                active = false;
-                break;
-        }
+        float nextCutoffValue = ((cutoffUpperLimit - cutoffLowerLimit) * envelope.getNextSample()) + cutoffLowerLimit;
+        filter.modulateCutoff(nextCutoffValue);
     }
-}
-
-void FilterEnvelope::calculateNextAttackValue()
-{
-    float targetValue = cutoffLimit;
-    
-    if (attack == 0)
-    {
-        nextCutoffValue = targetValue;
-        nextState();
-        return;
-    }
-    
-    float cutoffRate = (targetValue - initialCutoffValue) / attack;
-    
-    nextCutoffValue += cutoffRate;
-    
-    if (nextCutoffValue > targetValue)
-    {
-        nextCutoffValue = targetValue;
-    }
-    
-    filter.setCutoff(nextCutoffValue);
-    lastReachedValue = nextCutoffValue;
-    
-    if (nextCutoffValue == targetValue)
-    {
-        nextState();
-    }
-    
-}
-
-void FilterEnvelope::calculateNextDecayValue()
-{
-    if (decay == 0)
-    {
-        nextState();
-        return;
-    }
-    
-    float targetValue = initialCutoffValue + (cutoffPct * sustain);
-    float cutoffRate;
-    
-    if (sustain > 1)
-    {
-        cutoffRate = (targetValue - initialCutoffValue) / decay;
-    }
-    else
-    {
-        cutoffRate = (cutoffLimit - initialCutoffValue) / decay;
-    }
-    
-    nextCutoffValue -= cutoffRate;
-    
-    if (nextCutoffValue < targetValue)
-    {
-        nextCutoffValue = targetValue;
-    }
-    
-    filter.setCutoff(nextCutoffValue);
-    lastReachedValue = nextCutoffValue;
-    
-    if (nextCutoffValue == targetValue)
-    {
-        nextState();
-    }
-}
-
-void FilterEnvelope::calculateNextSustainValue()
-{
-    if (sustain < 1)
-    {
-        return;
-    }
-    
-    if (!sustainHasBeenSet)
-    {
-        float targetValue = initialCutoffValue + (cutoffPct * sustain);
-
-        if (targetValue > sampleRate)
-        {
-            targetValue = sampleRate;
-        }
-        nextCutoffValue = targetValue;
-        lastReachedValue = nextCutoffValue;
-        sustainHasBeenSet = true;
-    }
-    
-    filter.setCutoff(nextCutoffValue);
-}
-
-void FilterEnvelope::calculateNextReleaseValue()
-{
-    if (release == 0 || lastReachedValue == 0)
-    {
-        nextState();
-        return;
-    }
-    
-    float targetValue = initialCutoffValue;
-    
-    float cutoffRate = (lastReachedValue - initialCutoffValue) / release;
-    
-    nextCutoffValue -= cutoffRate;
-    
-    if (nextCutoffValue < targetValue)
-    {
-        nextCutoffValue = targetValue;
-    }
-    
-    filter.setCutoff(nextCutoffValue);
-    
-    if (nextCutoffValue == targetValue)
-    {
-        nextState();
-    }
-}
-
-void FilterEnvelope::nextState()
-{
-    currentState = static_cast<state>(currentState + 1);
 }

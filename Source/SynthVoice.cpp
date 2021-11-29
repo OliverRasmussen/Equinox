@@ -287,14 +287,14 @@ void SynthVoice::controllerMoved (int controllerNumber, int newControllerValue)
 
 void SynthVoice::addBufferToOutput(AudioBuffer<float> &bufferToAdd, AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
-    getFilterEnvelope().calculateNextValue();
-    
+
     //Pocess the buffer through the filter
     voiceFilter.process(bufferToAdd);
     
     for (int sample = 0; sample < numSamples; ++sample)
     {
         currentVoiceAmplitude = ampEnvelope.getNextSample() * getKeyVelocity();
+        getFilterEnvelope().calculateNextValue();
         
         for (int channel = 0; channel < bufferToAdd.getNumChannels(); ++channel)
         {

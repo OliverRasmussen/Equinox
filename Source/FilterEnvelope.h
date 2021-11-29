@@ -44,48 +44,14 @@ public:
     void calculateNextValue();
     
 private:
-    
-    
-    /** Calculates the next attack value*/
-    void calculateNextAttackValue();
-    
-    /** Calculates the next decay value*/
-    void calculateNextDecayValue();
-    
-    /** Calculates the next sustain value*/
-    void calculateNextSustainValue();
-    
-    /** Calculates the next release value*/
-    void calculateNextReleaseValue();
-    
-    /** Gets the next envelope state*/
-    void nextState();
+
+    bool enabled = false;
     
     Filter& filter;
     
-    enum state {attackState, decayState, sustainState, releaseState, idleState};
-    
-    state currentState;
-    
     float attack = 0, decay = 0, sustain = 0, release = 0;
     
-    float cutoffLimit = 0;
+    float cutoffUpperLimit = 0;
     
-    float initialCutoffValue = 0;
-    
-    float cutoffPct = 0;
-    
-    float nextCutoffValue = 0;
-    
-    float sampleRate = 0;
-    
-    float lastReachedValue = 0;
-    
-    bool enabled = false;
-    
-    bool active = false;
-    
-    bool notePlaying = false;
-    
-    bool sustainHasBeenSet = false;
+    float cutoffLowerLimit = 0;
 };

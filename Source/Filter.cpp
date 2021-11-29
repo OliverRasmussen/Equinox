@@ -60,16 +60,16 @@ bool Filter::isActive() const
 
 void Filter::setFilter(float* cutoff, float* resonance, float* drive)
 {
-    setCutoff(*cutoff);
+    currentCutoffValue = *cutoff;
+    ladderFilter.setCutoffFrequencyHz(*cutoff);
     currentResonanceValue = *resonance;
     ladderFilter.setResonance(currentResonanceValue);
     currentDriveValue = *drive;
     ladderFilter.setDrive(currentDriveValue);
 }
 
-void Filter::setCutoff(float cutoff)
+void Filter::modulateCutoff(float cutoff)
 {
-    currentCutoffValue = cutoff;
     ladderFilter.setCutoffFrequencyHz(cutoff);
 }
 

@@ -33,8 +33,8 @@ public:
     /** Sets the filters parameters*/
     void setFilter(float* cutoff, float* resonance, float* drive);
     
-    /** Sets the filters cutoff*/
-    void setCutoff(float cutoff);
+    /** Modulate the cutoff frequency*/
+    void modulateCutoff(float cutoff);
     
     /** Returns the filters cutoff value*/
     float getCutoffValue() const;

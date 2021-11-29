@@ -21,10 +21,10 @@ void AmpEnvelope::prepareToPlay(double sampleRate)
        
 void AmpEnvelope::setEnvelope(float *attack, float *decay, float *sustain, float *release)
 {
-    envelopeParameters.attack = *attack > minAttackValue ? *attack : minAttackValue;
+    envelopeParameters.attack = jmax(*attack, minAttackValue);
     envelopeParameters.decay = *decay;
     envelopeParameters.sustain = *sustain;
-    envelopeParameters.release = *release > minReleaseValue ? *release : minReleaseValue;
+    envelopeParameters.release = jmax(*release, minReleaseValue);
     envelope.setParameters(envelopeParameters);
 }
        

@@ -39,11 +39,9 @@ public:
     
     /** Returns true if the amp envelope is active*/
     bool isActive() const override;
-    
+
 private:
-    
-    ADSR envelope;
-    
-    ADSR::Parameters envelopeParameters;
+    const float minAttackValue = 0.001f;
+    const float minReleaseValue = 0.001f;
 };
 

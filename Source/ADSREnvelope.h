@@ -36,7 +36,8 @@ public:
     virtual bool isActive() const = 0;
 
 protected:
-    const float minAttackValue = 0.001f;
-    const float minReleaseValue = 0.001f;
+
+    ADSR envelope;
+    ADSR::Parameters envelopeParameters;
     
 };
